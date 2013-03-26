@@ -107,9 +107,8 @@ ROOT_URLCONF = 'wagering.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'wagering.wsgi.application'
 
-# maybe when im not stressed on time I can make a thing which changes where
-# these are located based on whether or not I am in production or development
-TEMPLATE_DIRS = ("C:/Users/joshua/Programming/wagering/templates/")
+
+TEMPLATE_DIRS = ("C:/Users/joshua/Programming/wagering/templates/", "/home/user/matt/wagering/templates/")
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
