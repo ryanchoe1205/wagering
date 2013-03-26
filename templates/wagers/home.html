@@ -1,0 +1,15 @@
+{% extends "scaffolding.html" %}
+{% block content %}
+{% if perms.EditableHTML.change_editablehtml %}
+<div class="page-header">
+  <h1>Admin View<small>Only admins can see the form below</small></h1>
+</div>
+
+<form action="" method="POST">{% csrf_token %}
+<textarea name="html">{{html.html}}</textarea>
+<br>
+<input type="submit" value="Change Homepage HTML content">
+</form>
+{% endif %}
+{{html.html|safe}}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "scaffolding.html" %}
+
+{% block content %}
+{% if perms.Wager.delete_wager %}
+<div class="page-header">
+  <h1>Admin View<small>Only admins can delete props</small></h1>
+</div>
+{% endif %}
+
+<ul>
+{% for wager in wager_list %}
+	<li class="inline"><a href="/wagers/wagers?id={{wager.id}}"><h2>{{wager.proposition}}</h2></a>
+	{% if perms.wager.change_wager %}<form class="inline form-inline" action="/wagers/wagers/delete/" method="POST">{% csrf_token %}<input type="hidden" value="{{wager.id}}" name="id"><input class="btn btn-danger" type="submit" value="Delete Prop"></form>
+	{% endif %}
+	</li>
+{% endfor %}
+</ul>
+{% endblock %}

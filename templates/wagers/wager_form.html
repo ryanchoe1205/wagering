@@ -1,0 +1,13 @@
+{% extends "scaffolding.html" %}
+{% block content %}
+{% if perms.wager.add_wager %}
+<div class="page-header">
+  <h1>Admin View<small>Only admins can see create props</small></h1>
+</div>
+{% endif %}
+<form class="form-horizontal" action="" method="post">{% csrf_token %}
+<label>Proposition</label>
+{{form.proposition}}
+<br><input class="btn btn-success" type="submit" value="Create Wager" />
+</form>
+{% endblock %}
