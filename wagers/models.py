@@ -26,6 +26,9 @@ class Bet(models.Model):
     user = models.ForeignKey(User)
     position = models.BooleanField()
 
+    class Meta():
+        unique_together = [("user", "on_prop")]
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     credits = models.DecimalField(decimal_places=10, max_digits=100)

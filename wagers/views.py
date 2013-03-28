@@ -1,6 +1,8 @@
 # Create your views here.
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.views.generic.base import View
 from django.views.generic.edit import CreateView
 from django.views.generic import TemplateView
@@ -9,7 +11,6 @@ from django.forms import ModelForm, ValidationError
 from django.http import Http404
 from wagers.models import Wager, Bet
 from django import forms
-from django.shortcuts import redirect
 from decimal import Decimal 
 
 class WagerCreateView(CreateView):
@@ -98,11 +99,28 @@ class WagerCloseView(TemplateView):
             
         
 class BetForm(ModelForm):
+    max_bet = 1
     class Meta:
         model = Bet
-        fields = ("position", "amount_bet")
-            
+
+    def bet_too_little(self, credits_bet):
+        return credits_bet <= 0
+
+    def bet_too_much(self, credits_bet, credits_available):
+        "Returns True if not enough credits or exceeded the maximum allowed bet."
+        return credits_bet > credits_available and credits_bet > self.max_bet
+
+    def is_valid(self, profile):
+        valid = super(BetForm, self).is_valid()
+        if valid:
+            available = profile.credits
+            bet = self.cleaned_data["amount_bet"]
+            if self.bet_too_little(bet) or self.bet_too_much(bet, available):
+                valid = False
+                self.errors["amount_bet"] = ["Not enough credits to make that bet."]
+        return valid
         
+
 class WagerView(TemplateView):
     template_name = "wagers/wager.html"
 
@@ -111,30 +129,41 @@ class WagerView(TemplateView):
             return Wager.objects.get(id=int(self.request.GET['id']))
         except:
             raise Http404
-
+        
+    @method_decorator(login_required)
     def post(self, request):
-        if not self.request.user.is_authenticated():
-            redirect("login")
-
-        form = self.get_bet_form()
-        wager = self.get_wager()
         user = self.request.user
-        if form.is_valid():
+        wager = self.get_wager()
+        form = BetForm(self.request.POST, initial={"user": user,
+                                                   "on_prop": wager})    
+        profile = self.request.user.get_profile()
+        if form.is_valid(profile):
+            # I don't want to let the users set what wager and user they are
+            # since it would allow some clever hacks.
+            if wager != form.cleaned_data["on_prop"] or user != form.cleaned_data["user"]:
+                raise Htpp404
+            
             position=form.cleaned_data["position"]
             amount_bet=form.cleaned_data["amount_bet"]
 
-            profile = self.request.user.get_profile()
-            credits = profile.credits
-            if not(amount_bet <= 0 or amount_bet > credits):          
-                profile.credits = credits - amount_bet
-                profile.save()
-                bet = Bet(on_prop=wager, user=user, amount_bet=amount_bet, position=position)
-                bet.save()
-     
-        return redirect(self.request.META["HTTP_REFERER"])
+            credits = profile.credits    
+            profile.credits = credits - amount_bet
+            profile.save()
+            bet = Bet(on_prop=wager,
+                        user=user,
+                        amount_bet=amount_bet,
+                        position=position)
+            bet.save()
+            return redirect(self.request.META["HTTP_REFERER"])
+        else:
+            return render(self.request, self.template_name, {"form": form,
+                                                             "wager": wager})
 
     def get_bet_form(self):
-        return BetForm(self.request.POST)
+        return BetForm(initial={"user": self.request.user,
+                                "on_prop": self.get_wager()})
+        
+
         
     def get_context_data(self, **kwargs):
         return {'wager': self.get_wager(), "form": self.get_bet_form()}
