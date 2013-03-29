@@ -9,10 +9,22 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.forms import ModelForm, ValidationError
 from django.http import Http404
-from wagers.models import Wager, Bet
+from wagers.models import Wager, Bet, WagerSettingSingleton
+from django.contrib.auth.models import User
 from django import forms
-from decimal import Decimal 
+from decimal import Decimal
 
+class ResetEverythingView(View):
+    def post(self, request):
+        Wager.objects.all().delete()
+        settings, created = WagerSettingSingleton.objects.get_or_create(id=1)
+        for user in User.objects.all():
+            profile = user.get_profile()
+            profile.credits = settings.default_credits
+            profile.save()
+        messages.add_message(self.request, messages.SUCCESS, "Site reset.")
+        return redirect("/")
+            
 class WagerCreateView(CreateView):
     model = Wager
     success_url = "/wagers/wagers/index/"

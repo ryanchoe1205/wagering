@@ -4,13 +4,32 @@
 
 <form class="form-horizontal" action="" method="POST">{% csrf_token %}
 	<legend>Place a bet on the prop</legend>
-	<label>Credits to Bet</label><input id="id_amount_bet" name="amount_bet" type="text"> 
-	<span class="help-block">Selecting the checkbox is betting for the prop and not selecting it is betting against it.</span>
-   <label class="checkbox">
+	{% if form.errors and not form.errors.amount_bet %}
+	<div class="control-group error">
+		<div class="controls">
+		<span class="help-block">You may only make one bet per proposition.</span>
+		</div>
+	</div>
+	{% endif %}
+	<div class="control-group {% if form.errors.amount_bet %}error{% endif %}">
+		<label class="control-label" for="amount_bet">Credits to Bet</label>
+		<div class="controls">
+			{{ form.amount_bet }}
+			{% if form.errors.amount_bet %}<span class="help-inline">Must place a bet within the allowed range.</span>{% endif %}
+		</div>
+	</div>
+	<label class="control-label" for="position">Position</label>
+	<div class="controls">
+		<label class="checkbox">
 		<input name="position" type="checkbox" />
-      {{form.position}} Position
-    </label>
-<br><input class="btn btn-success" type="submit" value="Make Bet" />
+			{{form.position}} <span class="help-inline">Selecting the checkbox is betting for the prop and not selecting it is betting against it.</span>
+		</label>
+	</div>
+	{{ form.user.as_hidden }}
+	{{ form.on_prop.as_hidden }}
+	<div class="controls">
+		<input class="btn btn-success" type="submit" value="Make Bet" />
+	</div>
 </form>
 
 {% if perms.wager.change_wager %}

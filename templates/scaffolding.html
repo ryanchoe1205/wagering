@@ -19,11 +19,33 @@
 						<li><a href="/register">Register</a></li>
 					{% endif %}
 						<li><a href="/wagers/wagers/index/">View Propositions</a></li>
-					{% if perms.wagers.add_wager %}
-						<li><a href="/wagers/wagers/add/">Add Proposition</a></li>
+					{% if perms.wagers.delete_wager %}
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Actions</a>
+							<ul class="dropdown-menu">
+								<li><a href="/wagers/wagers/add/">Add Proposition</a></li>
+								<li><a href="#tourneyResetModal" role="button" data-toggle="modal">Tournament Reset</a></li>
+
+							</ul>
+						</li>
 					{% endif %}
 					</ul>
 				</div>
+			</div>
+		</div>
+		<div id="tourneyResetModal" class="modal hide fade">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3>Warning</h3>
+			</div>
+			<div class="modal-body">
+				<p>Taking this action will delete all propositions and bets. It will also set all users to the default starting credits, as if they had just made a new account. There is no way to cancel this change. Are you sure want to proceed?</p>
+			</div>
+			<div class="modal-footer">
+				<form method="post" action="/wagers/wagers/tourneyreset">
+					<a href="#" data-dismiss="modal" class="btn">No, don't delete everything</a>	
+					{% csrf_token %}
+					<input type="submit" value="Yes, I want to reset the site" class="btn btn-danger">
+				</form>
 			</div>
 		</div>
 		<div class="row">
@@ -40,6 +62,7 @@
     <script src="/site_media/js/bootstrap.min.js"></script>
 		<script type="text/javascript">
 		$(".alert").alert();
+		$('.dropdown-toggle').dropdown()
 		</script>
   </body>
 </html>

@@ -36,7 +36,8 @@ class UserProfile(models.Model):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         wager_settings, created = WagerSettingSingleton.objects.get_or_create(id=1)
-        UserProfile.objects.get_or_create(user=instance, credits=wager_settings.default_credits)
+        profile, created = UserProfile.objects.get_or_create(user=instance, credits=wager_settings.default_credits)
+        profile.save()
 
 post_save.connect(create_user_profile, sender=User)
 
