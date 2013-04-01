@@ -1,6 +1,6 @@
 {% extends "scaffolding.html" %}
 {% block content %}
-<h2>{{wager.proposition}}</h2>
+<h2>{{wager.team_a }} vs {{ wager.team_b }}</h2>
 
 <form class="form-horizontal" action="" method="POST">{% csrf_token %}
 	<legend>Place a bet on the prop</legend>
@@ -11,25 +11,25 @@
 		</div>
 	</div>
 	{% endif %}
-	<div class="control-group {% if form.errors.amount_bet %}error{% endif %}">
-		<label class="control-label" for="amount_bet">Credits to Bet</label>
+	{% if form.errors.amount_bet %}
+	<div class="control-group error">
 		<div class="controls">
-			{{ form.amount_bet }}
-			{% if form.errors.amount_bet %}<span class="help-inline">Must place a bet within the allowed range.</span>{% endif %}
+			<span class="help-inline">Not enough credits.</span>
 		</div>
 	</div>
-	<label class="control-label" for="position">Position</label>
-	<div class="controls">
-		<label class="checkbox">
-		<input name="position" type="checkbox" />
-			{{form.position}} <span class="help-inline">Selecting the checkbox is betting for the prop and not selecting it is betting against it.</span>
-		</label>
-	</div>
+	{% endif %}
+	<label class="radio">
+		<input type="radio" name="position" id="optionsRadios1" value="True" checked>
+		Bet 1 credit on {{ wager.team_a }}.
+	</label>
+	<label class="radio">
+		<input type="radio" name="position" id="optionsRadios2" value="">
+		Bet 1 credit on {{ wager.team_b }}.
+	</label>
+	{{ form.amount_bet.as_hidden }}
 	{{ form.user.as_hidden }}
 	{{ form.on_prop.as_hidden }}
-	<div class="controls">
-		<input class="btn btn-success" type="submit" value="Make Bet" />
-	</div>
+	<input class="btn btn-success" type="submit" value="Make Bet" />
 </form>
 
 {% if perms.wager.change_wager %}
@@ -45,7 +45,7 @@
 <form class="form-horizontal" action="/wagers/wagers/close/" method="POST">{% csrf_token %}
 	<legend>Close betting and pay winners</legend>
 	<input type="hidden" name="id" value="{{wager.id}}">
-	<span class="help-block">Selecting the checkbox is saying the prop was true and not selecting it says it wasn't true.</span>
+	<span class="help-block">Selecting the checkbox means {{ wager.team_a }} won.</span>
 	<label class="checkbox">
 		<input type="checkbox" name="position"> Winning Position
 	</label>

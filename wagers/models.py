@@ -16,9 +16,10 @@ class EditableHTML(models.Model):
     html = models.TextField()
 
 class Wager(models.Model):
-    proposition = models.TextField()
     is_open = models.BooleanField(default=True)
-    winning_position = models.BooleanField(default=True)
+    winning_position = models.BooleanField(default=True) # winning_position means team_a won
+    team_a = models.TextField()
+    team_b = models.TextField()
 
 class Bet(models.Model): 
     amount_bet = models.DecimalField(decimal_places=10, max_digits=100)

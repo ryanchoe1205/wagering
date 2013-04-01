@@ -173,7 +173,8 @@ class WagerView(TemplateView):
 
     def get_bet_form(self):
         return BetForm(initial={"user": self.request.user,
-                                "on_prop": self.get_wager()})
+                                "on_prop": self.get_wager(),
+                                "amount_bet": 1})
         
 
         
