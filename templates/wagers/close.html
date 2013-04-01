@@ -5,7 +5,7 @@
   <h1>Admin View<small>Only admins can see the wager results</small></h1>
 </div>
 <table class="table">
-	<caption>Results for "{{wager.proposition}}"</caption>
+	<caption>Results for "{{wager.team_a}} vs {{wager.team_b}}"</caption>
 	<thead><tr><th>User</th><th>Amount Bet</th><th>Amount Won</th></tr></thead>
 	{% for winner in winners %}
 	<tr><td>{{winner.bet.user}}</td><td>{{winner.bet.amount_bet}}</td><td>{{winner.won}}</td></tr>

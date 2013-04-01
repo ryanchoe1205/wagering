@@ -5,9 +5,13 @@
   <h1>Admin View<small>Only admins can see create props</small></h1>
 </div>
 {% endif %}
-<form class="form-horizontal" action="" method="post">{% csrf_token %}
-<label>Proposition</label>
-{{form.proposition}}
+<form action="" method="post">{% csrf_token %}
+<div class="control-group">
+  <label class="control-label">Team or Side A</label>
+  <div class="controls">{{form.team_a}}</div>
+  <label class="control-label">Team or Side B</label>
+  <div class="controls">{{form.team_b}}</div>
+</div>
 <br><input class="btn btn-success" type="submit" value="Create Wager" />
 </form>
 {% endblock %}
