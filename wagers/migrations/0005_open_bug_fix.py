@@ -9,13 +9,13 @@ class Migration(DataMigration):
     def forwards(self, orm):
         "Write your forwards methods here."
         for wager in orm.Wager.objects.all():
-            wager.team_a, wager.team_b = wager.proposition.split(" - ")
+            wager.is_open = True
             wager.save()
 
     def backwards(self, orm):
         "Write your backwards methods here."
-        raise RuntimeError("Cannot reverse this migration.")
-        
+        raise RuntimeError("Can't go backwards from this point.")
+
     models = {
         u'auth.group': {
             'Meta': {'object_name': 'Group'},
@@ -76,7 +76,6 @@ class Migration(DataMigration):
             'Meta': {'object_name': 'Wager'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_open': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'proposition': ('django.db.models.fields.TextField', [], {}),
             'team_a': ('django.db.models.fields.TextField', [], {}),
             'team_b': ('django.db.models.fields.TextField', [], {}),
             'winning_position': ('django.db.models.fields.BooleanField', [], {'default': 'True'})

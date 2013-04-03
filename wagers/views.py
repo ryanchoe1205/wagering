@@ -30,6 +30,7 @@ class WagerCreateView(CreateView):
     success_url = "/wagers/wagers/index/"
 
     def form_valid(self, form):
+        print form.cleaned_data
         messages.add_message(self.request, messages.SUCCESS, "Wager created.")
         return super(CreateView, self).form_valid(form)
 
