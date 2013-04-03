@@ -196,6 +196,7 @@ class WagerView(TemplateView):
                         amount_bet=amount_bet,
                         position=position)
             bet.save()
+            messages.add_message(self.request, messages.SUCCESS, "Bet made.")
             return redirect("/wagers/wagers/index/")
         else:
             return render(self.request, self.template_name, {"form": form,
