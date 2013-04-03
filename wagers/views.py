@@ -34,8 +34,10 @@ class WagerCreateView(CreateView):
         messages.add_message(self.request, messages.SUCCESS, "Wager created.")
         return super(CreateView, self).form_valid(form)
 
-class WagerDeleteForm(forms.Form):
+class WagerIDForm(forms.Form):
     id = forms.IntegerField()
+
+class WagerDeleteForm(WagerIDForm): pass
     
 class WagerDeleteView(View):
     def post(self, request):
@@ -45,9 +47,35 @@ class WagerDeleteView(View):
             wager.delete()
             messages.add_message(request, messages.SUCCESS, 'Wager deleted.')
             return redirect(self.request.META["HTTP_REFERER"])
+        
+class WagerCloseForm(WagerIDForm): pass
+
+class WagerCloseView(View):
+    def post(self, request):
+        form = WagerCloseForm(self.request.POST)
+        if form.is_valid():    
+            wager = Wager.objects.get(id=form.cleaned_data["id"])
+            wager.is_open = False
+            wager.save()
+            messages.add_message(request, messages.SUCCESS, 'Wager closed.')
+            return redirect(self.request.META["HTTP_REFERER"])
+
+class WagerOpenForm(WagerIDForm): pass
+
+class WagerOpenView(View):
+    def post(self, request):
+        form = WagerOpenForm(self.request.POST)
+        if form.is_valid():    
+            wager = Wager.objects.get(id=form.cleaned_data["id"])
+            wager.is_open = True
+            wager.save()
+            messages.add_message(request, messages.SUCCESS, 'Wager opened.')
+            return redirect(self.request.META["HTTP_REFERER"])
+    
 
 
-class WagerCloseForm(forms.Form):
+
+class WagerPayoutForm(forms.Form):
     position = forms.BooleanField(required=False)
     id = forms.IntegerField()
 
@@ -82,7 +110,7 @@ class WagerPayoutView(TemplateView):
     template_name = "wagers/close.html"
 
     def post(self, request):
-        form = WagerCloseForm(request.POST)
+        form = WagerPayoutForm(request.POST)
         if form.is_valid():
             wager = Wager.objects.get(id=form.cleaned_data["id"])
             bets = wager.bet_set.all()
