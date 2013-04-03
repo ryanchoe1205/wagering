@@ -49,7 +49,7 @@
 	<tr><td>{{bet.user}}</td><td>{{bet.position}}</td><td>{{bet.amount_bet}}</td></tr>
 {% endfor %}
 </table>
-<form class="form-horizontal" action="/wagers/wagers/close/" method="POST">{% csrf_token %}
+<form class="form-horizontal" action="/wagers/wagers/payout/" method="POST">{% csrf_token %}
 	<legend>Close betting and pay winners</legend>
 	<input type="hidden" name="id" value="{{wager.id}}">
 	<span class="help-block">Selecting the checkbox means {{ wager.team_a }} won.</span>

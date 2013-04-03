@@ -1,4 +1,4 @@
-from wagers.views import WagerView, WagerCloseView, WagerDeleteView, WagerCreateView, ResetEverythingView
+from wagers.views import WagerView, WagerPayoutView, WagerDeleteView, WagerCreateView, ResetEverythingView
 from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import permission_required
 from django.views.generic.list import ListView
@@ -20,7 +20,6 @@ urlpatterns = patterns('',
     url(r'^wagers/index/', WagerListView.as_view(), name="wager-list"),
     url(r'^wagers/delete/', permission_required("wagers.delete_wager")(WagerDeleteView.as_view())),
     url(r'^wagers/add/', permission_required("wagers.add_wager")(WagerCreateView.as_view())),
-    url(r'^wagers/closed', permission_required("wagers.change_wager")(WagerCloseView.as_view())),
-    url(r'^wagers/close/', permission_required("wagers.change_wager")(WagerCloseView.as_view())),
+    url(r'^wagers/payout/', permission_required("wagers.change_wager")(WagerPayoutView.as_view())),
     url(r'^wagers', WagerView.as_view(template_name="wagers/wager.html")),
     url(r'^leaderboard/', UserListView.as_view(), name="player-list"))

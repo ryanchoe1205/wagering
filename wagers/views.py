@@ -51,7 +51,6 @@ class WagerCloseForm(forms.Form):
     id = forms.IntegerField()
 
 class Bookie():
-
     bets = []
     winning_position = None
     winner_pot_total = 0.0
@@ -78,7 +77,7 @@ class Bookie():
             winnings_dict_list.append({"bet": bet, "won": Decimal(amount_won)})
         return winnings_dict_list
             
-class WagerCloseView(TemplateView):
+class WagerPayoutView(TemplateView):
     template_name = "wagers/close.html"
 
     def post(self, request):
@@ -87,7 +86,6 @@ class WagerCloseView(TemplateView):
             wager = Wager.objects.get(id=form.cleaned_data["id"])
             bets = wager.bet_set.all()
             bookie = Bookie(bets, form.cleaned_data["position"])
-
             winners = bookie.get_bets_with_returns()
 
             for winner in winners:
@@ -98,7 +96,7 @@ class WagerCloseView(TemplateView):
             wager.is_open = False
             wager.winning_position = form.cleaned_data["position"]
             wager.save()
-        return redirect("/wagers/wagers/closed?id=" + str(wager.id))
+        return redirect("/wagers/wagers/payout/?id=" + str(wager.id))
 
     def get_context_data(self, **kwargs):
         wager = Wager.objects.get(id=int(self.request.GET["id"]))
