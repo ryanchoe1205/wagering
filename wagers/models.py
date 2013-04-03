@@ -20,6 +20,9 @@ class Wager(models.Model):
     winning_position = models.BooleanField(default=True) # winning_position means team_a won
     team_a = models.TextField()
     team_b = models.TextField()
+    
+    def __str__(self):
+      return self.team_a + " vs " + self.team_b
 
 class Bet(models.Model): 
     amount_bet = models.DecimalField(decimal_places=10, max_digits=100)
