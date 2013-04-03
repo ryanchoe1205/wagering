@@ -10,7 +10,25 @@
 <ul>
 {% for wager in wager_list %}
 	<li class="inline"><a href="/wagers/wagers?id={{wager.id}}"><h2>{{wager.team_a}} vs {{wager.team_b}}</h2></a>
-	{% if perms.wager.change_wager %}<form class="inline form-inline" action="/wagers/wagers/delete/" method="POST">{% csrf_token %}<input type="hidden" value="{{wager.id}}" name="id"><input class="btn btn-danger" type="submit" value="Delete Prop"></form>
+	{% if perms.wager.change_wager %}
+    {% if wager.is_open %}
+      <form class="form-inline" style="display:inline;" action="/wagers/wagers/close/" method="POST">
+        {% csrf_token %}
+        <input type="hidden" value="{{wager.id}}" name="id">
+        <input class="btn" type="submit" value="Close Prop">
+      </form>
+    {% else %}
+      <form class="form-inline" style="display:inline;" action="/wagers/wagers/open/" method="POST">
+        {% csrf_token%}
+        <input type="hidden" value="{{wager.id}}" name="id">
+        <input class="btn" type="submit" value="Open Prop">
+      </form>
+    {% endif %}
+    <form class="form-inline" style="display:inline;" action="/wagers/wagers/delete/" method="POST">
+      {% csrf_token %}
+      <input type="hidden" value="{{wager.id}}" name="id">
+      <input class="btn btn-danger" type="submit" value="Delete Prop">
+    </form> 
 	{% endif %}
 	</li>
 {% endfor %}
