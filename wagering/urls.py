@@ -5,6 +5,8 @@ from django.views.generic.edit import FormView
 from django.views.generic.base import View
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
+from django.contrib.auth import authenticate, login
+
 
 from wagers.models import EditableHTML
 
@@ -17,6 +19,8 @@ class RegisterView(FormView):
 
     def form_valid(self, form):
         form.save()
+        user = authenticate(username=form.cleaned_data["username"], password=form.cleaned_data["password1"])
+        login(self.request, user) 
         return super(RegisterView, self).form_valid(form)
 
 class HomePageView(View):
