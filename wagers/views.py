@@ -166,7 +166,7 @@ class WagerView(TemplateView):
                         amount_bet=amount_bet,
                         position=position)
             bet.save()
-            return redirect(self.request.META["HTTP_REFERER"])
+            return redirect("/wagers/wagers/index/")
         else:
             return render(self.request, self.template_name, {"form": form,
                                                              "wager": wager})
