@@ -125,6 +125,9 @@ class BetForm(ModelForm):
     def is_valid(self, profile):
         valid = super(BetForm, self).is_valid()
         if valid:
+            if not self.cleaned_data["on_prop"].is_open:
+              valid = False
+              self.errors["on_prop"] = ["This proposition is no longer open for bets."]
             available = profile.credits
             bet = self.cleaned_data["amount_bet"]
             if self.bet_too_little(bet) or self.bet_too_much(bet, available):
