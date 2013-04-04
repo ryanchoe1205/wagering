@@ -18,10 +18,8 @@ class WagerListView(View):
     template_name = "wagers/wager_list.html"
     def get(self, request):
         wagers = Wager.objects.all()
-        wagers_with_past_bets = wagers_bet_on = wagers.filter(bet__user=request.user)
         bettable_wagers = wagers.exclude(bet__user=request.user).filter(is_open=True)
         return render(self.request, self.template_name, {"wagers": wagers,
-                                                         "wagers_with_past_bets": wagers_with_past_bets,
                                                          "bettable_wagers": bettable_wagers})
 class ResetEverythingView(View):
     def post(self, request):
