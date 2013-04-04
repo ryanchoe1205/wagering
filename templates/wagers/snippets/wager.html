@@ -2,29 +2,8 @@
   {% csrf_token %}
 	<legend><a href="/wagers/wagers?id={{wager.id}}">{{ wager.team_a }} vs {{ wager.team_b }}</a></legend>
   <input class="pull-right btn btn-success" type="submit" value="Make Bet" />
-	{% if form.errors and not form.errors.amount_bet and not form.errors.on_prop %}
-	<div class="control-group error">
-		<div class="controls">
-      <span class="help-block">You may only make one bet per proposition.</span>
-		</div>
-	</div>
-	{% endif %}
-  {% if form.errors.on_prop %}
-	<div class="control-group error">
-		<div class="controls">
-      <span class="help-block">{{form.errors.on_prop.0}}</span>
-		</div>
-	</div>
-	{% endif %}
-	{% if form.errors.amount_bet %}
-	<div class="control-group error">
-		<div class="controls">
-			<span class="help-inline">Not enough credits.</span>
-		</div>
-	</div>
-	{% endif %}
 	<label class="radio">
-		<input type="radio" name="position" id="optionsRadios1" value="True" checked>
+		<input type="radio" name="position" id="optionsRadios1" value="True">
 		Bet 1 credit on {{ wager.team_a }}.
 	</label>
 	<label class="radio">
