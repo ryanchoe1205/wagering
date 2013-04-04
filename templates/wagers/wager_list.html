@@ -14,8 +14,7 @@
 {% endfor %}
 </ul>
 {% endif %}
-<h1>Propositions</h1>
-<h2>Open For Betting</h2>
+<h1>Propositions <small>Open For Betting</small></h1>
 <ul class="unstyled">
 {% for wager in bettable_wagers %}
 	<li class="inline">
@@ -23,12 +22,5 @@
 	</li>
 {% endfor %}
 </ul>
-<h2>Your Past Bets</h2>
-<ul class="unstyled">
-{% for wager in wagers_with_past_bets %}
-	<li class="inline">
-    {% include "wagers/snippets/wager.html" %}
-	</li>
-{% endfor %}
-</ul>
+
 {% endblock %}
