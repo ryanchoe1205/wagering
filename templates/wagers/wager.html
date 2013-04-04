@@ -1,7 +1,6 @@
 {% extends "scaffolding.html" %}
 {% block content %}
 <h2>{{wager.team_a }} vs {{ wager.team_b }}</h2>
-
 <form class="form-horizontal" action="" method="POST">{% csrf_token %}
 	<legend>Place a bet on the prop</legend>
 	{% if form.errors and not form.errors.amount_bet and not form.errors.on_prop %}

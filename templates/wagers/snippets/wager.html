@@ -1,0 +1,57 @@
+<form class="form-horizontal" action="/wagers/wagers?id={{wager.id}}" method="POST">
+  {% csrf_token %}
+	<legend><a href="/wagers/wagers?id={{wager.id}}">{{ wager.team_a }} vs {{ wager.team_b }}</a></legend>
+  <input class="pull-right btn btn-success" type="submit" value="Make Bet" />
+	{% if form.errors and not form.errors.amount_bet and not form.errors.on_prop %}
+	<div class="control-group error">
+		<div class="controls">
+      <span class="help-block">You may only make one bet per proposition.</span>
+		</div>
+	</div>
+	{% endif %}
+  {% if form.errors.on_prop %}
+	<div class="control-group error">
+		<div class="controls">
+      <span class="help-block">{{form.errors.on_prop.0}}</span>
+		</div>
+	</div>
+	{% endif %}
+	{% if form.errors.amount_bet %}
+	<div class="control-group error">
+		<div class="controls">
+			<span class="help-inline">Not enough credits.</span>
+		</div>
+	</div>
+	{% endif %}
+	<label class="radio">
+		<input type="radio" name="position" id="optionsRadios1" value="True" checked>
+		Bet 1 credit on {{ wager.team_a }}.
+	</label>
+	<label class="radio">
+		<input type="radio" name="position" id="optionsRadios2" value="">
+		Bet 1 credit on {{ wager.team_b }}.
+	</label>
+  <input type="hidden" name="on_prop" value="{{wager.id}}">
+  <input type="hidden" name="amount_bet" value="1">
+  <input type="hidden" name="user" value="{{user.id}}">
+</form>
+	{% if perms.wager.change_wager %}
+    {% if wager.is_open %}
+      <form class="form-inline" style="display:inline;" action="/wagers/wagers/close/" method="POST">
+        {% csrf_token %}
+        <input type="hidden" value="{{wager.id}}" name="id">
+        <input class="btn" type="submit" value="Close Prop">
+      </form>
+    {% else %}
+      <form class="form-inline" style="display:inline;" action="/wagers/wagers/open/" method="POST">
+        {% csrf_token%}
+        <input type="hidden" value="{{wager.id}}" name="id">
+        <input class="btn" type="submit" value="Open Prop">
+      </form>
+    {% endif %}
+    <form class="form-inline" style="display:inline;" action="/wagers/wagers/delete/" method="POST">
+      {% csrf_token %}
+      <input type="hidden" value="{{wager.id}}" name="id">
+      <input class="btn btn-danger" type="submit" value="Delete Prop">
+    </form> 
+	{% endif %}

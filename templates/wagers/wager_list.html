@@ -6,89 +6,29 @@
   <h1>Admin View<small>Only admins can change props</small></h1>
 </div>
 <h2>Admin View<small>Only Admins Can See All Wagers</small></h2>
-<ul>
+<ul class="unstyled">
 {% for wager in wagers %}
-	<li class="inline"><a href="/wagers/wagers?id={{wager.id}}"><h2>{{wager.team_a}} vs {{wager.team_b}}</h2></a>
-	{% if perms.wager.change_wager %}
-    {% if wager.is_open %}
-      <form class="form-inline" style="display:inline;" action="/wagers/wagers/close/" method="POST">
-        {% csrf_token %}
-        <input type="hidden" value="{{wager.id}}" name="id">
-        <input class="btn" type="submit" value="Close Prop">
-      </form>
-    {% else %}
-      <form class="form-inline" style="display:inline;" action="/wagers/wagers/open/" method="POST">
-        {% csrf_token%}
-        <input type="hidden" value="{{wager.id}}" name="id">
-        <input class="btn" type="submit" value="Open Prop">
-      </form>
-    {% endif %}
-    <form class="form-inline" style="display:inline;" action="/wagers/wagers/delete/" method="POST">
-      {% csrf_token %}
-      <input type="hidden" value="{{wager.id}}" name="id">
-      <input class="btn btn-danger" type="submit" value="Delete Prop">
-    </form> 
-	{% endif %}
+	<li class="inline">
+    {% include "wagers/snippets/wager.html" %}
 	</li>
 {% endfor %}
 </ul>
 {% endif %}
 <h1>Propositions</h1>
 <h2>Open For Betting</h2>
-<ul>
+<ul class="unstyled">
 {% for wager in bettable_wagers %}
-	<li class="inline"><a href="/wagers/wagers?id={{wager.id}}"><h2>{{wager.team_a}} vs {{wager.team_b}}</h2></a>
-	{% if perms.wager.change_wager %}
-    {% if wager.is_open %}
-      <form class="form-inline" style="display:inline;" action="/wagers/wagers/close/" method="POST">
-        {% csrf_token %}
-        <input type="hidden" value="{{wager.id}}" name="id">
-        <input class="btn" type="submit" value="Close Prop">
-      </form>
-    {% else %}
-      <form class="form-inline" style="display:inline;" action="/wagers/wagers/open/" method="POST">
-        {% csrf_token%}
-        <input type="hidden" value="{{wager.id}}" name="id">
-        <input class="btn" type="submit" value="Open Prop">
-      </form>
-    {% endif %}
-    <form class="form-inline" style="display:inline;" action="/wagers/wagers/delete/" method="POST">
-      {% csrf_token %}
-      <input type="hidden" value="{{wager.id}}" name="id">
-      <input class="btn btn-danger" type="submit" value="Delete Prop">
-    </form> 
-	{% endif %}
+	<li class="inline">
+    {% include "wagers/snippets/wager.html" %}
 	</li>
 {% endfor %}
 </ul>
 <h2>Your Past Bets</h2>
-<ul>
+<ul class="unstyled">
 {% for wager in wagers_with_past_bets %}
-	<li class="inline"><a href="/wagers/wagers?id={{wager.id}}"><h2>{{wager.team_a}} vs {{wager.team_b}}</h2></a>
-	{% if perms.wager.change_wager %}
-    {% if wager.is_open %}
-      <form class="form-inline" style="display:inline;" action="/wagers/wagers/close/" method="POST">
-        {% csrf_token %}
-        <input type="hidden" value="{{wager.id}}" name="id">
-        <input class="btn" type="submit" value="Close Prop">
-      </form>
-    {% else %}
-      <form class="form-inline" style="display:inline;" action="/wagers/wagers/open/" method="POST">
-        {% csrf_token%}
-        <input type="hidden" value="{{wager.id}}" name="id">
-        <input class="btn" type="submit" value="Open Prop">
-      </form>
-    {% endif %}
-    <form class="form-inline" style="display:inline;" action="/wagers/wagers/delete/" method="POST">
-      {% csrf_token %}
-      <input type="hidden" value="{{wager.id}}" name="id">
-      <input class="btn btn-danger" type="submit" value="Delete Prop">
-    </form> 
-	{% endif %}
+	<li class="inline">
+    {% include "wagers/snippets/wager.html" %}
 	</li>
 {% endfor %}
 </ul>
-
-
-
 {% endblock %}
