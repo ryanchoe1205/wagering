@@ -1,6 +1,6 @@
 <form class="form-horizontal" action="/wagers/wagers?id={{wager.id}}" method="POST">
   {% csrf_token %}
-	<legend><a href="/wagers/wagers?id={{wager.id}}">{{ wager.team_a }} vs {{ wager.team_b }}</a></legend>
+	<legend><a href="/wagers/wagers?id={{wager.id}}">{{ wager.team_a }} vs {{ wager.team_b }}</a> <small class="pull-right">{{ wager.notes }}</small></legend>
   <input class="pull-right btn btn-success" type="submit" value="Make Bet" />
 	<label class="radio">
 		<input type="radio" name="position" id="optionsRadios1" value="True">

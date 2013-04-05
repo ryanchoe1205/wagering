@@ -20,6 +20,7 @@ class Wager(models.Model):
     winning_position = models.BooleanField(default=True) # winning_position means team_a won
     team_a = models.TextField()
     team_b = models.TextField()
+    notes = models.TextField()
     
     def __str__(self):
       return self.team_a + " vs " + self.team_b

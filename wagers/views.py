@@ -14,6 +14,12 @@ from django.contrib.auth.models import User
 from django import forms
 from decimal import Decimal
 
+class WagerHistoryView(View):
+    template_name = "wagers/wager_history.html"
+    def get(self, request):
+        bets = Bet.objects.filter(user=request.user)
+        return render(self.request, self.template_name, {"bets": bets})
+
 class WagerListView(View):
     template_name = "wagers/wager_list.html"
     def get(self, request):
