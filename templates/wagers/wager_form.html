@@ -11,9 +11,24 @@
   <div class="controls">{{form.team_a}}</div>
   <label class="control-label">Team or Side B</label>
   <div class="controls">{{form.team_b}}</div>
-  {{ form.is_open.as_hidden }}
+
   <label class="control-label">Note</label>
   <div class="controls">{{form.notes}}</div>
+</div>
+<div class="control-group">
+  <div class="help-block">If you would like to start with the wager closed and have it open automatically you can uncheck the checkbox and supply a time for the proposition to be opened for betting. All dates should be provided in Pacific Standard Time. That is local time if you live in California.</div>
+  <label class="checkbox">{{ form.is_open}} Start With Wager Opened</label>
+
+  
+  <label class="control-label">Open Wager At</label>
+  <div class="controls">
+    <input type="text" name="open_wager_at" placeholder="YYYY-MM-DD HH:MM:SS"></input>
+  </div>
+  <div class="help-block">If you would like to close the wager automatically instead of manually you can supply a time for the wager to be closed for betting.</div>
+  <label class="control-label">Close Wager At</label>
+  <div class="controls">
+    <input type="text" name="close_wager_at" placeholder="YYYY-MM-DD HH:MM:SS"></input>
+  </div> 
 </div>
 <br><input class="btn btn-success" type="submit" value="Create Wager" />
 </form>

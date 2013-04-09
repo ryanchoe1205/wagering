@@ -1,3 +1,5 @@
+
+
 # Django settings for wagering project.
 is_production = False
 DEBUG = True
@@ -31,7 +33,7 @@ ALLOWED_HOSTS = []
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'America/Los_Angeles'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -125,9 +127,17 @@ INSTALLED_APPS = (
     'wagers',
     'django.contrib.admin',
     'south',
+    'kombu.transport.django',
+    'djcelery',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+# Patch the djcelery/snapshot cause it's broken
+BROKER_URL = "django://"
+import djcelery
+djcelery.setup_loader()
+
+
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
