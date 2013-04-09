@@ -21,8 +21,8 @@ class Wager(models.Model):
     team_a = models.TextField()
     team_b = models.TextField()
     notes = models.TextField()
-    open_wager_at = models.DateTimeField(null=True)
-    close_wager_at = models.DateTimeField(null=True)
+    open_wager_at = models.DateTimeField(blank=True, null=True)
+    close_wager_at = models.DateTimeField(blank=True, null=True)
     
     def __str__(self):
       return self.team_a + " vs " + self.team_b
