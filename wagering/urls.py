@@ -52,5 +52,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)))
 
 if settings.DEBUG:
-    urlpatterns += patterns(r'^site_media/(?P<path>.*)$', 'django.views.static.serve',
-     {'document_root': "C:\Users\joshua\Programming\wagering\site_media"})
+    urlpatterns += patterns('',
+      (r'^site_media/(?P<path>.*)$', 'django.views.static.serve',
+        {'document_root': "C:/Users/joshua/Programming/wagering/site_media"}))

@@ -1,8 +1,6 @@
-
-
 # Django settings for wagering project.
 is_production = False
-DEBUG = False
+DEBUG = not is_production
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
