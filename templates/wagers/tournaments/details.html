@@ -1,13 +1,12 @@
 {% extends "scaffolding.html" %}
 {% block content %}
+<h1>{{ tourney.name }}</h1>
+<p><small>Created by: {{ tourney.created_by }} on {{ tourney.created_on }}</small></p>
 {% if user.is_authenticated %}
 {% if user_is_playing %}
-List of bets that can be made
+<p>List of bets that can be made will go here. Like on the wagers index.</p>
 {% else %}
-{{ tourney.name }}
-{{ tourney.created_by }}
-{{ tourney.created_on }}
-{{ tourney.description }}
+<p>Interested in playing? Then...</p>
 <form method="post" action="{% url 'join-tournament' %}">
 {% csrf_token %}
 {{ join_form }}
@@ -35,7 +34,4 @@ List of bets that can be made
   {% endwith %}
 </div>
 {% endif %}
-<p>Admin View</p>
-<p>Player View Unregistered</p>
-<p>Player View Registered</p>
 {% endblock %}
