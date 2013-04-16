@@ -1,8 +1,25 @@
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.db import models
+from django.core.urlresolvers import reverse
 from fields import UUIDField
 
+class Player(models.Model):
+    """
+    Each tournament is made up of site Users, but the money that a User has is
+    not the money they use while playing in any given tournament. The player
+    class is used to work with users as they play in tournaments. It keeps
+    track of the money that a player has available in each tournament.
+    """
+    tournament = models.ForeignKey("Tournament")
+    user = models.ForeignKey(User)
+    
+    class Meta:
+        unique_together = [("tournament", "user")]
+    
+    # This is the amount of money the user has available for betting.
+    credits = models.DecimalField(decimal_places=10, max_digits=100)
+    
 class Tournament(models.Model):
     """
     Gambling is illegal, but having a competition to see who gambles best
@@ -14,44 +31,95 @@ class Tournament(models.Model):
     to support the operation and development of the site.
     """
     created_on = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(User)
-    
-    is_public_help = "Check this to let anyone find your tournament."
-    is_public = models.BooleanField(default=False, help_text=is_public_help)
-    # This is an auto-generated field used to link to tournaments. The idea is
-    # that it makes it much harder for people to join private tournaments by
-    # iterating through tournament ids.
-    uuid = UUIDField(auto=True)
-    
-    # When the tournament winners are paid out, the tournament is closed to
-    # further interaction.
-    is_open = models.BooleanField(default=True)
+    created_by = models.ForeignKey(User, editable=False)
     
     # Ideally the tournament names shouldn't wrap around on most screen sizes.
     # If they do the CSS and max_length should be adjusted.
     name_help = "A good name tells people what sports will be bet on."
     name = models.CharField(max_length=50, help_text=name_help)
     
+    # This is used to decide whether or not the wager should be included in
+    # lits of currently open tournaments.
+    is_public_help = "Check this to let anyone find your tournament."
+    is_public = models.BooleanField(default=False, help_text=is_public_help)
+
+    # When the tournament winners are paid out, the tournament is closed to
+    # further interaction. The prize pool itself is the amount which will be
+    # split up and paid to the winners. The prize pool itself is the entrance
+    # fees, minus the cut that the house takes.
     entrance_fee_help = "A good entrance fee won't bankrupt people."
     entrance_fee = models.DecimalField(decimal_places=10,
                                        max_digits=100,
                                        default=5.0,
-                                       help_text=entrance_fee_help,
-                                       editable=False)
-    
-    # This should only be changed by using methods.
+                                       help_text=entrance_fee_help)
+    is_open = models.BooleanField(default=True, editable=False)   
     prize_pool = models.DecimalField(decimal_places=10,
                                      max_digits=100,
-                                     default=0.0)
+                                     default=0.0,
+                                     editable=False)
+                                     
+    # This is an auto-generated field used to link to tournaments. The idea is
+    # that it makes it much harder for people to join private tournaments by
+    # iterating through tournament ids.
+    uuid = UUIDField(auto=True)
     
-    def add_player(self):
+    starting_credits_help = "This is how many credits people start the tournament with."
+    starting_credits = models.DecimalField(decimal_places=10,
+                                           max_digits=100,
+                                           default=10.0,
+                                           help_text=starting_credits_help)
+    
+    def __str__(self):
+        """
+        Returns the name of the tournament for rendering.
+        """
+        return self.name
+    
+    def can_add_player(self, user):
+        """
+        Returns True if the user can join the tournament.
+        """
+        return True
+        
+    def add_player(self, user):
         """
         Adds a player to the tournament and collects their entrance fee.
         
-        Throws an exception if the user doesn't have enough money to enter
-        the tournament. Returns True if the player joins the tournament.
+        Throws a ValueError if the user can't play in the tournament.
+        
+        Returns True if the player joins the tournament.
         """
-        pass
+        # Make sure the user can play
+        user_profile = user.get_profile()
+        if user_profile.credits < self.entrance_fee:
+            raise ValueError("Not enough credits to pay entrance fee.")
+        if self.is_user_playing(user):
+            raise ValueError("User already in tournament.")
+        
+        # Handle the money transfer to join the tournament
+        user_profile.credits = user_profile.credits - self.entrance_fee
+        user_profile.save()
+        self.prize_pool = self.prize_pool + self.entrance_fee
+        self.save()
+        
+        # Join the tournament
+        new_player = Player(user=user,
+                            tournament=self.id,
+                            credits=self.starting_credits)
+        new_player.save()
+        return True
+        
+    
+    def is_user_playing(self, user):
+        """
+        Returns True if the given User is a Player in the tournament.
+        """
+        try:
+            if self.player_set.get(user=user):#Player.objects.get(tournament=self.id, user=user):
+                return True
+        except Player.DoesNotExist:
+            return False
+        
         
     def is_closable(self):
         """
@@ -65,6 +133,15 @@ class Tournament(models.Model):
         Pays out the winners and closes the tournament.
         """
         pass
+        
+    def get_absolute_url(self):
+        """
+        Returns a URL that leads to this tournament's details page..
+        """
+        return  reverse('tournament-details', args=[self.uuid])
+        
+
+
 
 
 class WagerSettingSingleton(models.Model):

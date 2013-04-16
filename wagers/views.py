@@ -13,6 +13,73 @@ from wagers.models import Wager, Bet, WagerSettingSingleton
 from django.contrib.auth.models import User
 from django import forms
 from decimal import Decimal
+from models import Tournament
+
+class AddTournament(CreateView):
+    """
+    People can add tournaments which they are then responsible for managing
+    from this view.
+    """
+    model = Tournament
+    template_name = "wagers/tournaments/add.html"
+    
+    def form_valid(self, form):
+        """
+        Adds a tournament to the database and makes sure to set 
+        ``created_by`` to the currently logged in user. Redirects
+        to tournament URL if form created succesfully. 
+        """
+        if form.is_valid():
+            tourney = form.save(commit=False)
+            tourney.created_by = self.request.user
+            tourney.save()
+            messages.add_message(self.request, messages.SUCCESS, "Tournament created!")      
+        return super(AddTournament, self).form_valid(form)
+
+class TournamentDetails(View):
+    """
+    Presents users with a view of the tournament and the admin of the
+    tournament with an administration page.
+    """
+    template_name = "wagers/tournaments/details.html"
+    def get(self, request, tourney_uuid):
+        """
+        Returns the details page for the tournament.
+        """
+        tourney = Tournament.objects.get(uuid=tourney_uuid)
+        user_is_playing = tourney.is_user_playing(request.user)
+        return render(self.request,
+                      self.template_name,
+                      {"tourney": tourney, "user_is_playing": user_is_playing})
+
+class JoinTournament(View):
+    """
+    This view handles the adding of a player into a tournament. It should only be
+    usable by people who are already logged in.
+    """
+    def post(self, request, tourney_uuid):
+        """
+        Tries to add a player to a tournament.
+        """
+        # TODO: Make this view use form. It is more secure, since it stops csrf
+        # forgery. Basically people can't just give people links to tournaments
+        # and have them accidentally sign up without them having wanted to sign
+        # up. I'd rather have the default practice of making sure the things I
+        # implement are as secure as I know how to make them then just do things
+        # the simplest way, given the lack of historic success in the comp sec
+        # field.
+        # The user should still interact with it without it seeming to be a form.
+        # To them, it should just be a button that either succeeds or fails without
+        # any sort of prompts.
+        tourney = Tournament.objects.get(uuid=tourney_uuid)
+        if tourney.can_add_player(user):
+            tourney.add_player(user)
+            messages.add_message(self.request, messages.SUCCESS, "Joined tournament.")
+            return redirect("tournament-details", args=[tourney_uuid])
+        else:
+            messages.add_message(self.request, messages.ERROR, "Failed to join tournament.")
+
+        
 
 class WagerHistoryView(View):
     template_name = "wagers/wager_history.html"
