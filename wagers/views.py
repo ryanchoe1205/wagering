@@ -1,5 +1,4 @@
 from forms import TournamentForm
-# Create your views here.
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -7,7 +6,6 @@ from django.shortcuts import redirect, render
 from django.views.generic.base import View
 from django.views.generic.edit import CreateView
 from django.views.generic import TemplateView
-from django.views.generic.edit import FormView
 from django.forms import ModelForm, ValidationError
 from django.http import Http404
 from wagers.models import Wager, Bet, WagerSettingSingleton

@@ -1,10 +1,8 @@
-from wagers.views import WagerView, WagerPayoutView, WagerDeleteView, WagerCreateView, ResetEverythingView, WagerOpenView, WagerCloseView, WagerListView, WagerHistoryView
-from wagers.views import AddTournament, TournamentDetails, JoinTournament
+from wagers.views import WagerView, WagerPayoutView, WagerDeleteView, WagerCreateView
+from wagers.views import ResetEverythingView, WagerOpenView, WagerCloseView, WagerListView
+from wagers.views import WagerHistoryView, AddTournament, TournamentDetails, JoinTournament
 from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import permission_required, login_required
-
-
-
 
 urlpatterns = patterns('',
     url(r'^tournaments/([a-f0-9]{32})$', login_required(TournamentDetails.as_view()), name="tournament-details"),
