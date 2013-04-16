@@ -2,14 +2,8 @@ from wagers.views import WagerView, WagerPayoutView, WagerDeleteView, WagerCreat
 from wagers.views import AddTournament, TournamentDetails, JoinTournament
 from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import permission_required, login_required
-from django.views.generic.list import ListView
-from wagers.models import Wager
-from django.contrib.auth.models import User
 
 
-
-class UserListView(ListView):
-    model = User
 
 
 urlpatterns = patterns('',
@@ -24,5 +18,4 @@ urlpatterns = patterns('',
     url(r'^wagers/open/', permission_required("wagers.change_wager")(WagerOpenView.as_view())),
     url(r'^wagers/close/', permission_required("wagers.change_wager")(WagerCloseView.as_view())),
     url(r'^wagers/payout/', permission_required("wagers.change_wager")(WagerPayoutView.as_view())),
-    url(r'^wagers', WagerView.as_view(template_name="wagers/wager.html")),
-    url(r'^leaderboard/', UserListView.as_view(), name="player-list"))
+    url(r'^wagers', WagerView.as_view(template_name="wagers/wager.html")))
