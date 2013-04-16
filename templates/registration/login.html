@@ -1,6 +1,7 @@
 {% extends "scaffolding.html" %}
 {% block content %}
-<form action="" method="post">{% csrf_token %}
+<form action="{% url 'login' %}" method="post">
+{% csrf_token %}
 {{form}}
 <input name="next" type="hidden" value="/">
 <br>

@@ -4,6 +4,17 @@
 		<title>Easy Props</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="/site_media/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <style type="text/css">
+    .marketing {
+      text-align: center;
+    }
+    .form-reg input {
+      margin-button: 15px;
+    }
+    .form-reg .btn-reg {
+      display: block;
+    }
+    </style>
 	</head>
 	<body>
 		<div class="navbar navbar-inverse">
@@ -50,8 +61,7 @@
 			</div>
 		</div>
 		{% endif %}
-		<div class="row">
-			<div class="offset2 span8">
+    <div class="container">
 				{% for message in messages %}
 				    <div class="alert alert-{{ message.tags }}">{{ message }}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
 				{% endfor %}

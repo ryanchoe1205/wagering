@@ -1,0 +1,41 @@
+{% extends "scaffolding.html" %}
+{% block content %}
+{% if user.is_authenticated %}
+{% if user_is_playing %}
+List of bets that can be made
+{% else %}
+{{ tourney.name }}
+{{ tourney.created_by }}
+{{ tourney.created_on }}
+{{ tourney.description }}
+<form method="post" action="{% url 'join-tournament' tourney.uuid %}">
+{% csrf_token %}
+<input type="hidden" value="{{ tourney.uuid }}">
+<button class="btn btn-primary" type="submit">Join Tournament</button>
+</form>
+{% endif %}
+{% else %}
+<div class="hero-unit">
+  <h1 class="lead marketing">Want to take part in: {{ tourney.name }}?</h1>
+  <p class="marketing">The first step is getting logged in. If you don't have an account you will need to make one. If you do just sign in. Once you finish you will automatically be redirected back to this tournament.</p>
+
+  {% with next=tourney.get_absolute_url %}
+  <div class="row-fluid">
+    <div class="span6">
+      {% with legend="Make An Account" %}
+      {% include "registration/snippets/register_form.html" %}
+      {% endwith %}
+    </div>
+    <div class="span6">
+      {% with legend="Sign In" %}
+      {% include "registration/snippets/login_form.html" %}
+      {% endwith %}
+    </div>
+  </div>
+  {% endwith %}
+</div>
+{% endif %}
+<p>Admin View</p>
+<p>Player View Unregistered</p>
+<p>Player View Registered</p>
+{% endblock %}

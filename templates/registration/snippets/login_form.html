@@ -1,0 +1,10 @@
+<form class="form-reg" action="{% url 'login' %}" method="post">
+  <fieldset>
+    <legend>{{ legend }}</legend>
+    {% csrf_token %}
+    <input placeholder="Username" name="username" type="text"/>
+    <input placeholder="Password" name="password" type="password" />
+    <input name="next" type="hidden" value="{{ next }}" />
+    <button class="btn btn-large btn-primary btn-reg" type="submit">Sign In</button>
+  </fieldset>
+</form>
