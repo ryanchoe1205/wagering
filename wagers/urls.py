@@ -13,8 +13,8 @@ class UserListView(ListView):
 
 
 urlpatterns = patterns('',
-    url(r'^tournaments/([a-f0-9]{32})/join/', JoinTournament.as_view(), name="join-tournament"),
     url(r'^tournaments/([a-f0-9]{32})$', login_required(TournamentDetails.as_view()), name="tournament-details"),
+    url(r'^tournaments/join/', JoinTournament.as_view(), name="join-tournament"),
     url(r'^tournaments/add/$', login_required(AddTournament.as_view()), name="add-tournament"),
     url(r'^wagers/tourneyreset', permission_required("wagers.delete_wager")(ResetEverythingView.as_view())),
     url(r'^wagers/index/', login_required(WagerListView.as_view())),

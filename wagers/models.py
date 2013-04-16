@@ -79,6 +79,11 @@ class Tournament(models.Model):
         """
         Returns True if the user can join the tournament.
         """
+        user_profile = user.get_profile()
+        if user_profile.credits < self.entrance_fee:
+            return False
+        if self.is_user_playing(user):
+            return False
         return True
         
     def add_player(self, user):
@@ -104,7 +109,7 @@ class Tournament(models.Model):
         
         # Join the tournament
         new_player = Player(user=user,
-                            tournament=self.id,
+                            tournament=self,
                             credits=self.starting_credits)
         new_player.save()
         return True

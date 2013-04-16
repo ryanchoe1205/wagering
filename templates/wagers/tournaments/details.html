@@ -8,9 +8,9 @@ List of bets that can be made
 {{ tourney.created_by }}
 {{ tourney.created_on }}
 {{ tourney.description }}
-<form method="post" action="{% url 'join-tournament' tourney.uuid %}">
+<form method="post" action="{% url 'join-tournament' %}">
 {% csrf_token %}
-<input type="hidden" value="{{ tourney.uuid }}">
+{{ join_form }}
 <button class="btn btn-primary" type="submit">Join Tournament</button>
 </form>
 {% endif %}

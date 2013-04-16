@@ -1,3 +1,4 @@
+from forms import TournamentForm
 # Create your views here.
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -48,36 +49,37 @@ class TournamentDetails(View):
         """
         tourney = Tournament.objects.get(uuid=tourney_uuid)
         user_is_playing = tourney.is_user_playing(request.user)
+        join_form = TournamentForm(initial={"uuid":tourney.uuid})
         return render(self.request,
                       self.template_name,
-                      {"tourney": tourney, "user_is_playing": user_is_playing})
-
+                      {"tourney": tourney,
+                       "user_is_playing": user_is_playing,
+                       "join_form": join_form})
+                   
 class JoinTournament(View):
     """
     This view handles the adding of a player into a tournament. It should only be
     usable by people who are already logged in.
     """
-    def post(self, request, tourney_uuid):
+    def post(self, request):
         """
         Tries to add a player to a tournament.
         """
-        # TODO: Make this view use form. It is more secure, since it stops csrf
-        # forgery. Basically people can't just give people links to tournaments
-        # and have them accidentally sign up without them having wanted to sign
-        # up. I'd rather have the default practice of making sure the things I
-        # implement are as secure as I know how to make them then just do things
-        # the simplest way, given the lack of historic success in the comp sec
-        # field.
-        # The user should still interact with it without it seeming to be a form.
-        # To them, it should just be a button that either succeeds or fails without
-        # any sort of prompts.
-        tourney = Tournament.objects.get(uuid=tourney_uuid)
-        if tourney.can_add_player(user):
-            tourney.add_player(user)
-            messages.add_message(self.request, messages.SUCCESS, "Joined tournament.")
-            return redirect("tournament-details", args=[tourney_uuid])
-        else:
-            messages.add_message(self.request, messages.ERROR, "Failed to join tournament.")
+        form = TournamentForm(request.POST)
+        if form.is_valid():
+            uuid = form.cleaned_data["uuid"]
+            tourney = form.get_tournament()
+            if tourney.can_add_player(request.user):
+                tourney.add_player(request.user)
+                messages.add_message(self.request, messages.SUCCESS, "Joined tournament.")       
+            else:
+                error_message = "Couldn't join the tournament. Do you have enough credits or have you already joined?"
+                messages.add_message(self.request, messages.ERROR, error_message)
+            return redirect("tournament-details", uuid)
+            
+        # The only way someone should get here is if they tampered with the form.
+        raise Http404
+        
 
         
 
