@@ -1,0 +1,12 @@
+{% extends "scaffolding.html" %}
+{% block content %}
+<ol class="unstyled">
+  {% for player in players %}
+    {% with tourney=player.tournament %}
+      <li><a href="{{ tourney.get_absolute_url }}">{{ tourney }}</a> created by {{ tourney.created_by }} on {{ tourney.created_on }}</li>
+    {% endwith %}
+  {% empty %}
+    <li>You have no active tournaments.</li>
+  {% endfor %}
+</ol>
+{% endblock %}

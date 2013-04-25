@@ -20,47 +20,23 @@
 		<div class="navbar navbar-inverse">
 			<div class="navbar-inner">
 				<div class="container">
-					<a class="brand" href="/">Easy Props</a>
 					<ul class="nav">
+            <li><a class="brand" href="/">Office Props</a></li>
+            <li><a href="{% url 'open-tournament-list' %}">Join A Tournament</a></li>
+            <li><a href="{% url 'add-tournament' %}">Create A Tournament</a></li>
+
 					{% if user.is_authenticated %}
+            <li><a href="{% url 'active-tournament-list' %}">My Active Tournaments</a></li>
 						<li><p class="navbar-text">{{user}}. {{user.get_profile.credits}} credits.</p></li>
 						<li><a href="/logout?next=/">Logout</a></li>
 					{% else %}
 						<li><a href="/login">Login</a></li>
 						<li><a href="/register">Register</a></li>
 					{% endif %}
-						<li><a href="/wagers/wagers/index/">View Propositions</a></li>
-					{% if perms.wagers.delete_wager %}
-						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Actions</a>
-							<ul class="dropdown-menu">
-								<li><a href="/wagers/wagers/add/">Add Proposition</a></li>
-								<li><a href="#tourneyResetModal" role="button" data-toggle="modal">Tournament Reset</a></li>
-
-							</ul>
-						</li>
-					{% endif %}
 					</ul>
 				</div>
 			</div>
 		</div>
-		{% if perms.wagers.delete_wager %}
-		<div id="tourneyResetModal" class="modal hide fade">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3>Warning</h3>
-			</div>
-			<div class="modal-body">
-				<p>Taking this action will delete all propositions and bets. It will also set all users to the default starting credits, as if they had just made a new account. There is no way to cancel this change. Are you sure want to proceed?</p>
-			</div>
-			<div class="modal-footer">
-				<form method="post" action="/wagers/wagers/tourneyreset/">
-					<a href="#" data-dismiss="modal" class="btn">No, don't delete everything</a>	
-					{% csrf_token %}
-					<input type="submit" value="Yes, I want to reset the site" class="btn btn-danger">
-				</form>
-			</div>
-		</div>
-		{% endif %}
     <div class="container">
 				{% for message in messages %}
 				    <div class="alert alert-{{ message.tags }}">{{ message }}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
