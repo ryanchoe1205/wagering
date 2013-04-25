@@ -40,6 +40,24 @@ class AddTournament(CreateView):
             messages.add_message(self.request, messages.SUCCESS, "Tournament created!")      
         return super(AddTournament, self).form_valid(form)
 
+class OpenTournamentList(View):
+    """
+    This presents users with a view of the tournaments which they can join.
+    """
+    template_name = "wagers/tournaments/open-list.html"
+    def get(self, request):
+        tournaments = Tournament.objects.filter(is_open=True).order_by("-created_on")
+        return render(self.request, self.template_name, {"tournaments": tournaments})
+
+class ActiveTournamentList(View):
+    """
+    This presents users with a view of the tournaments they are currently active in.
+    """
+    template_name = "wagers/tournaments/active-list.html"
+    def get(self, request):
+        players = Player.objects.filter(user=request.user, tournament__is_open=True)
+        return render(self.request, self.template_name, {"players": players})
+
 class TournamentDetails(View):
     """
     Presents users with a view of the tournament and the admin of the
@@ -51,23 +69,21 @@ class TournamentDetails(View):
         Returns the details page for the tournament.
         """
         tourney = Tournament.objects.get(uuid=tourney_uuid)
-        user_is_playing = tourney.is_user_playing(request.user)
-        if user_is_playing:
+        try:
             player = Player.objects.get(tournament=tourney, user=request.user)
-        else:
+        except:
             player = None
         join_form = TournamentForm(initial={"uuid":tourney.uuid})
         user_is_admin = tourney.is_user_admin(request.user)
 
         add_prop_form = PropositionForm(initial={"tournament":tourney.id})
         propositions = Proposition.objects.filter(tournament=tourney)
-        bettable_props = propositions.exclude(bet__created_by__user=request.user).filter(is_open=True)
+        bettable_props = propositions.exclude(bet__created_by=player).filter(is_open=True)
         return render(self.request,
                       self.template_name,
                       {"tourney": tourney,
                        "bettable_props": bettable_props,
                        "propositions": propositions,
-                       "user_is_playing": user_is_playing,
                        "player": player,
                        "tournament_form": join_form,
                        "user_is_admin": user_is_admin,
@@ -96,6 +112,35 @@ class JoinTournament(View):
             
         # The only way someone should get here is if they tampered with the form.
         raise Http404
+        
+class PayoutTournament(View):
+    def get(self, request):
+        pass
+    
+    def post(self, request, tourney_uuid):
+        """
+        Tries to add a proposition to the tournament.
+        """
+        tourney = Tournament.objects.get(uuid=tourney_uuid)
+        # Make sure that the user has admin rights for this tourney.
+        if not tourney.is_user_admin(request.user):
+            return HttpResponseForbidden("Only the tournament administrator can do that.")
+        form = TournamentForm(request.POST)
+        if form.is_valid():
+            # Make sure the input wasn't a lie.
+            tourney2 = form.get_tournament()
+            if not tourney == tourney2:
+                return HttpResponseForbidden("Only the tournament administrator can do that.")
+            if tourney.is_closable():
+                tourney.payout()
+                messages.add_message(self.request, messages.SUCCESS, "Tournament paid out.")
+                return redirect("payout-tournament", tourney_uuid)
+            else:
+                messages.add_message(self.request, messages.ERROR, "There are still open propositions.")
+                return redirect("tournament-details", tourney_uuid)
+        
+        # We should never get here.
+        raise Htpp404
 
 class AddProposition(View):
     """
@@ -253,31 +298,4 @@ class PayoutProposition(View):
                                                              "prop": prop,
                                                              "bet_info": bet_info})
 
-class PayoutTournament(View):
-    def get(self, request):
-        pass
-    
-    def post(self, request, tourney_uuid):
-        """
-        Tries to add a proposition to the tournament.
-        """
-        tourney = Tournament.objects.get(uuid=tourney_uuid)
-        # Make sure that the user has admin rights for this tourney.
-        if not tourney.is_user_admin(request.user):
-            return HttpResponseForbidden("Only the tournament administrator can do that.")
-        form = TournamentForm(request.POST)
-        if form.is_valid():
-            # Make sure the input wasn't a lie.
-            tourney2 = form.get_tournament()
-            if not tourney == tourney2:
-                return HttpResponseForbidden("Only the tournament administrator can do that.")
-            if tourney.is_closable():
-                tourney.payout()
-                messages.add_message(self.request, messages.SUCCESS, "Tournament paid out.")
-                return redirect("payout-tournament", tourney_uuid)
-            else:
-                messages.add_message(self.request, messages.ERROR, "There are still open propositions.")
-                return redirect("tournament-details", tourney_uuid)
-        
-        # We should never get here.
-        raise Htpp404
+

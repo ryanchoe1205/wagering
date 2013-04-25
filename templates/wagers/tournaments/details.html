@@ -15,7 +15,7 @@
 </ul>
 {% endif %}
 {% if user.is_authenticated %}
-{% if user_is_playing %}
+{% if player %}
 <h2>Propositions <small>Open For Betting</small></h2>
 <ul>
 {% for prop in bettable_props %}
