@@ -1,60 +1,57 @@
 {% extends "scaffolding.html" %}
 {% block content %}
-<h1>{{ tourney.name }}</h1>
-<p><small>Created by: {{ tourney.created_by }} on {{ tourney.created_on }}</small></p>
-<p>Right now you have: {{ player.credits }} credit{{ player.credits|pluralize }}.</p>
-
-{% if user_is_admin %}
-{% include "wagers/tournaments/snippets/pay_form.html" %}
-{% include "wagers/propositions/snippets/add_form.html" %}
-<h2>Propositons <small>Administator View</small></h2>
-<ul>
-{% for prop in propositions %}
-  <li>{% include "wagers/propositions/snippets/prop.html" %}</li>
-{% endfor %}
-</ul>
-{% endif %}
 {% if user.is_authenticated %}
-{% if player %}
-<h2>Propositions <small>Open For Betting</small></h2>
-<ul>
-{% for prop in bettable_props %}
-<li>{% include "wagers/propositions/snippets/prop.html" %}</li>
-{% empty %}
-<li>There are no props open for betting.</li>
-{% endfor %}
-</ul>
-
-
-
-
+  <h1>{{ tourney.name }}</h1>
+  <p><small>Created by: {{ tourney.created_by }} on {{ tourney.created_on }}</small></p>
+  {% if user_is_admin %}
+    {% if not tourney.is_paid %}
+      {% include "wagers/tournaments/snippets/pay_form.html" %}
+      {% include "wagers/propositions/snippets/add_form.html" %}
+    {% endif %}
+    <h2>Propositons <small>Administrator View</small></h2>
+    <ul>
+    {% for prop in propositions %}
+      <li>{% include "wagers/propositions/snippets/prop.html" %}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+  {% if player %}
+    <p>Right now you have: {{ player.credits }} credit{{ player.credits|pluralize }}.</p>
+    <h2>Propositions <small>Open For Betting</small></h2>
+    <ul>
+    {% for prop in bettable_props %}
+    <li>{% include "wagers/propositions/snippets/prop.html" %}</li>
+    {% empty %}
+    <li>There are no props open for betting.</li>
+    {% endfor %}
+    </ul>
+  {% else %}
+    <p>Interested in playing? Then...</p>
+    <form method="post" action="{% url 'join-tournament' %}">
+    {% csrf_token %}
+    {{ tournament_form }}
+    <button class="btn btn-primary" type="submit">Join Tournament</button>
+    </form>
+  {% endif %}
 {% else %}
-<p>Interested in playing? Then...</p>
-<form method="post" action="{% url 'join-tournament' %}">
-{% csrf_token %}
-{{ tournament_form }}
-<button class="btn btn-primary" type="submit">Join Tournament</button>
-</form>
-{% endif %}
-{% else %}
-<div class="hero-unit">
-  <h1 class="lead marketing">Want to take part in: {{ tourney.name }}?</h1>
-  <p class="marketing">The first step is getting logged in. If you don't have an account you will need to make one. If you do just sign in. Once you finish you will automatically be redirected back to this tournament.</p>
+  <div class="hero-unit">
+    <h1 class="lead marketing">Want to take part in: {{ tourney.name }}?</h1>
+    <p class="marketing">The first step is getting logged in. If you don't have an account you will need to make one. If you do just sign in. Once you finish you will automatically be redirected back to this tournament.</p>
 
-  {% with next=tourney.get_absolute_url %}
-  <div class="row-fluid">
-    <div class="span6">
-      {% with legend="Make An Account" %}
-      {% include "registration/snippets/register_form.html" %}
-      {% endwith %}
+    {% with next=tourney.get_absolute_url %}
+    <div class="row-fluid">
+      <div class="span6">
+        {% with legend="Sign In" %}
+        {% include "registration/snippets/login_form.html" %}
+        {% endwith %}
+      </div>
+      <div class="span6">
+        {% with legend="Make An Account" %}
+        {% include "registration/snippets/register_form.html" %}
+        {% endwith %}
+      </div>
     </div>
-    <div class="span6">
-      {% with legend="Sign In" %}
-      {% include "registration/snippets/login_form.html" %}
-      {% endwith %}
-    </div>
+    {% endwith %}
   </div>
-  {% endwith %}
-</div>
 {% endif %}
 {% endblock %}

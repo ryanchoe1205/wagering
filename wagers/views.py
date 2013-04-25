@@ -56,7 +56,9 @@ class ActiveTournamentList(View):
     template_name = "wagers/tournaments/active-list.html"
     def get(self, request):
         players = Player.objects.filter(user=request.user, tournament__is_open=True)
-        return render(self.request, self.template_name, {"players": players})
+        tournaments = Tournament.objects.filter(created_by=request.user, is_open=True)
+        return render(self.request, self.template_name, {"players": players,
+                                                         "tournaments": tournaments})
 
 class TournamentDetails(View):
     """
@@ -134,7 +136,7 @@ class PayoutTournament(View):
             if tourney.is_closable():
                 tourney.payout()
                 messages.add_message(self.request, messages.SUCCESS, "Tournament paid out.")
-                return redirect("payout-tournament", tourney_uuid)
+                return redirect("tournament-details", tourney_uuid)
             else:
                 messages.add_message(self.request, messages.ERROR, "There are still open propositions.")
                 return redirect("tournament-details", tourney_uuid)
