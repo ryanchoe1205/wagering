@@ -2,9 +2,30 @@
   <fieldset>
     <legend>{{ legend }}</legend>
     {% csrf_token %}
-    <input placeholder="Username" name="username" type="text"/>
-    <input placeholder="Password" name="password1" type="password" />
-    <input placeholder="Repeat Password" name="password2" type="password" />
+    <div class="control-group {% if form.errors.username %}error{% endif %}">
+      <div class="controls">
+        <input placeholder="Username" name="username" type="text" {% if form.username.value %}value="{{form.username.value}}"{% endif %}/>
+        {% for error in form.errors.username %}
+          <span class="help-inline">{{ error }}</span>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="control-group {% if form.errors.password1 %}error{% endif %}">
+      <div class="controls">
+        <input placeholder="Password" name="password1" type="password" {% if form.password1.value %}value="{{form.password1.value}}"{% endif %}/>
+        {% for error in form.errors.password1 %}
+          <span class="help-inline">{{ error }}</span>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="control-group {% if form.errors.password2 %}error{% endif %}">
+      <div class="controls">
+        <input placeholder="Repeat Password" name="password2" type="password" {% if form.password2.value %}value="{{form.password2.value}}"{% endif %}/>
+        {% for error in form.errors.password2 %}
+          <span class="help-inline">{{ error }}</span>
+        {% endfor %}
+      </div>
+    </div>
     <input name="next" type="hidden" value="{{ next }}" />
     <button class="btn btn-large btn-primary btn-reg" type="submit">Register</button>
   </fieldset>

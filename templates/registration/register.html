@@ -1,7 +1,6 @@
 {% extends "scaffolding.html" %}
 {% block content %}
-<form action="" method="POST">{% csrf_token %}
-{{form}}
-<br><input type="submit" value="Submit">
-</form>
+{% with legend="Sign Up" next="/"%}
+{% include 'registration/snippets/register_form.html' %}
+{% endwith %}
 {% endblock %}

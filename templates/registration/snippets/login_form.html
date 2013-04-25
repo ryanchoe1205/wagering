@@ -2,9 +2,30 @@
   <fieldset>
     <legend>{{ legend }}</legend>
     {% csrf_token %}
-    <input placeholder="Username" name="username" type="text"/>
-    <input placeholder="Password" name="password" type="password" />
+    <div class="control-group {% if form.non_field_errors %}error{% endif %}">
+      <div class="controls">
+        <div class="control-group {% if form.errors.username %}error{% endif %}">
+          <div class="controls">
+            <input placeholder="Username" name="username" type="text" {% if form.username.value %}value="{{form.username.value}}"{% endif %}/>
+            {% for error in form.errors.username %}
+              <span class="help-inline">{{ error }}</span>
+            {% endfor %}   
+          </div>
+        </div>
+        <div class="control-group {% if form.errors.password %}error{% endif %}">
+          <div class="controls">
+            <input placeholder="Password" name="password" type="password" {% if form.password.value %}value="{{form.password.value}}"{% endif %}/>
+            {% for error in form.errors.password %}
+              <span class="help-inline">{{ error }}</span>
+            {% endfor %}
+          </div>
+        </div>
+        {% if form.non_field_errors %}
+          <span class="help-inline error">Incorrect username and/or password.</span>
+        {% endif %}
+      </div>
+    </div>
     <input name="next" type="hidden" value="{{ next }}" />
-    <button class="btn btn-large btn-primary btn-reg" type="submit">Sign In</button>
+    <button class="btn btn-large btn-primary btn-redg" type="submit">Sign In</button>
   </fieldset>
 </form>
