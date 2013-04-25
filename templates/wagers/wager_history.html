@@ -1,8 +1,0 @@
-{% extends "scaffolding.html" %}
-{% block content %}
-<ul>
-  {% for bet in bets %}
-    <li>On {{bet.on_prop.team_a}} vs {{bet.on_prop.team_b}} you bet 1 credit on {% if bet.position %}{{ bet.on_prop.team_a}}{% else %}{{ bet.on_prop.team_b }}{% endif %}.</li>
-  {% endfor %}
-</ul>
-{% endblock %}

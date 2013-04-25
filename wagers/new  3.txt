@@ -1,8 +1,0 @@
-def take_while(coll, func):
-    i = 0
-    while func(coll[i]):
-        i += 1
-    return coll[:i]
-
-def drop_while(coll, func):
-    i = 
