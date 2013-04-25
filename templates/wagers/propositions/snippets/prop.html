@@ -1,0 +1,31 @@
+<form class="form-horizontal" action="{% url 'make-bet' tourney.uuid prop.id %}" method="POST">
+  {% csrf_token %}
+	<legend><a href="{% url 'payout-proposition' tourney.uuid prop.id %}">{{ prop.team_a }} vs {{ prop.team_b }}</a> <small class="pull-right">{{ prop.notes }}</small></legend>
+  <input class="pull-right btn btn-success" type="submit" value="Make Bet" />
+	<label class="radio">
+		<input type="radio" name="position" id="optionsRadios1" value="True">
+		Bet 1 credit on {{ prop.team_a }}.
+	</label>
+	<label class="radio">
+		<input type="radio" name="position" id="optionsRadios2" value="">
+		Bet 1 credit on {{ prop.team_b }}.
+	</label>
+  <input type="hidden" name="proposition" value="{{prop.id}}">
+  <input type="hidden" name="credits" value="1">
+  <input type="hidden" name="created_by" value="{{player.id}}">
+</form>
+{% if user_is_admin %}
+  {% if prop.is_open %}
+    <form class="form-inline" style="display:inline;" action="{% url 'close-proposition' tourney.uuid prop.id %}" method="POST">
+      {% csrf_token %}
+      <input type="hidden" value="{{prop.id}}" name="id">
+      <input class="btn" type="submit" value="Close Prop">
+    </form>
+  {% else %}
+    <form class="form-inline" style="display:inline;" action="{% url 'open-proposition' tourney.uuid prop.id %}" method="POST">
+      {% csrf_token %}
+      <input type="hidden" value="{{prop.id}}" name="id">
+      <input class="btn" type="submit" value="Open Prop">
+    </form>
+  {% endif %}
+{% endif %}

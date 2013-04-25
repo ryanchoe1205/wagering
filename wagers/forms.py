@@ -1,6 +1,8 @@
 from django import forms
 from django.shortcuts import get_object_or_404
 from models import Tournament
+from models import Proposition
+from models import Bet
 
 class TournamentForm(forms.Form):
     """
@@ -17,5 +19,78 @@ class TournamentForm(forms.Form):
         """  
         uuid = self.cleaned_data["uuid"]
         return get_object_or_404(Tournament, uuid=uuid)
+
+class PropositionForm(forms.ModelForm):
+    """
+    This form is used to create Propositions.
+    """
+    class Meta:
+        model = Proposition
+        widgets = {"tournament": forms.HiddenInput()}
+        
+    def get_tournament(self):
+        """
+        This method should only be called when the form has already been
+        cleaned. It tries to return the tournament the form directs to.
+        """
+        return self.cleaned_data["tournament"]
+
+class BetForm(forms.ModelForm):
+    """
+    This form is used to create bets.
+    """
+    class Meta:
+        model = Bet
+        widgets = {"proposition": forms.HiddenInput(), 
+                   "credits": forms.HiddenInput(),
+                   "created_by": forms.HiddenInput()}
+                   
+    def clean(self):
+        cleaned_data = super(BetForm, self).clean()
+        proposition = cleaned_data.get("proposition")
+        if not proposition.is_open_for_betting():
+            raise forms.ValidationError("The proposition is not open for betting.")
+        
+        player = cleaned_data.get("created_by")
+        if not proposition.can_player_bet(player):
+            raise forms.ValidationError("You can't make a bet on this proposition.")
+        
+        credits = cleaned_data.get("credits")
+        if not player.can_afford_bet(credits):
+            raise forms.ValidationError("Not enough credits.")
+            
+        return cleaned_data
+
+class PropositionPayoutForm(forms.ModelForm):
+    class Meta:
+        model = Proposition
+        fields = ["tournament", "outcome"]
+        widgets = {"tournament": forms.HiddenInput()}
+        
+class PropositionAdminForm(forms.Form):
+    id = forms.IntegerField(widget=forms.HiddenInput)
+        
+    def is_valid(self, user):
+        valid = super(PropositionAdminForm, self).is_valid()
+        if valid:
+            prop = self.get_proposition()
+            if prop.tournament.is_user_admin(user):
+                return valid
+        return False
+                    
+    def get_proposition(self):
+        """
+        This method should only be called when the form has already been
+        cleaned. It tries to return the proposition the form directs to. Otherwise
+        returns 404.
+        """
+        id = self.cleaned_data.get("id")
+        return get_object_or_404(Proposition, id=id)
+                  
+        
+
+        
+        
+
 
                         

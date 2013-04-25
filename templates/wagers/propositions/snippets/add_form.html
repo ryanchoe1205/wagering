@@ -1,0 +1,8 @@
+<form method="post" action="{% url 'add-proposition' tourney.uuid %}">
+  <fieldset>
+    <legend>Add Proposition</legend>
+    {% csrf_token %}
+    {{ add_prop_form }}
+    <br><button class="btn btn-primary" type="submit">Add Proposition</button>
+  </fieldset>
+</form>

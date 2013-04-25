@@ -2,14 +2,37 @@
 {% block content %}
 <h1>{{ tourney.name }}</h1>
 <p><small>Created by: {{ tourney.created_by }} on {{ tourney.created_on }}</small></p>
+<p>Right now you have: {{ player.credits }} credit{{ player.credits|pluralize }}.</p>
+
+{% if user_is_admin %}
+{% include "wagers/tournaments/snippets/pay_form.html" %}
+{% include "wagers/propositions/snippets/add_form.html" %}
+<h2>Propositons <small>Administator View</small></h2>
+<ul>
+{% for prop in propositions %}
+  <li>{% include "wagers/propositions/snippets/prop.html" %}</li>
+{% endfor %}
+</ul>
+{% endif %}
 {% if user.is_authenticated %}
 {% if user_is_playing %}
-<p>List of bets that can be made will go here. Like on the wagers index.</p>
+<h2>Propositions <small>Open For Betting</small></h2>
+<ul>
+{% for prop in bettable_props %}
+<li>{% include "wagers/propositions/snippets/prop.html" %}</li>
+{% empty %}
+<li>There are no props open for betting.</li>
+{% endfor %}
+</ul>
+
+
+
+
 {% else %}
 <p>Interested in playing? Then...</p>
 <form method="post" action="{% url 'join-tournament' %}">
 {% csrf_token %}
-{{ join_form }}
+{{ tournament_form }}
 <button class="btn btn-primary" type="submit">Join Tournament</button>
 </form>
 {% endif %}

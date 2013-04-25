@@ -1,0 +1,8 @@
+<form method="post" action="{% url 'payout-tournament' tourney.uuid %}">
+  <fieldset>
+    <legend>Payout Tournament</legend>
+    {% csrf_token %}
+    {{ tournament_form }}
+    <br><button class="btn btn-primary" type="submit">Payout Tournament</button>
+  </fieldset>
+</form>
