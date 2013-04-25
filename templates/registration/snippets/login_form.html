@@ -25,7 +25,7 @@
         {% endif %}
       </div>
     </div>
-    <input name="next" type="hidden" value="{{ next }}" />
+    <input name="next" type="hidden" value="{% if next%}{{ next }}{% else %}/{% endif %}" />
     <button class="btn btn-large btn-primary btn-redg" type="submit">Sign In</button>
   </fieldset>
 </form>
