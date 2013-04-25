@@ -1,0 +1,13 @@
+.marketing {
+  text-align: center;
+}
+
+.form-reg {
+  max-width: 300px;
+  padding: 19px 29px 29px;
+  margin: 0 auto 20px;
+}
+
+.form-reg input {
+  margin-bottom: 15px;
+}
