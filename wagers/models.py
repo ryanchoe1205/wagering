@@ -289,7 +289,22 @@ class Proposition(models.Model):
             player = bet.created_by
             player.credits += credits
             player.save()
-        self.save()       
+        self.save()
+
+    def open(self):
+        """
+        Attempts to open the proposition.
+        """
+        if self.is_paid:
+            raise ValueError("Cannot open a paid out proposition.")
+        self.is_open = True
+        
+    def close(self):
+        """
+        Attempts to close the proposition.
+        """
+        self.is_open = False
+        
         
     def is_open_for_betting(self):
         """
@@ -331,7 +346,17 @@ class Proposition(models.Model):
         self.pot += bet.credits
         self.save()
 
-        
+      
+def proposition_automation(sender, instance, created, **kwargs):
+    from wagers.tasks import open_wager
+    from wagers.tasks import close_wager
+    if instance.open_wager_at:
+        open_prop.apply_async(args=[instance.id], eta=instance.open_wager_at)
+    if instance.close_wager_at:
+        close_prop.apply_async(args=[instance.id], eta=instance.close_wager_at)
+ 
+post_save.connect(proposition_automation, sender=Proposition)
+
 class Bet(models.Model):
     """
     Each proposition can be bet on. The bet models ties bets to the player who made them.
@@ -360,9 +385,7 @@ class WagerSettingSingleton(models.Model):
         
 class EditableHTML(models.Model):
     html = models.TextField()
-
             
-
 
 
 class UserProfile(models.Model):

@@ -1,14 +1,14 @@
-# from celery import task
-# from wagers.models import Wager
+from celery import task
+from wagers.models import Proposition
 
-# @task()
-# def open_wager(wager_id):
-    # wager = Wager.objects.get(id=wager_id)
-    # wager.is_open = True
-    # wager.save()
+@task()
+def open_prop(prop_id):
+    prop = Proposition.objects.get(id=prop_id)
+    prop.open()
+    prop.save()
 
-# @task()
-# def close_wager(wager_id):
-    # wager = Wager.objects.get(id=wager_id)
-    # wager.is_open = False
-    # wager.save()
+@task()
+def close_prop(prop_id):
+    prop = Proposition.objects.get(id=prop_id)
+    prop.close()
+    prop.save()
