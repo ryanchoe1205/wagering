@@ -236,7 +236,7 @@ class Proposition(models.Model):
     team_a = models.CharField(max_length=50, help_text=team_help_text)
     team_b = models.CharField(max_length=50, help_text=team_help_text)
     notes_help_text = "Notes will be visible to users."
-    notes = models.CharField(max_length=100, help_text=notes_help_text)
+    notes = models.CharField(max_length=100, help_text=notes_help_text, blank=True)
     
     is_open = models.BooleanField(default=True)
     open_help_text = "It is possible to schedule the prop to appear at a specific time."
@@ -348,8 +348,8 @@ class Proposition(models.Model):
 
       
 def proposition_automation(sender, instance, created, **kwargs):
-    from wagers.tasks import open_wager
-    from wagers.tasks import close_wager
+    from wagers.tasks import open_prop
+    from wagers.tasks import close_prop
     if instance.open_wager_at:
         open_prop.apply_async(args=[instance.id], eta=instance.open_wager_at)
     if instance.close_wager_at:
