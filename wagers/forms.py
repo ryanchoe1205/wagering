@@ -26,6 +26,7 @@ class PropositionForm(forms.ModelForm):
     """
     class Meta:
         model = Proposition
+        exclude = ("outcome")
         widgets = {"tournament": forms.HiddenInput()}
         
     def get_tournament(self):
