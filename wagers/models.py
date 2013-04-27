@@ -350,10 +350,11 @@ class Proposition(models.Model):
 def proposition_automation(sender, instance, created, **kwargs):
     from wagers.tasks import open_prop
     from wagers.tasks import close_prop
-    if instance.open_wager_at:
-        open_prop.apply_async(args=[instance.id], eta=instance.open_wager_at)
-    if instance.close_wager_at:
-        close_prop.apply_async(args=[instance.id], eta=instance.close_wager_at)
+    if created:
+        if instance.open_wager_at:
+            open_prop.apply_async(args=[instance.id], eta=instance.open_wager_at)
+        if instance.close_wager_at:
+            close_prop.apply_async(args=[instance.id], eta=instance.close_wager_at)
  
 post_save.connect(proposition_automation, sender=Proposition)
 
