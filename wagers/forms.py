@@ -24,10 +24,22 @@ class PropositionForm(forms.ModelForm):
     """
     This form is used to create Propositions.
     """
+    schedule_toggle = forms.BooleanField(required=False)
+    
     class Meta:
         model = Proposition
         exclude = ("outcome")
         widgets = {"tournament": forms.HiddenInput()}
+    
+    def clean(self):
+        cleaned_data = super(PropositionForm, self).clean()
+        # If the user didn't want to schedule opening and closing
+        if not cleaned_data.get("schedule_toggle"):
+            cleaned_data["open_wager_at"] = None
+            cleaned_data["close_wager_at"] = None
+        return cleaned_data
+        
+        
         
     def get_tournament(self):
         """

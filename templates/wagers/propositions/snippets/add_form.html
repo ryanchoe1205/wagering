@@ -2,7 +2,61 @@
   <fieldset>
     <legend>Add Proposition</legend>
     {% csrf_token %}
-    {{ add_prop_form }}
-    <br><button class="btn btn-primary" type="submit">Add Proposition</button>
+    {% for field in add_prop_form.hidden_fields %}
+      {{ field }}
+    {% endfor %}
+    <div class="row-fluid">
+      <div class="span4">
+        <div class="control-group {% if add_prop_form.errors.team_a %}error{% endif %}">
+          <div class="controls">
+            <label>Team A</label>
+            <input name="team_a" type="text" {% if add_prop_form.team_a.value %}value="{{add_prop_form.team_a.value}}"{% endif %}/>
+            {% for error in add_prop_form.errors.team_a %}
+              <span class="help-inline">{{ error }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div class="span4">
+        <div class="control-group {% if add_prop_form.errors.team_b %}error{% endif %}">
+          <div class="controls">
+            <label>Team B</label>
+            <input name="team_b" type="text" {% if add_prop_form.team_b.value %}value="{{add_prop_form.team_b.value}}"{% endif %}/>
+            {% for error in add_prop_form.errors.team_b %}
+              <span class="help-inline">{{ error }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="control-group {% if add_prop_form.errors.notes %}error{% endif %}">
+      <div class="controls">
+        <label>Notes</label>
+        <input name="notes" class="input-xxlarge" type="text" {% if add_prop_form.notes.value %}value="{{add_prop_form.notes.value}}"{% endif %}/>
+        {% for error in add_prop_form.errors.notes %}
+          <span class="help-inline">{{ error }}</span>
+        {% endfor %}
+      </div>
+    </div>
+    <label class="checkbox">
+      <input type="checkbox" name="is_open" {% if add_prop_form.is_open.value %}checked="{{ add_prop_form.is_open.value }}"{% endif %}/> I want the prop to start open for betting.
+    </label>
+    <label class="checkbox">
+      <input type="checkbox" name="schedule_toggle" {% if add_prop_form.schedule_toggle.value %}checked="{{ add_prop_form.schedule_toggle.value }}"{% endif %}/> I would like to schedule when the prop opens and closes instead of handling it manually.
+    </label>
+    <div id="schedule">
+      <span class="help-block">Make sure to set both times right if you want to schedule things. If you don't set the closing time it might instantly close the proposition to further betting.</span>
+      <div class="row-fluid">
+        <div class="span4">
+          <label>Open Wager At</label>
+          <input class="datetime-input" name="open_wager_at">
+        </div>
+        <div class="span8">
+          <label>Close Wager At</label>
+          <input class="datetime-input" name="close_wager_at">
+        </div>
+      </div>
+    </div>
   </fieldset>
+  <button class="btn btn-primary" type="submit">Add Proposition</button>
 </form>

@@ -5,6 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="/site_media/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="/site_media/css/officeprops.css" rel="stylesheet" media="screen">
+    <link href="/site_media/css/jquery.simple-dtpicker.css" rel="stylesheet" media="screen">
 	</head>
 	<body>
 		<div class="navbar navbar-inverse">
@@ -38,9 +39,18 @@
 
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="/site_media/js/bootstrap.min.js"></script>
+    <script src="/site_media/js/jquery.simple-dtpicker.js"></script>
 		<script type="text/javascript">
 		$(".alert").alert();
 		$('.dropdown-toggle').dropdown()
+		$('.datetime-input').each(function(index) {
+      $(this).appendDtpicker({"inline": true});
+    });
+    $("#schedule").toggle(Boolean($("[name=schedule_toggle]:checked").val()));
+    $("[name=schedule_toggle]").change(function() {
+      $("#schedule").toggle();
+    });
+
 		</script>
   </body>
 </html>

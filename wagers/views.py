@@ -182,6 +182,7 @@ class AddProposition(View):
             if not tourney == tourney2:
                 return HttpResponseForbidden("Only the tournament administrator can do that.")
             form.save(commit=True)
+            messages.add_message(self.request, messages.SUCCESS, "Proposition added.")
             return redirect("tournament-details", tourney.uuid)
         else:
             user_is_admin = True
