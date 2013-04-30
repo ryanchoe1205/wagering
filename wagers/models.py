@@ -59,6 +59,9 @@ class Tournament(models.Model):
     name_help = "A good name tells people what sports will be bet on."
     name = models.CharField(max_length=50, help_text=name_help)
     
+    description_help = "Let people know more about your tournament."
+    description = models.TextField(help_text=description_help)
+    
     # This is used to decide whether or not the wager should be included in
     # lits of currently open tournaments.
     is_public_help = "Check this to let anyone find your tournament."

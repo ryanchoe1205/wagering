@@ -3,6 +3,7 @@
 {% if user.is_authenticated %}
   <h1>{{ tourney.name }}</h1>
   <p><small>Created by: {{ tourney.created_by }} on {{ tourney.created_on }}</small></p>
+  <p>{{ tourney.description }}</p>
   {% if user_is_admin %}
     {% if not tourney.is_paid %}
       {% include "wagers/tournaments/snippets/pay_form.html" %}
