@@ -1,0 +1,17 @@
+<div>
+  <h3><a href="{% url 'payout-proposition' tourney.uuid prop.id %}">{{ prop }}</a> <small>{{ prop.notes }}</small></h3>
+  {% if prop.is_open %}
+    <form class="form-inline" style="display:inline;" action="{% url 'close-proposition' tourney.uuid prop.id %}" method="POST">
+      {% csrf_token %}
+      <input type="hidden" value="{{prop.id}}" name="id">
+      <input class="btn" type="submit" value="Close Prop">
+    </form>
+  {% else %}
+    <form class="form-inline" style="display:inline;" action="{% url 'open-proposition' tourney.uuid prop.id %}" method="POST">
+      {% csrf_token %}
+      <input type="hidden" value="{{prop.id}}" name="id">
+      <input class="btn" type="submit" value="Open Prop">
+    </form>
+  {% endif %}
+</div>
+

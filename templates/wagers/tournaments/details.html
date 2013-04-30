@@ -10,16 +10,16 @@
       {% include "wagers/propositions/snippets/add_form.html" %}
     {% endif %}
     <h2>Propositons <small>Administrator View</small></h2>
-    <ul>
+    <ul class="unstyled">
     {% for prop in propositions %}
-      <li>{% include "wagers/propositions/snippets/prop.html" %}</li>
+      <li>{% include "wagers/propositions/snippets/admin_prop.html" %}</li>
     {% endfor %}
     </ul>
   {% endif %}
   {% if player %}
     <p>Right now you have: {{ player.credits }} credit{{ player.credits|pluralize }}.</p>
     <h2>Propositions <small>Open For Betting</small></h2>
-    <ul>
+    <ul class="unstyled">
     {% for prop in bettable_props %}
     <li>{% include "wagers/propositions/snippets/prop.html" %}</li>
     {% empty %}
