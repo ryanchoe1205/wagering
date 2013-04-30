@@ -1,8 +1,68 @@
 {% extends "scaffolding.html" %}
 {% block content %}
-<form class="form-horizontal" method="POST" action="{% url 'add-tournament' %}">
-{% csrf_token %}
-{{ form.as_p}}
-<input class="btn btn-success" type="submit" value="Add Tournament">
+<form method="POST" action="{% url 'add-tournament' %}">
+  {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+  {% endfor %}
+  <fieldset>
+    <legend>Add Tournament</legend>
+    {% csrf_token %}
+    <div class="control-group {% if form.name.errors %}error{% endif %}">
+      <div class="controls">
+        <label for="name">Name</label>
+        <input type="text" name="name" {% if form.name.value %}value="{{ form.name.value }}"{% endif %} />
+        {% for error in form.errors.name %}
+          <span class="help-block">{{ error }}</span>
+        {% endfor %}
+      </div>
+    </div>
+    
+    <div class="control-group {% if form.description.errors %}error{% endif %}">
+      <div class="controls">
+        <label>Description</label>
+        <span class="help-block">{{ form.description.help_text }}</span>
+        <textarea cols="80" name="description">{% if form.description.value %}{{ form.description.value }}{% endif %}</textarea>
+        {% for error in form.errors.description %}
+          <span class="help-block">{{ error }}</span>
+        {% endfor %}
+      </div>
+    </div>
+    
+    <div class="control-group {% if form.entrance_fee.errors %}error{% endif %}">
+      <div class="controls">
+        <label>Buy In</label>
+        <span class="help-block">This is how many credits users will need to ante up to get into the tournament.</span>
+        <input name="entrance_fee" type="number" {% if form.entrance_fee.value %}value="{{ form.entrance_fee.value }}"{% endif %} />
+        {% for error in form.errors.entrance_fee %}
+          <span class="help-block">{{ error }}</span>
+        {% endfor %}
+      </div>
+    </div>
+    
+    <div class="control-group {% if form.starting_credits.errors %}error{% endif %}">
+      <div class="controls">
+        <label>Starting Wager Points</label>
+        <span class="help-block">This is how many points people will start the tournament with. They will use them to make their bets.</span>
+        <input name="starting_credits" type="number" {% if form.starting_credits.value %}value="{{form.starting_credits.value}}"{% endif %} />
+        {% for error in form.errors.starting_credits %}
+          <span class="help-block">{{ error }}</span>
+        {% endfor %}
+      </div>
+    </div>
+    
+    <div class="control-group {% if form.is_public.errors %}error{% endif %}">
+      <div class="controls">
+        <label>Tournament Visibility</label>
+        <span class="help-block">If the tournament isn't public then only those given a link to the tournament will be able to find it.</span>
+        <label class="checkbox">
+          <input type="checkbox" name="is_public" {% if form.is_public.value %}checked="{{ form.is_public.value }}"{% endif %} /> Check this to make the tournament public.
+        </label>
+        {% for error in form.errors.is_public %}
+          <span class="help-block">{{ error }}</span>
+        {% endfor %}
+      </div>
+    </div> 
+  </fieldset>
+  <input class="btn btn-primary" type="submit" value="Add Tournament">
 </form>
 {% endblock %}
