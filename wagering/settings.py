@@ -3,8 +3,15 @@ is_production = False
 DEBUG = not is_production
 TEMPLATE_DEBUG = DEBUG
 
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'jcoleprogramming@gmail.com'
+# TODO: Make secure.
+EMAIL_HOST_PASSWORD = 'insecuretemppassword'
+
 ADMINS = (
-    # ('Joshua Cole', 'jnv123@gmail.com'),
+    ('Joshua Cole', 'jcoleprogramming@gmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -25,7 +32,7 @@ LOGIN_URL = "/login"
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [""]
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
