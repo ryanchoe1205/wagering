@@ -18,6 +18,7 @@
 
 					{% if user.is_authenticated %}
             <li><a href="{% url 'active-tournament-list' %}">My Active Tournaments</a></li>
+            <li><a href="{% url 'bet-history' user.id %}">Bet History</a></li>
 						<li><p class="navbar-text">{{user}}. {{user.get_profile.credits}} credits.</p></li>
 						<li><a href="/logout?next=/">Logout</a></li>
 					{% else %}

@@ -348,6 +348,16 @@ class Proposition(models.Model):
         player.save()
         self.pot += bet.credits
         self.save()
+        
+    def get_outcome(self):
+        """
+        Returns the string representation of the outcome.
+        """
+        if not self.is_paid:
+            raise ValueError("There isn't an outcome.")
+        return self.team_a if self.outcome else self.team_b
+        
+
 
       
 def proposition_automation(sender, instance, created, **kwargs):
@@ -376,6 +386,18 @@ class Bet(models.Model):
 
     class Meta():
         unique_together = [("created_by", "proposition")]
+    
+    def get_position(self):
+        """
+        Returns the string representation of the position.
+        """
+        return self.proposition.team_a if self.position else self.proposition.team_b
+    
+    def is_won(self):
+        """
+        Returns whether the bet was won. Returns False if the prop has not been paid.
+        """
+        return self.position == self.proposition.outcome and self.proposition.is_paid
 
 class WagerSettingSingleton(models.Model):
     default_credits = models.DecimalField(decimal_places=10, max_digits=100, default=10)

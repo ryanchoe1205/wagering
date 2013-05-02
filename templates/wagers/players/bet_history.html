@@ -1,0 +1,34 @@
+{% extends 'scaffolding.html' %}
+{% block content %}
+<table class="table table-bordered">
+  <thead>
+    <caption>Betting History For {{ players.0.user }}</caption>
+    <tr>
+      <th>Proposition</th>
+      <th>Player's Position</th>
+      <th>Proposition Outcome</th>
+      <th>Result</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for player in players %}
+    {% for bet in player.bet_set.all %}
+      {% if bet.proposition.is_paid %}
+        <tr class="{% if bet.is_won %}{% else %}error{% endif %}">
+      {% else %}
+        <tr class="warning">
+      {% endif %}
+        <td>{{ bet.proposition }}</td>
+        <td>{{ bet.get_position }}</td>
+        {% if bet.proposition.is_paid %}
+          <td>{{ bet.proposition.get_outcome }}</td>
+          <td>{% if bet.is_won %}Won{% else %}Lost{% endif %}</td>
+        {% else %}
+          <td>...</td>
+          <td>Ongoing</td>
+        {% endif %}
+        </tr>
+  {% endfor %}
+{% endfor %}
+  </tbody>
+{% endblock %}

@@ -9,10 +9,12 @@ from wagers.views import OpenProposition
 from wagers.views import CloseProposition
 from wagers.views import PayoutProposition
 from wagers.views import MakeBet
+from wagers.views import BetHistoryView
 from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import permission_required, login_required
 
 urlpatterns = patterns('',
+    url(r'^history/(\d+)$', BetHistoryView.as_view(), name='bet-history'),
     url(r'^tournaments/([a-f0-9]{32})$', TournamentDetails.as_view(), name="tournament-details"),
     url(r'^tournaments/public/', OpenTournamentList.as_view(), name="open-tournament-list"),
     url(r'^tournaments/active/', ActiveTournamentList.as_view(), name="active-tournament-list"),
