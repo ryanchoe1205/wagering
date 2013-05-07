@@ -1,0 +1,40 @@
+{% extends 'scaffolding.html' %}
+{% block content %}
+<div class="hero-unit">
+	<div class="container">
+    {% with next=tourney.get_absolute_url %}
+    <div class="row-fluid">
+      <div class="span8">
+      	<h1 class="heading">{{ tourney.created_by }} put some props up!</h1>
+				<p class="subheading">Want to take bet on them? Just register!</p>
+      </div>
+      <div class="span4">
+        {% with legend="" %}
+        	{% include "registration/snippets/register_form.html" %}
+        {% endwith %}
+      </div>
+    </div>
+    {% endwith %}
+  </div>
+</div>
+<hr>
+<div id="teasers" class="container">
+	<div class="row-fluid">
+		<div class="span4 teaser">
+			<img src="/site_media/img/icons/calendar-week.png">
+			<h2>Save Time</h2>
+			<p>Bet on your own time. The coordination overheard is gone.</p>
+		</div>
+		<div class="span4 teaser">
+			<img src="/site_media/img/icons/marker.png">
+			<h2>Keep Updated</h2>
+			<p>Find out how your bets are doing. As soon as they close, you'll know it.</p>
+		</div>
+		<div class="span4 teaser">
+			<img src="/site_media/img/icons/scanner.png">
+			<h2>Gain Insight</h2>
+			<p>How well are you betting? We'll keep track of everything you bet on so you can find out.</p>
+		</div>
+	</div>
+</div>
+{% endblock content %}

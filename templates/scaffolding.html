@@ -1,43 +1,67 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Office Props</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link href="/site_media/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="/site_media/css/officeprops.css" rel="stylesheet" media="screen">
+  <head>
+    <title>Office Props</title>
+    <script type="text/javascript" src="//use.typekit.net/dwe0opo.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/site_media/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="/site_media/css/jquery.simple-dtpicker.css" rel="stylesheet" media="screen">
+    <link href="/site_media/css/officeprops.css" rel="stylesheet" media="screen">
 	</head>
 	<body>
-		<div class="navbar navbar-inverse">
-			<div class="navbar-inner">
-				<div class="container">
-					<ul class="nav">
-            <li><a class="brand" href="/">Office Props</a></li>
-            <li><a href="{% url 'open-tournament-list' %}">Join A Tournament</a></li>
-            <li><a href="{% url 'add-tournament' %}">Create A Tournament</a></li>
-
-					{% if user.is_authenticated %}
+    <div id="wrapper">
+      <header>
+        <div class="container navbar">
+          <a class="brand" href="/"><span class="brand1">Office</span> <span class="brand2">Props</span></a>
+          {% if user.is_authenticated %}
+            <form class="navbar-form pull-right" action="/logout" method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="/">
+              <input type="submit" class="btn" value="Sign Out" />
+            </form>
+            <ul class="nav pull-right">
+              <li><a href="{% url 'active-tournament-list' %}">My Tournaments</a></li>
+              <li><a href="">{{ user }}</a></li>
+            </ul>
+          {% else %}
+            <form class="navbar-form pull-right" action="/login" method="GET">
+              <input type="hidden" name="next" value="/">
+              <button class="btn" href="/login">Sign In</button>
+            </form>
+          {% endif %}
+        </div>
+      </header>
+        <!--
+          <li><a href="{% url 'open-tournament-list' %}">Join A Tournament</a></li>
+          <li><a href="{% url 'add-tournament' %}">Create A Tournament</a></li>
+          {% if user.is_authenticated %}
             <li><a href="{% url 'active-tournament-list' %}">My Active Tournaments</a></li>
             <li><a href="{% url 'bet-history' user.id %}">Bet History</a></li>
-						<li><p class="navbar-text">{{user}}. {{user.get_profile.credits}} credits.</p></li>
-						<li><a href="/logout?next=/">Logout</a></li>
-					{% else %}
-						<li><a href="/login">Login</a></li>
-						<li><a href="/register">Register</a></li>
-					{% endif %}
-					</ul>
-				</div>
-			</div>
-		</div>
-    <div class="container">
-				{% for message in messages %}
-				    <div class="alert alert-{{ message.tags }}">{{ message }}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
-				{% endfor %}
-				{% block content %}
-				{% endblock %}
-			</div>
-		</div>
+            <li><p class="navbar-text">{{user}}. {{user.get_profile.credits}} credits.</p></li>
+            <li><a href="/logout?next=/">Sign Out</a></li>
+          {% else %}
+            <li><a href="/register">Sign Up</a></li>
+          {% endif %}
+          !-->
+     
+      <div class="container">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">{{ message }}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
+        {% endfor %}
+      </div>
+      {% block content %}{% endblock %}
+    </div>
 
+    <footer>
+      <hr>
+      <div class="footer container">
+        <ul class="unstyled">
+          <li><a href="{% url 'about' %}">About Us</a></li>
+          <li><a href="">Terms of Service</a></li>
+        </ul>
+      </div>
+    </footer>
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="/site_media/js/bootstrap.min.js"></script>
     <script src="/site_media/js/jquery.simple-dtpicker.js"></script>

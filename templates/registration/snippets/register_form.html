@@ -1,32 +1,34 @@
 <form class="form-reg" action="{% url 'register' %}" method="post">
   <fieldset>
-    <legend>{{ legend }}</legend>
+    {% if legend %}<legend>{{ legend }}</legend>{% endif %}
     {% csrf_token %}
-    <div class="control-group {% if form.errors.username %}error{% endif %}">
-      <div class="controls">
-        <input placeholder="Username" name="username" type="text" {% if form.username.value %}value="{{form.username.value}}"{% endif %}/>
-        {% for error in form.errors.username %}
-          <span class="help-inline">{{ error }}</span>
-        {% endfor %}
+    <div class="row-fluid">
+      <div class="control-group {% if form.errors.username %}error{% endif %}">
+        <div class="controls">
+          <input class="span12" placeholder="Username" name="username" type="text" {% if form.username.value %}value="{{form.username.value}}"{% endif %}/>
+          {% for error in form.errors.username %}
+            <span class="help-inline">{{ error }}</span>
+          {% endfor %}
+        </div>
       </div>
-    </div>
-    <div class="control-group {% if form.errors.password1 %}error{% endif %}">
-      <div class="controls">
-        <input placeholder="Password" name="password1" type="password" {% if form.password1.value %}value="{{form.password1.value}}"{% endif %}/>
-        {% for error in form.errors.password1 %}
-          <span class="help-inline">{{ error }}</span>
-        {% endfor %}
+      <div class="control-group {% if form.errors.password1 %}error{% endif %}">
+        <div class="controls">
+          <input class="span12" placeholder="Password" name="password1" type="password" {% if form.password1.value %}value="{{form.password1.value}}"{% endif %}/>
+          {% for error in form.errors.password1 %}
+            <span class="help-inline">{{ error }}</span>
+          {% endfor %}
+        </div>
       </div>
-    </div>
-    <div class="control-group {% if form.errors.password2 %}error{% endif %}">
-      <div class="controls">
-        <input placeholder="Repeat Password" name="password2" type="password" {% if form.password2.value %}value="{{form.password2.value}}"{% endif %}/>
-        {% for error in form.errors.password2 %}
-          <span class="help-inline">{{ error }}</span>
-        {% endfor %}
+      <div class="control-group {% if form.errors.password2 %}error{% endif %}">
+        <div class="controls">
+          <input class="span12" placeholder="Repeat Password" name="password2" type="password" {% if form.password2.value %}value="{{form.password2.value}}"{% endif %}/>
+          {% for error in form.errors.password2 %}
+            <span class="help-inline">{{ error }}</span>
+          {% endfor %}
+        </div>
       </div>
+      <input name="next" type="hidden" value="{% if next %}{{ next }}{% else %}/{% endif %}" />
+      <button class="btn btn-large btn-primary btn-block btn-reg" type="submit">Sign Up For Free</button>
     </div>
-    <input name="next" type="hidden" value="{% if next %}{{ next }}{% else %}/{% endif %}" />
-    <button class="btn btn-large btn-primary btn-reg" type="submit">Register</button>
   </fieldset>
 </form>

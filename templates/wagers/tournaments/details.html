@@ -1,6 +1,6 @@
 {% extends "scaffolding.html" %}
 {% block content %}
-{% if user.is_authenticated %}
+<div class="container">
   <h1>{{ tourney.name }}</h1>
   <p><small>Created by: {{ tourney.created_by }} on {{ tourney.created_on }}</small></p>
   <p>{{ tourney.description }}</p>
@@ -9,7 +9,7 @@
       {% include "wagers/tournaments/snippets/pay_form.html" %}
       {% include "wagers/propositions/snippets/add_form.html" %}
     {% endif %}
-    <h2>Propositons <small>Administrator View</small></h2>
+    <h2>Propositions <small>Administrator View</small></h2>
     <ul class="unstyled">
     {% for prop in propositions %}
       <li>{% include "wagers/propositions/snippets/admin_prop.html" %}</li>
@@ -21,9 +21,9 @@
     <h2>Propositions <small>Open For Betting</small></h2>
     <ul class="unstyled">
     {% for prop in bettable_props %}
-    <li>{% include "wagers/propositions/snippets/prop.html" %}</li>
+      <li>{% include "wagers/propositions/snippets/prop.html" %}</li>
     {% empty %}
-    <li>There are no props open for betting.</li>
+      <li>There are no props open for betting.</li>
     {% endfor %}
     </ul>
   {% else %}
@@ -34,25 +34,4 @@
     <button class="btn btn-primary" type="submit">Join Tournament</button>
     </form>
   {% endif %}
-{% else %}
-  <div class="hero-unit">
-    <h1 class="lead marketing">Want to take part in: {{ tourney.name }}?</h1>
-    <p class="marketing">The first step is getting logged in. If you don't have an account you will need to make one. If you do just sign in. Once you finish you will automatically be redirected back to this tournament.</p>
-
-    {% with next=tourney.get_absolute_url %}
-    <div class="row-fluid">
-      <div class="span6">
-        {% with legend="Sign In" %}
-        {% include "registration/snippets/login_form.html" %}
-        {% endwith %}
-      </div>
-      <div class="span6">
-        {% with legend="Make An Account" %}
-        {% include "registration/snippets/register_form.html" %}
-        {% endwith %}
-      </div>
-    </div>
-    {% endwith %}
-  </div>
-{% endif %}
 {% endblock %}

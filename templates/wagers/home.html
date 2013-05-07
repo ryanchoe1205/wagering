@@ -1,6 +1,24 @@
 {% extends "scaffolding.html" %}
 {% block content %}
 {% if perms.EditableHTML.change_editablehtml %}
+<hr>
+<div class="container">
+  <div class="row-fluid">
+    <div class="teaser span6">
+      <img src="/site_media/img/icons/clipboard.png">
+      <h1>Make A Tournament</h1>
+      <p>Betting on propositions takes place within tournaments. You control who gets to bet in the tournaments. If your looking to organize betting at your local office, bar, or anywhere else this is what your looking for. Just make the tournaments, tell us what you want people to bet on, and then send a link the tournament to your friends. Its simple.</p>
+      <a href="{% url 'add-tournament' %}">Create a tournament now!</a>
+    </div>
+    <div class="teaser span6">
+      <img src="/site_media/img/icons/chats.png">
+      <h1>Join A Tournament</h1>
+      <p>Want to join tournamens that are open to the public? This might be what your looking for. However, if you were invited here by your friend you'll be able to go directly to the tournament that <i>they</i> created by clicking the link they should have given you.</p>
+      <a href="{% url 'open-tournament-list' %}">Check out tournaments open to the public.</a>
+    </div>
+  </div>
+</div>
+  <!--
 <div class="page-header">
   <h1>Admin View<small>Only admins can see the form below</small></h1>
 </div>
@@ -11,5 +29,8 @@
 <input type="submit" value="Change Homepage HTML content">
 </form>
 {% endif %}
+
 {{html.html|safe}}
+</div>
+  !-->
 {% endblock %}

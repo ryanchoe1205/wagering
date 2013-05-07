@@ -66,11 +66,14 @@ class TournamentDetails(View):
     tournament with an administration page.
     """
     template_name = "wagers/tournaments/details.html"
+    player_landing = "wagers/player_landing.html"
     def get(self, request, tourney_uuid):
         """
         Returns the details page for the tournament.
         """
         tourney = Tournament.objects.get(uuid=tourney_uuid)
+        if not request.user.is_authenticated():
+            return render(self.request, self.player_landing, {"tourney": tourney})
         try:
             player = Player.objects.get(tournament=tourney, user=request.user)
         except:

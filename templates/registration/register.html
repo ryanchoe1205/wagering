@@ -1,6 +1,8 @@
 {% extends "scaffolding.html" %}
 {% block content %}
-{% with legend="Sign Up"%}
-{% include 'registration/snippets/register_form.html' %}
-{% endwith %}
+<div class="container">
+	{% with legend="Sign Up"%}
+	{% include 'registration/snippets/register_form.html' %}
+	{% endwith %}
+</div>
 {% endblock %}

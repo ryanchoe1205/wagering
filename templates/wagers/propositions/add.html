@@ -1,6 +1,8 @@
 {% extends "scaffolding.html" %}
 {% block content %}
-{% if user_is_admin %}
-{% include "wagers/propositions/snippets/add_form.html" %}
-{% endif %}
+<div class="container">
+  {% if user_is_admin %}
+  {% include "wagers/propositions/snippets/add_form.html" %}
+  {% endif %}
+</div>
 {% endblock %}

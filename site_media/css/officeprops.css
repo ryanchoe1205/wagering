@@ -1,13 +1,117 @@
+/* Header CSS */
+header {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  min-height: 40px;
+  background-color: #fafafa;
+  background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f2f2f2));
+  background-image: -webkit-linear-gradient(top, #ffffff, #f2f2f2);
+  background-image: -o-linear-gradient(top, #ffffff, #f2f2f2);
+  background-image: linear-gradient(to bottom, #ffffff, #f2f2f2);
+  background-repeat: repeat-x;
+  border: 1px solid #d4d4d4;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffffffff', endColorstr='#fff2f2f2', GradientType=0);
+  *zoom: 1;
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+     -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+}
+
+.brand {
+  font-family: "armalite-rifle";
+  font-size: 40px !important;
+}
+
+.brand1 {
+  color: #1F3F99;
+}
+
+.brand2 {
+  color: #A6212E;
+}
+
+.navbar {
+  margin-bottom: 0px;
+}
+
+/* Hero Unit CSS */
+.hero-unit {
+  padding-top: 30px;
+  padding-bottom: 15px;
+  margin-bottom: 0px;
+}
+
+
+h1.heading {
+  font-size: 50px;
+  color: #1F3F99;
+
+}
+
+p.subheading {
+  margin-top: 10px;
+}
+
+.hero-unit input[type=text], .hero-unit  input[type=password] {
+    height: 35px;
+    border-radius: 5px;
+    font-size: 20px;
+    margin-bottom: 10px;
+    line-height: 25px;
+}
+
+/* CSS for the three teasers at the bottom of the landing page. */
+
+.teaser img {
+  float: left;
+  margin-right: 10px;
+}
+
+
+.teaser h1, .teaser h2,  {
+  margin-bottom: 15px;
+}
+
+
+
+html, body {
+  height: 100%;
+}
+
+#wrapper {
+  height: 100%;
+  height: auto !important;
+  margin-bottom: -85px;
+  min-height: 100%;
+}
+
+footer {
+  height: 85px;
+}
+
+hr {
+  margin-top: 0px;
+  margin-bottom: 30px;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "armalite-rifle";
+  color: #1F3F99;
+}
+
+
+
 .marketing {
   text-align: center;
 }
 
 .form-reg {
   max-width: 300px;
-  padding: 19px 29px 29px;
   margin: 0 auto 20px;
 }
 
-.form-reg input {
-  margin-bottom: 15px;
-}
