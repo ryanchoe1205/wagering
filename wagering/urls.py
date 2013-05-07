@@ -27,10 +27,14 @@ class RegisterView(FormView):
 
 class HomePageView(View):
     template_name = "wagers/home.html"
+    landing_template = "wagers/admin_landing.html"
     def get(self, request):
-        html, created = EditableHTML.objects.get_or_create(id=1)
-        return render(request, self.template_name, {"html": html})
-
+        if request.user.is_authenticated():
+            html, created = EditableHTML.objects.get_or_create(id=1)
+            return render(request, self.template_name, {"html": html})
+        else:
+            return render(request, self.landing_template, {})
+        
     def post(self, request):
         if self.request.POST["html"]:      
             editable_html, created = EditableHTML.objects.get_or_create(id=1)
@@ -38,6 +42,10 @@ class HomePageView(View):
             editable_html.save()
         return HttpResponseRedirect("/")
 
+class About(View):
+    template_name = "wagers/about.html"
+    def get(self, request):
+        return render(request, self.template_name, {})
 
 urlpatterns = patterns('',
     # Include Examples:
@@ -46,6 +54,7 @@ urlpatterns = patterns('',
     url(r'^logout', 'django.contrib.auth.views.logout'),
     url(r'^register', RegisterView.as_view(), name='register'),
     url(r'^wagers/', include('wagers.urls')),
+    url(r'^about$', About.as_view(), name='about'),
     # url(r'^wagering/', include('wagering.foo.urls')),
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
