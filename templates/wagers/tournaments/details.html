@@ -16,22 +16,20 @@
     {% endfor %}
     </ul>
   {% endif %}
-  {% if player %}
-    <p>Right now you have: {{ player.credits }} credit{{ player.credits|pluralize }}.</p>
-    <h2>Propositions <small>Open For Betting</small></h2>
-    <ul class="unstyled">
-    {% for prop in bettable_props %}
-      <li>{% include "wagers/propositions/snippets/prop.html" %}</li>
-    {% empty %}
-      <li>There are no props open for betting.</li>
-    {% endfor %}
-    </ul>
-  {% else %}
-    <p>Interested in playing? Then...</p>
-    <form method="post" action="{% url 'join-tournament' %}">
-    {% csrf_token %}
-    {{ tournament_form }}
-    <button class="btn btn-primary" type="submit">Join Tournament</button>
-    </form>
-  {% endif %}
+  <p>Right now you have: {{ player.credits }} credit{{ player.credits|pluralize }}.</p>
+  <h2>Propositions <small>Open For Betting</small></h2>
+  <ul class="unstyled">
+  {% for prop in bettable_props %}
+    <li>{% include "wagers/propositions/snippets/prop.html" %}</li>
+  {% empty %}
+    <li>There are no props open for betting.</li>
+  {% endfor %}
+  </ul>
+
+  {% for bet in bets %}
+    {{ bet }}
+  {% empty %}
+    <p>You haven't made any bets yet.</p>
+  {% endfor %}
+</div>
 {% endblock %}
