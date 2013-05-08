@@ -1,6 +1,5 @@
 {% extends "scaffolding.html" %}
 {% block content %}
-{% if perms.EditableHTML.change_editablehtml %}
 <hr>
 <div class="container">
   <div class="row-fluid">
@@ -18,19 +17,19 @@
     </div>
   </div>
 </div>
-  <!--
+{% if perms.EditableHTML.change_editablehtml %}
+<hr>
 <div class="page-header">
   <h1>Admin View<small>Only admins can see the form below</small></h1>
 </div>
-
 <form action="" method="POST">{% csrf_token %}
-<textarea name="html">{{html.html}}</textarea>
-<br>
-<input type="submit" value="Change Homepage HTML content">
+  <textarea name="html">{{html.html}}</textarea>
+  <br>
+  <input type="submit" value="Change Homepage HTML content">
 </form>
 {% endif %}
 
-{{html.html|safe}}
+<div class="container">
+  {{html.html|safe}}
 </div>
-  !-->
 {% endblock %}
