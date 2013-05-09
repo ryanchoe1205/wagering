@@ -44,7 +44,7 @@
               <b><b>{% if bet.is_won %}Won{% else %}Lost{% endif %}</b></b>
             </td>
             <td class="table-button">
-              <a class="btn {% if bet.is_won %}btn-success{% else %}btn-danger{% endif %} href="#details">Show Details</a>
+              <a class="btn {% if bet.is_won %}btn-success{% else %}btn-danger{% endif %}" href="#details">Show Details</a>
             </td>
           </tr>
           
@@ -71,6 +71,5 @@
       <li>You haven't made any bets yet.</li>
     {% endfor %}
   </table>
->
 </div>
 {% endblock %}
