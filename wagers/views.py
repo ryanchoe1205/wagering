@@ -67,6 +67,7 @@ class TournamentDetails(View):
     """
     template_name = "wagers/tournaments/details.html"
     player_landing = "wagers/player_landing.html"
+    tourney_advert = "wagers/tournaments/advert.html"
     def get(self, request, tourney_uuid):
         """
         Returns the details page for the tournament.
@@ -74,25 +75,31 @@ class TournamentDetails(View):
         tourney = Tournament.objects.get(uuid=tourney_uuid)
         if not request.user.is_authenticated():
             return render(self.request, self.player_landing, {"tourney": tourney})
+
         try:
             player = Player.objects.get(tournament=tourney, user=request.user)
         except:
             player = None
-        join_form = TournamentForm(initial={"uuid":tourney.uuid})
         user_is_admin = tourney.is_user_admin(request.user)
+
+        join_form = TournamentForm(initial={"uuid":tourney.uuid})
+        if not player and not user_is_admin:
+            return render(self.request, self.tourney_advert, {"tourney": tourney,
+                                                              "join_form": join_form})
 
         add_prop_form = PropositionForm(initial={"tournament":tourney.id})
         propositions = Proposition.objects.filter(tournament=tourney)
         bettable_props = propositions.exclude(bet__created_by=player).filter(is_open=True)
+        bets = Bet.objects.filter(proposition__tournament=tourney, created_by=player)
         return render(self.request,
                       self.template_name,
                       {"tourney": tourney,
                        "bettable_props": bettable_props,
                        "propositions": propositions,
                        "player": player,
-                       "tournament_form": join_form,
                        "user_is_admin": user_is_admin,
-                       "add_prop_form": add_prop_form})
+                       "add_prop_form": add_prop_form,
+                       "bets": bets})
                    
 class JoinTournament(View):
     """

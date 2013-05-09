@@ -1,6 +1,10 @@
+<h3>
+  <a href="{% url 'payout-proposition' tourney.uuid prop.id %}">{{ prop }}</a> 
+  <small>{{ prop.notes }}</small>
+</h3>
+<hr style="padding-bottom: 10px;">
 <form class="form-horizontal" action="{% url 'make-bet' tourney.uuid prop.id %}" method="POST">
   {% csrf_token %}
-	<legend><a href="{% url 'payout-proposition' tourney.uuid prop.id %}">{{ prop.team_a }} vs {{ prop.team_b }}</a> <small class="pull-right">{{ prop.notes }}</small></legend>
   <input class="pull-right btn btn-success" type="submit" value="Make Bet" />
 	<label class="radio">
 		<input type="radio" name="position" id="optionsRadios1" value="True">

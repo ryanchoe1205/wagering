@@ -85,25 +85,49 @@ html, body {
 #wrapper {
   height: 100%;
   height: auto !important;
-  margin-bottom: -85px;
   min-height: 100%;
+  margin-bottom: -85px;
+
 }
 
-footer {
+#footer_push {
   height: 85px;
 }
 
-hr {
-  margin-top: 0px;
-  margin-bottom: 30px;
-  padding: 0;
+footer {
+  position: relative;
 }
 
-h1, h2, h3, h4, h5, h6 {
+.alert { padding: 25px;}
+
+hr {
+  margin: 0;
+  padding: 0;
+  padding-bottom: 30px;
+}
+
+h1, h2 {
   font-family: "armalite-rifle";
   color: #1F3F99;
 }
 
+.table td {
+  margin: 0;
+  padding: 10;
+  text-align: center;
+  white-space: normal;
+  width: 300px;
+}
+
+.table h3 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.table td.table-button {
+  white-space: nowrap;
+  vertical-align: middle;
+
+}
 
 
 .marketing {
