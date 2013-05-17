@@ -54,6 +54,7 @@ urlpatterns = patterns('',
     url(r'^logout', 'django.contrib.auth.views.logout'),
     url(r'^register', RegisterView.as_view(), name='register'),
     url(r'^wagers/', include('wagers.urls')),
+    url(r'^gdapi/', include('game_database.urls')),
     url(r'^about$', About.as_view(), name='about'),
     # url(r'^wagering/', include('wagering.foo.urls')),
     # Uncomment the admin/doc line below to enable admin documentation:

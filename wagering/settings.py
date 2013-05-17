@@ -134,6 +134,7 @@ INSTALLED_APPS = (
     'south',
     'kombu.transport.django',
     'djcelery',
+    'game_database',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
