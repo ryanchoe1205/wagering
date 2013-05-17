@@ -5,6 +5,7 @@ from wagers.views import TournamentDetails
 from wagers.views import JoinTournament
 from wagers.views import PayoutTournament
 from wagers.views import AddProposition
+from wagers.views import AddPropositionFromDatabase
 from wagers.views import OpenProposition
 from wagers.views import CloseProposition
 from wagers.views import PayoutProposition
@@ -22,6 +23,7 @@ urlpatterns = patterns('',
     url(r'^tournaments/add/$', login_required(AddTournament.as_view()), name="add-tournament"),
     url(r'^tournaments/([a-f0-9]{32})/pay/$', login_required(PayoutTournament.as_view()), name="payout-tournament"),
     url(r'^tournaments/([a-f0-9]{32})/props/add/$', login_required(AddProposition.as_view()), name="add-proposition"),
+    url(r'^tournaments/([a-f0-9]{32})/props/add-selected/$', login_required(AddPropositionFromDatabase.as_view()), name="add-selected"),
     url(r'^tournaments/([a-f0-9]{32})/props/(\d+)/bet/$', login_required(MakeBet.as_view()), name="make-bet"),
     url(r'^tournaments/([a-f0-9]{32})/props/(\d+)/pay/$', login_required(PayoutProposition.as_view()), name="payout-proposition"),
     url(r'^tournaments/([a-f0-9]{32})/props/(\d+)/open/$', login_required(OpenProposition.as_view()), name="open-proposition"),

@@ -102,8 +102,18 @@ class PropositionAdminForm(forms.Form):
                   
         
 
-        
-        
+class ScheduleForm(forms.Form):
+    start_time = forms.DateTimeField()
+    end_time = forms.DateTimeField()
+    MLB = forms.BooleanField(required=False)
+    NBA = forms.BooleanField(required=False)
+    NFL = forms.BooleanField(required=False)
+    NHL = forms.BooleanField(required=False)
+    UFC = forms.BooleanField(required=False)
+    MLS = forms.BooleanField(required=False)
 
-
-                        
+class GameDatabaseForm(forms.Form):
+    selected = forms.BooleanField(required=False)
+    id = forms.IntegerField(widget=forms.HiddenInput)
+    team_a = forms.CharField(required=False)
+    team_b = forms.CharField(required=False)

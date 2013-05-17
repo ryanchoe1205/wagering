@@ -77,7 +77,6 @@ p.subheading {
 }
 
 
-
 html, body {
   height: 100%;
 }
@@ -98,7 +97,17 @@ footer {
   position: relative;
 }
 
-.alert { padding: 25px;}
+.steps {
+    border-radius: 5px;
+}
+
+.step {
+  display: table-cell;
+  border-radius: 5px;
+  padding: 10px;
+  margin-left: 10px;
+}
+
 
 hr {
   margin: 0;

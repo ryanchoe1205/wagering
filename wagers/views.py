@@ -5,6 +5,7 @@ from forms import PropositionForm
 from forms import PropositionAdminForm
 from forms import PropositionPayoutForm
 from forms import BetForm
+from forms import GameDatabaseForm
 from models import Tournament
 from models import Proposition
 from models import Player
@@ -17,6 +18,7 @@ from django.shortcuts import redirect
 from django.shortcuts import render
 from django.views.generic.base import View
 from django.views.generic import CreateView
+from forms import ScheduleForm
 
 
 class AddTournament(CreateView):
@@ -31,14 +33,14 @@ class AddTournament(CreateView):
         """
         Adds a tournament to the database and makes sure to set 
         ``created_by`` to the currently logged in user. Redirects
-        to tournament URL if form created succesfully. 
+        to tournament add proposition page if form created succesfully. 
         """
         if form.is_valid():
             tourney = form.save(commit=False)
             tourney.created_by = self.request.user
             tourney.save()
-            messages.add_message(self.request, messages.SUCCESS, "Tournament created!")      
-        return super(AddTournament, self).form_valid(form)
+            messages.add_message(self.request, messages.SUCCESS, "Tournament created!")  
+        return redirect("add-proposition", tourney.uuid)
 
 class OpenTournamentList(View):
     """
@@ -154,6 +156,14 @@ class PayoutTournament(View):
         # We should never get here.
         raise Htpp404
 
+from game_database.views import Schedule
+from game_database.views import GetGameByID
+from django.utils import simplejson as json
+
+
+
+from django.forms.formsets import formset_factory
+
 class AddProposition(View):
     """
     This view handles the adding of a proposition into a tournament. It should
@@ -167,13 +177,28 @@ class AddProposition(View):
             return HttpResponseForbidden("Only the tournament administrator can do that.")
         if not tourney.is_open:
             return HttpResponseForbidden("This tournament is closed.")
+        schedule_form = ScheduleForm(request.GET)
+        if schedule_form.is_valid():
+            json_response = Schedule().get(self.request).content
+            games = json.loads(json_response)
+        else:
+            games = None
         add_prop_form = PropositionForm(initial={"tournament":tourney.id})
         user_is_admin = True
+        GameDatabaseFormset = formset_factory(GameDatabaseForm, extra=0)
+        if games: 
+            formset = GameDatabaseFormset(initial=games["games"])
+        else:
+            formset = None
+
         return render(self.request,
                       self.template_name,
                       {"tourney": tourney,
                        "add_prop_form": add_prop_form,
-                       "user_is_admin": user_is_admin})
+                       "user_is_admin": user_is_admin,
+                       "schedule_form": schedule_form,
+                       "games": games,
+                       "formset": formset})
                        
     def post(self, request, tourney_uuid):
         """
@@ -201,6 +226,34 @@ class AddProposition(View):
                           {"tourney": tourney,
                            "add_prop_form": form,
                            "user_is_admin": user_is_admin})
+
+class AddPropositionFromDatabase(View):
+    def post(self, request, tourney_uuid):
+        tourney = Tournament.objects.get(uuid=tourney_uuid)
+        if not tourney.is_user_admin(request.user):
+            return HttpResponseForbidden("Only the tournament administrator can do that.")
+        if not tourney.is_open:
+            return HttpResponseForbidden("This tournament is closed.")
+        GameDatabaseFormset = formset_factory(GameDatabaseForm, extra=0)
+        formset = GameDatabaseFormset(request.POST)
+        if formset.is_valid():
+            for form in formset:
+                if form.cleaned_data.get("selected", False):
+                    id = str(form.cleaned_data.get("id"))
+                    request.GET = {"id": id}
+                    json_response = GetGameByID().get(request).content
+                    game = json.loads(json_response)["game"][0]
+                    new_prop = Proposition(
+                        tournament=tourney,
+                        team_a=game.get("team_a"),
+                        team_b=game.get("team_b"))
+                    new_prop.save()
+        messages.add_message(self.request, messages.SUCCESS, "Propositions added.")
+        return redirect("add-proposition", tourney.uuid)
+
+
+
+
 
 class OpenProposition(View):
     """

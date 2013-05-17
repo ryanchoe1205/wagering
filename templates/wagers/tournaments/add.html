@@ -1,17 +1,18 @@
 {% extends "scaffolding.html" %}
 {% block content %}
+
+<hr>
 <div class="container">
-  <form method="POST" action="{% url 'add-tournament' %}">
+  <form class="form" method="POST" action="{% url 'add-tournament' %}">
     {% for hidden in form.hidden_fields %}
       {{ hidden }}
     {% endfor %}
     <fieldset>
-      <legend>Add Tournament</legend>
       {% csrf_token %}
       <div class="control-group {% if form.name.errors %}error{% endif %}">
         <div class="controls">
           <label for="name">Name</label>
-          <input type="text" name="name" {% if form.name.value %}value="{{ form.name.value }}"{% endif %} />
+          <input class="input-xxlarge" type="text" name="name" {% if form.name.value %}value="{{ form.name.value }}"{% endif %} />
           {% for error in form.errors.name %}
             <span class="help-block">{{ error }}</span>
           {% endfor %}
@@ -22,7 +23,7 @@
         <div class="controls">
           <label>Description</label>
           <span class="help-block">{{ form.description.help_text }}</span>
-          <textarea cols="80" name="description">{% if form.description.value %}{{ form.description.value }}{% endif %}</textarea>
+          <textarea rows="5" class="input-xxlarge" name="description">{% if form.description.value %}{{ form.description.value }}{% endif %}</textarea>
           {% for error in form.errors.description %}
             <span class="help-block">{{ error }}</span>
           {% endfor %}
