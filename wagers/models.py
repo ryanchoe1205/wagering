@@ -190,7 +190,7 @@ class Tournament(models.Model):
             same_place = take_while(players[place:], is_same_place)
             
             # Compute the amount of money this group should win
-            prize_cut = sum(winner_cut[place:place+len(same_place)])
+            prize_cut = Decimal(sum(winner_cut[place:place+len(same_place)]))
             shared_pot = prize_cut * self.prize_pool / len(same_place)
             
             # Add the informationa bout this place to the place listings.

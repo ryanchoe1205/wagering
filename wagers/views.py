@@ -88,6 +88,7 @@ class TournamentDetails(View):
             return render(self.request, self.tourney_advert, {"tourney": tourney,
                                                               "join_form": join_form})
 
+        tournament_form = TournamentForm(initial={"uuid":tourney.uuid})
         add_prop_form = PropositionForm(initial={"tournament":tourney.id})
         propositions = Proposition.objects.filter(tournament=tourney)
         bettable_props = propositions.exclude(bet__created_by=player).filter(is_open=True)
@@ -96,6 +97,7 @@ class TournamentDetails(View):
                       self.template_name,
                       {"tourney": tourney,
                        "bettable_props": bettable_props,
+                       "tournament_form": tournament_form,
                        "propositions": propositions,
                        "player": player,
                        "user_is_admin": user_is_admin,
@@ -151,9 +153,11 @@ class PayoutTournament(View):
             else:
                 messages.add_message(self.request, messages.ERROR, "There are still open propositions.")
                 return redirect("tournament-details", tourney_uuid)
+        else:
+            return HttpResponseForbidden(str(form.errors))
         
         # We should never get here.
-        raise Htpp404
+        raise Http404
 
 from game_database.views import Schedule
 from game_database.views import GetGameByID
