@@ -1,43 +1,64 @@
-{{ schedule_form.errors }}
-<form method="GET" action="{% url 'add-proposition' tourney.uuid %}">
-  <fieldset>
-    <legend>Check the leagues your interested in betting on.</legend>
-    <div class="row-fluid">
-      <div class="span3">
-        <label for="MLB" class="checkbox">
-          <input type="checkbox" name="MLB"{% if schedule_form.MLB.value %}checked="{{ schedule_form.MLB.value }}"{% endif %}> MLB
+<div class="row-fluid">
+  <div class="span6">
+    <form method="GET" action="{% url 'add-proposition' tourney.uuid %}">
+      <fieldset>
+        <legend>Check the leagues your interested in betting on.</legend>
+        <div class="row-fluid">
+          <div class="span6">
+            <label for="MLB" class="checkbox">
+              <input type="checkbox" name="MLB"{% if schedule_form.MLB.value %}checked="{{ schedule_form.MLB.value }}"{% endif %}> MLB
+            </label>
+            <label for="NBA" class="checkbox">
+              <input type="checkbox" name="NBA" {% if schedule_form.NBA.value %}checked="{{ schedule_form.NBA.value }}"{% endif %}> NBA
+            </label>
+            <label for="NFL">
+              <input type="checkbox" name="NFL" {% if schedule_form.NFL.value %}checked="{{ schedule_form.NFL.value }}"{% endif %}> NFL
+            </label>
+          </div>
+          <div class="span6">
+            <label for="NHL" class="checkbox">
+              <input type="checkbox" name="NHL" {% if schedule_form.NHL.value %}checked="{{ schedule_form.NHL.value }}"{% endif %}> NHL
+            </label>
+            <label for="UFC" class="checkbox">
+              <input type="checkbox" name="UFC" {% if schedule_form.UFC.value %}checked="{{ schedule_form.UFC.value }}"{% endif %}> UFC
+            </label>
+            <label for="MLS" class="checkbox">
+              <input type="checkbox" name="MLS" {% if schedule_form.MLS.value %}checked="{{ schedule_form.MLS.value }}"{% endif %}> MLS
+            </label>
+          </div>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Limit the list of games by their schedule</legend>
+        <div class="row-fluid">
+          <div class="span6">
+            <label for="start_time">From</label>
+            <input name="start_time" class="datetime-input">
+          </div>
+          <div class="span6">
+            <label for="end_time">To</label>
+            <input name="end_time" class="datetime-input">
+          </div>
+        </div>
+      </fieldset>
+      <input type="submit" class="btn btn-primary" value="Generate Propositions">
+    </form>
+  </div>
+  <div class="span6">
+    <form action="{% url 'add-selected' tourney.uuid %}" method="POST">
+      {{ formset.management_form }}
+      {% csrf_token %}
+      <legend>Select Propositions You Want To Add</legend>
+      {% for form in formset %}
+        {% for hidden in form.hidden_fields %}
+          {{ hidden }}
+        {% endfor %}
+        {{ form.id }}
+        <label class="checkbox">
+          {{ form.selected }} {{ form.team_a.value }} vs {{ form.team_b.value }}
         </label>
-        <label for="NBA" class="checkbox">
-          <input type="checkbox" name="NBA" {% if schedule_form.NBA.value %}checked="{{ schedule_form.NBA.value }}"{% endif %}> NBA
-        </label>
-        <label for="NFL">
-          <input type="checkbox" name="NFL" {% if schedule_form.NFL.value %}checked="{{ schedule_form.NFL.value }}"{% endif %}> NFL
-        </label>
-      </div>
-      <div class="span3">
-        <label for="NHL" class="checkbox">
-          <input type="checkbox" name="NHL" {% if schedule_form.NHL.value %}checked="{{ schedule_form.NHL.value }}"{% endif %}> NHL
-        </label>
-        <label for="UFC" class="checkbox">
-          <input type="checkbox" name="UFC" {% if schedule_form.UFC.value %}checked="{{ schedule_form.UFC.value }}"{% endif %}> UFC
-        </label>
-        <label for="MLS" class="checkbox">
-          <input type="checkbox" name="MLS" {% if schedule_form.MLS.value %}checked="{{ schedule_form.MLS.value }}"{% endif %}> MLS
-        </label>
-      </div>
-    </div>
-  </fieldset>
-  <fieldset>
-    <legend>Limit the list of games by their schedule</legend>
-    <div class="row-fluid">
-      <div class="span4">
-        <label for="start_time">From</label>
-        <input name="start_time" class="datetime-input">
-      </div>
-      <div class="span8">
-        <label for="end_time">To</label>
-        <input name="end_time" class="datetime-input">
-      </div>
-  </fieldset>
-  <input type="submit" class="btn btn-primary" value="Generate Propositions">
-</form>
+      {% endfor %}
+      <input class="btn btn-primary" type="submit" value="Add Selected Propositions" />
+    </form>
+  </div>
+</div>

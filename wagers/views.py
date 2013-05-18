@@ -35,11 +35,10 @@ class AddTournament(CreateView):
         ``created_by`` to the currently logged in user. Redirects
         to tournament add proposition page if form created succesfully. 
         """
-        if form.is_valid():
-            tourney = form.save(commit=False)
-            tourney.created_by = self.request.user
-            tourney.save()
-            messages.add_message(self.request, messages.SUCCESS, "Tournament created!")  
+        tourney = form.save(commit=False)
+        tourney.created_by = self.request.user
+        tourney.save()
+        messages.add_message(self.request, messages.SUCCESS, "Tournament created!")  
         return redirect("add-proposition", tourney.uuid)
 
 class OpenTournamentList(View):
@@ -196,7 +195,6 @@ class AddProposition(View):
                       {"tourney": tourney,
                        "add_prop_form": add_prop_form,
                        "user_is_admin": user_is_admin,
-                       "schedule_form": schedule_form,
                        "games": games,
                        "formset": formset})
                        
@@ -218,13 +216,13 @@ class AddProposition(View):
                 return HttpResponseForbidden("Only the tournament administrator can do that.")
             form.save(commit=True)
             messages.add_message(self.request, messages.SUCCESS, "Proposition added.")
-            return redirect("tournament-details", tourney.uuid)
+            return redirect("add-proposition", tourney.uuid)
         else:
             user_is_admin = True
             return render(self.request, 
                           self.template_name, 
-                          {"tourney": tourney,
-                           "add_prop_form": form,
+                         {"tourney": tourney,
+                          "add_prop_form": form,
                            "user_is_admin": user_is_admin})
 
 class AddPropositionFromDatabase(View):

@@ -21,7 +21,11 @@
               <input type="submit" class="btn" value="Sign Out" />
             </form>
             <ul class="nav pull-right">
-              <li><a href="{% url 'active-tournament-list' %}">My Tournaments</a></li>
+              <li>
+                <a href="{% url 'bet-history' user.id %}">My Bet History</a>
+              <li>
+                <a href="{% url 'active-tournament-list' %}">My Tournaments</a>
+              </li>
               <li><a href="">{{ user }}</a></li>
             </ul>
           {% else %}
@@ -44,12 +48,13 @@
             <li><a href="/register">Sign Up</a></li>
           {% endif %}
           !-->
-     
-      <div class="container">
-        {% for message in messages %}
-          <div class="alert alert-{{ message.tags }}">{{ message }}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
-        {% endfor %}
-      </div>
+     {% if messages %}
+        <div class="container" id="alerts">
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
+          {% endfor %}
+        </div>
+      {% endif %}
       {% block content %}{% endblock %}
       <div id="footer_push"><!--Hack for sticky footer !--></div>
     </div>

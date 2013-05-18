@@ -1,30 +1,20 @@
 {% extends "scaffolding.html" %}
 {% block content %}
-<hr>
-
 <div class="container">
-
-  {% include 'wagers/propositions/snippets/schedule_form.html' %}
-  <div>
-    <form action="{% url 'add-selected' tourney.uuid %}" method="POST">
-      {{ formset.management_form }}
-      {% csrf_token %}
-      <legend>Select Propositions You Want To Add</legend>
-      {% for form in formset %}
-        {% for hidden in form.hidden_fields %}
-          {{ hidden }}
-        {% endfor %}
-        {{ form.id }}
-        <label class="checkbox">
-          {{ form.selected }} {{ form.team_a.value }} vs {{ form.team_b.value }}
-        </label>
-      {% endfor %}
-      <input class="btn btn-primary" type="submit" value="Add Selected Propositions" />
-    </form>
-  </div>
   {% if user_is_admin %}
-  {% include "wagers/propositions/snippets/add_form.html" %}
+    <ul class="nav nav-tabs">
+      <li {% if not add_prop_form.errors %}class="active"{% endif %}><a href="#auto" data-toggle="tab">Use Our Game Database To Generate Propositions</a></li>
+      <li {% if add_prop_form.errors %}class="active"{% endif %}><a href="#manual" data-toggle="tab">Make Up Your Own Propositions Manually</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane {% if not add_prop_form.errors %}active{% endif %}" id="auto">
+        {% include 'wagers/propositions/snippets/schedule_form.html' %}
+      </div>
+      <div class="tab-pane {% if add_prop_form.errors %}active{% endif %}" id="manual">
+        {% include "wagers/propositions/snippets/add_form.html" %}
+      </div>
+    </div>
+    Done adding propositions? Share the tournament with your friends!
   {% endif %}
-
 </div>
 {% endblock %}

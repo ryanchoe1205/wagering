@@ -21,6 +21,7 @@ header {
           box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
 }
 
+
 .brand {
   font-family: "armalite-rifle";
   font-size: 40px !important;
@@ -37,6 +38,12 @@ header {
 .navbar {
   margin-bottom: 0px;
 }
+
+/* Alert CSS */
+#alerts {
+  padding: 20px;
+}
+
 
 /* Hero Unit CSS */
 .hero-unit {
@@ -97,16 +104,7 @@ footer {
   position: relative;
 }
 
-.steps {
-    border-radius: 5px;
-}
 
-.step {
-  display: table-cell;
-  border-radius: 5px;
-  padding: 10px;
-  margin-left: 10px;
-}
 
 
 hr {
