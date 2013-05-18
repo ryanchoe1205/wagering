@@ -103,7 +103,17 @@ class TournamentDetails(View):
                        "user_is_admin": user_is_admin,
                        "add_prop_form": add_prop_form,
                        "bets": bets})
-                   
+ 
+class ShareTournament(View):
+    """
+    A view to help tournament creators share the tournament with their freinds.
+    """
+    template_name = "wagers/tournaments/share.html"
+
+    def get(self, request, tourney_uuid):
+        tourney = Tournament.objects.get(uuid=tourney_uuid)
+        return render(self.request, self.template_name, {"tourney": tourney})  
+
 class JoinTournament(View):
     """
     This view handles the adding of a player into a tournament. It should only be

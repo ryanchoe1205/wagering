@@ -14,7 +14,7 @@
         {% include "wagers/propositions/snippets/add_form.html" %}
       </div>
     </div>
-    Done adding propositions? Share the tournament with your friends!
+    Done adding propositions? <a href="{% url 'share-tournament' tourney.uuid %}">Share the tournament with your friends!</a>
   {% endif %}
 </div>
 {% endblock %}

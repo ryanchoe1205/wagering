@@ -2,6 +2,7 @@ from wagers.views import AddTournament
 from wagers.views import OpenTournamentList
 from wagers.views import ActiveTournamentList
 from wagers.views import TournamentDetails
+from wagers.views import ShareTournament
 from wagers.views import JoinTournament
 from wagers.views import PayoutTournament
 from wagers.views import AddProposition
@@ -17,6 +18,7 @@ from django.contrib.auth.decorators import permission_required, login_required
 urlpatterns = patterns('',
     url(r'^history/(\d+)$', BetHistoryView.as_view(), name='bet-history'),
     url(r'^tournaments/([a-f0-9]{32})$', TournamentDetails.as_view(), name="tournament-details"),
+    url(r'^tournaments/([a-f0-9]{32})/share/$', login_required(ShareTournament.as_view()), name="share-tournament"),
     url(r'^tournaments/public/', OpenTournamentList.as_view(), name="open-tournament-list"),
     url(r'^tournaments/active/', ActiveTournamentList.as_view(), name="active-tournament-list"),
     url(r'^tournaments/join/', JoinTournament.as_view(), name="join-tournament"),
