@@ -118,24 +118,31 @@ h1, h2 {
   color: #1F3F99;
 }
 
-.table td {
+.bet-info div{ 
   margin: 0;
   padding: 10;
   text-align: center;
   white-space: normal;
   width: 300px;
+  display: table-cell;
 }
 
-.table h3 {
+.alert.bet-info { 
+  margin: 0px;
+}
+
+.clickable { 
+  cursor: pointer;
+}
+
+.bet-info h3 {
   margin-top: 0px;
   margin-bottom: 0px;
 }
-.table td.table-button {
+.bet-info .table-button {
   white-space: nowrap;
   vertical-align: middle;
-
 }
-
 
 .marketing {
   text-align: center;
