@@ -10,3 +10,6 @@ class Game(models.Model):
 	is_finished = models.BooleanField()
 	# Won if team a wins, Loss if team b wins, Draw if a draw, N/A if not finished
 	outcome = models.CharField(max_length=5, blank=True)
+
+	def __str__(self):
+		return self.team_a + " vs " + self.team_b
