@@ -131,6 +131,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'wagers',
     'django.contrib.admin',
+    'django.contrib.humanize',
     'south',
     'kombu.transport.django',
     'djcelery',

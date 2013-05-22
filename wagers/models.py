@@ -40,6 +40,16 @@ class Player(models.Model):
         Returns whether the user has enough credits to cover the bet.
         """
         return self.credits >= credits
+
+    def get_place(self):
+        """
+        Returns the users current place in the tournament.
+        """
+        payout_info = self.tournament.get_payout_information()
+        for info in payout_info:
+            for player in info["players"]:
+                if self == player:
+                    return info["place"]
     
 class Tournament(models.Model):
     """
@@ -172,7 +182,7 @@ class Tournament(models.Model):
         to tie. In the event of ties everyone below them will be one place farther down. Any
         prize money in the places that the players occupy will be split between them.
         """
-        players = self.player_set.all().order_by("credits")
+        players = self.player_set.all().order_by("-credits")
         if len(players) < 3:
             winner_cut = [1]
         else:
@@ -194,7 +204,7 @@ class Tournament(models.Model):
             shared_pot = prize_cut * self.prize_pool / len(same_place)
             
             # Add the informationa bout this place to the place listings.
-            placing_list.append({"players": same_place, "won": shared_pot, "place": place})
+            placing_list.append({"players": same_place, "won": shared_pot, "place": place + 1})
             
             # Move to the next unplaced player.
             place += len(same_place)
