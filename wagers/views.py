@@ -47,7 +47,7 @@ class OpenTournamentList(View):
     """
     template_name = "wagers/tournaments/open-list.html"
     def get(self, request):
-        tournaments = Tournament.objects.filter(is_open=True).order_by("-created_on")
+        tournaments = Tournament.objects.filter(is_open=True, is_public=True).order_by("-created_on")
         return render(self.request, self.template_name, {"tournaments": tournaments})
 
 class ActiveTournamentList(View):
