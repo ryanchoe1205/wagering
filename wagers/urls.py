@@ -16,7 +16,7 @@ from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import permission_required, login_required
 
 urlpatterns = patterns('',
-    url(r'^history/(\d+)$', BetHistoryView.as_view(), name='bet-history'),
+    url(r'^history/$', login_required(BetHistoryView.as_view()), name='bet-history'),
     url(r'^tournaments/([a-f0-9]{32})$', TournamentDetails.as_view(), name="tournament-details"),
     url(r'^tournaments/([a-f0-9]{32})/share/$', login_required(ShareTournament.as_view()), name="share-tournament"),
     url(r'^tournaments/public/', OpenTournamentList.as_view(), name="open-tournament-list"),

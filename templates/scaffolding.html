@@ -22,7 +22,7 @@
             </form>
             <ul class="nav pull-right">
               <li>
-                <a href="{% url 'bet-history' user.id %}">My Bet History</a>
+                <a href="{% url 'bet-history' %}">My Bet History</a>
               <li>
                 <a href="{% url 'active-tournament-list' %}">My Tournaments</a>
               </li>
@@ -36,18 +36,6 @@
           {% endif %}
         </div>
       </header>
-        <!--
-          <li><a href="{% url 'open-tournament-list' %}">Join A Tournament</a></li>
-          <li><a href="{% url 'add-tournament' %}">Create A Tournament</a></li>
-          {% if user.is_authenticated %}
-            <li><a href="{% url 'active-tournament-list' %}">My Active Tournaments</a></li>
-            <li><a href="{% url 'bet-history' user.id %}">Bet History</a></li>
-            <li><p class="navbar-text">{{user}}. {{user.get_profile.credits}} credits.</p></li>
-            <li><a href="/logout?next=/">Sign Out</a></li>
-          {% else %}
-            <li><a href="/register">Sign Up</a></li>
-          {% endif %}
-          !-->
      {% if messages %}
         <div class="container" id="alerts">
           {% for message in messages %}

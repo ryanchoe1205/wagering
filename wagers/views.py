@@ -378,7 +378,7 @@ class PayoutProposition(View):
 
 class BetHistoryView(View):
     template_name = "wagers/players/bet_history.html"
-    def get(self, request, user_id):
-        players = Player.objects.filter(user=user_id).order_by("tournament__created_on")
+    def get(self, request):
+        players = Player.objects.filter(user=request.user).order_by("tournament__created_on")
         return render(self.request, self.template_name, {"players": players})
 
