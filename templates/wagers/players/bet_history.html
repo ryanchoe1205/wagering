@@ -1,37 +1,15 @@
 {% extends 'scaffolding.html' %}
 {% block content %}
 <div class="container">
-  <table class="table table-bordered">
-    <thead>
-      <caption>Betting History For {{ players.0.user }}</caption>
-      <tr>
-        <th>Proposition</th>
-        <th>Player's Position</th>
-        <th>Proposition Outcome</th>
-        <th>Result</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for player in players %}
-      {% for bet in player.bet_set.all %}
-        {% if bet.proposition.is_paid %}
-          <tr class="{% if bet.is_won %}{% else %}error{% endif %}">
-        {% else %}
-          <tr class="warning">
-        {% endif %}
-          <td>{{ bet.proposition }}</td>
-          <td>{{ bet.get_position }}</td>
-          {% if bet.proposition.is_paid %}
-            <td>{{ bet.proposition.get_outcome }}</td>
-            <td>{% if bet.is_won %}Won{% else %}Lost{% endif %}</td>
-          {% else %}
-            <td>...</td>
-            <td>Ongoing</td>
-          {% endif %}
-        </tr>
-      {% endfor %}
+  {% for player in players %}
+    <h1><a href="{{ player.tournament.get_absolute_url }}">{{ player.tournament }}</a></h1>
+    <div id="accordion1">
+    {% for bet in player.bet_set.all %}
+      {% include 'bets/bet_info.html' %}
+    {% empty %}
+      <li>You haven't made any bets yet.</li>
     {% endfor %}
-    </tbody>
-  </table>
+  </div>
+  {% endfor %}
 </div>
 {% endblock %}
