@@ -5,6 +5,7 @@ setup_environ(wagering.settings)
 from game_database.models import Game
 
 
+
 def add_game(team_a, team_b, start_time):
 	game = Game(game_type="MLB", 
 				team_a=team_a,
@@ -16,6 +17,13 @@ def add_game(team_a, team_b, start_time):
 import csv
 import datetime
 import urllib2
+from pytz import timezone
+
+
+print "Do you want to delete all games? Enter 'YES' to do so."
+text = raw_input("> ")
+if text == "YES":
+	Game.objects.all().delete()
 
 url = "https://dl.dropboxusercontent.com/u/2537320/MLB_schedule1M.csv"
 csv_file = urllib2.urlopen(url)
@@ -27,7 +35,7 @@ for row in csv_reader:
 		# ['DATE', 'AWAY', 'HOME', 'TIME', 'AWAY PITCHER', 'HOME PITCHER', '']
 		# Date formatting is '21-May' + '-2013'
 		date_str = row[0] + '-2013'
-		# Time formatting is 7:05pm or GM n: 7:05pm
+		# Time formatting is 7:05pm or GM n: 7:05pm + " US/Eastern"
 		time_str = row[3]
 		if "GM" in time_str:
 			time_str = time_str[6:]
@@ -36,6 +44,8 @@ for row in csv_reader:
 
 		datetime_str = date_str + ' ' + time_str
 		start_time = datetime.datetime.strptime(datetime_str, "%d-%b-%Y %I:%M%p")
+		eastern = timezone("US/Eastern")
+		start_time = eastern.localize(start_time)
 		team_a = row[1]
 		team_b = row[2]
 		add_game(team_a, team_b, start_time)
