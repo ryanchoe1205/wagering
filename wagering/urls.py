@@ -45,7 +45,16 @@ class HomePageView(View):
 class About(View):
     template_name = "wagers/about.html"
     def get(self, request):
-        return render(request, self.template_name, {})
+        if request.user.is_authenticated():
+            html, created = EditableHTML.objects.get_or_create(id=2)
+            return render(request, self.template_name, {"html": html})
+        
+    def post(self, request):
+        if self.request.POST["html"]:      
+            editable_html, created = EditableHTML.objects.get_or_create(id=2)
+            editable_html.html = self.request.POST["html"]
+            editable_html.save()
+        return HttpResponseRedirect("/about")
 
 urlpatterns = patterns('',
     # Include Examples:

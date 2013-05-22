@@ -1,8 +1,21 @@
 {% extends "scaffolding.html" %}
 {% block content %}
+{% if perms.EditableHTML.change_editablehtml %}
 <div class="container">
-	<h1>About Us</h1>
-	<h2>The Birth of Office Props</h2>
-	<p>In early 2013 Matthew Menashe wanted an easier way to coordinate betting among his friends. Keeping track of everything in Excel worked, but required far too much time. Having already has experience running websites and coordinating programmers, the idea to make a web app to deal with the details came naturally. Before long he had a prototype and then a fully functioning web site that he and his friends could use to track their baseball betting.</p>
+  <div class="page-header">
+    <h1>Admin View<small>Only admins can see the form below</small></h1>
+  </div>
+  <form action="{% url 'about' %}" method="POST">
+    {% csrf_token %}
+    <textarea name="html">{{html.html}}</textarea>
+    <br>
+    <input type="submit" value="Change About Page HTML content">
+  </form>
+</div>
+<hr>
+{% endif %}
+
+<div class="container">
+  {{html.html|safe}}
 </div>
 {% endblock %}
