@@ -2,20 +2,15 @@
 {% load humanize %}
 {% block content %}
 <div class="container">
+
   <h1>{{ tourney.name }}</h1>
   <p><small>Created by: {{ tourney.created_by }} on {{ tourney.created_on }}</small></p>
   <p>{{ tourney.description }}</p>
   {% if user_is_admin %}
-    {% if not tourney.is_paid %}
-      {% include "wagers/tournaments/snippets/pay_form.html" %}
-      {% include "wagers/propositions/snippets/add_form.html" %}
-    {% endif %}
-    <h2>Propositions <small>Administrator View</small></h2>
-    <ul class="unstyled">
-    {% for prop in propositions %}
-      <li>{% include "wagers/propositions/snippets/admin_prop.html" %}</li>
-    {% endfor %}
-    </ul>
+    <div class="well">
+      <p>If you want to view the tournament as an admin instead of a player, just click the button below.</p>
+      <a href="{% url 'tournament-admin' tourney.uuid %}" class="btn btn-primary">Go To Admin View</a>
+    </div>
   {% endif %}
   <div id="accordion2">
     <div class="accordion-group">

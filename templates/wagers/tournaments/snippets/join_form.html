@@ -1,0 +1,5 @@
+<form method="post" action="{% url 'join-tournament' %}">
+  {% csrf_token %}
+  {{ join_form }}
+  <button class="btn btn-primary" type="submit">Join Tournament</button>
+</form>

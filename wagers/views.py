@@ -61,10 +61,42 @@ class ActiveTournamentList(View):
         return render(self.request, self.template_name, {"players": players,
                                                          "tournaments": tournaments})
 
+class TournamentAdmin(View):
+    """
+    Presents the admin with a view of the tournament.
+    """
+    template_name = "wagers/tournaments/admin.html"
+
+    def get(self, request, tourney_uuid):
+        """
+        Returns the details page for the tournament.
+        """
+        tourney = Tournament.objects.get(uuid=tourney_uuid)
+
+        user_is_admin = tourney.is_user_admin(request.user)
+        if not user_is_admin:
+            return HttpResponseForbidden("Only the admin can view this page.")       
+        try:
+            player = Player.objects.get(tournament=tourney, user=request.user)
+        except:
+            player = None
+        join_form = TournamentForm(initial={"uuid":tourney.uuid})
+        tournament_form = TournamentForm(initial={"uuid":tourney.uuid})
+        add_prop_form = PropositionForm(initial={"tournament":tourney.id})
+        propositions = Proposition.objects.filter(tournament=tourney)
+        return render(self.request,
+                      self.template_name,
+                      {"tourney": tourney,
+                       "tournament_form": tournament_form,
+                       "propositions": propositions,
+                       "player": player,
+                       "join_form": join_form, 
+                       "user_is_admin": user_is_admin,
+                       "add_prop_form": add_prop_form,})
+
 class TournamentDetails(View):
     """
-    Presents users with a view of the tournament and the admin of the
-    tournament with an administration page.
+    Presents users with a view of the tournament.
     """
     template_name = "wagers/tournaments/details.html"
     player_landing = "wagers/player_landing.html"

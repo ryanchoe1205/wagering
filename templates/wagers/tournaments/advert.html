@@ -6,10 +6,6 @@
   <p><small>Created by: {{ tourney.created_by }} on {{ tourney.created_on }}</small></p>
   <p>{{ tourney.description }}</p>
   <p>Interested in playing? Then...</p>
-  <form method="post" action="{% url 'join-tournament' %}">
-    {% csrf_token %}
-    {{ join_form }}
-    <button class="btn btn-primary" type="submit">Join Tournament</button>
-  </form>
+  {% include "wagers/tournaments/snippets/join_form.html" %}
 </div>
 {% endblock %}
