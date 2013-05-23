@@ -5,7 +5,7 @@
     <div class="row-fluid">
       <div class="control-group {% if form.errors.username %}error{% endif %}">
         <div class="controls">
-          <input class="span12" placeholder="Username" name="username" type="text" {% if form.username.value %}value="{{form.username.value}}"{% endif %}/>
+          <input class="span12" placeholder="Username" name="username" type="text" {% if form.username.value %}value="{{form.username.value}}"{% endif %} autofocus="autofocus"/>
           {% for error in form.errors.username %}
             <span class="help-inline">{{ error }}</span>
           {% endfor %}
