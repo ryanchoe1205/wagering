@@ -8,13 +8,12 @@
   <input class="pull-right btn btn-success" type="submit" value="Make Bet" />
 	<label class="radio">
 		<input type="radio" name="position" id="optionsRadios1" value="True">
-		Bet 1 credit on {{ prop.team_a }}.
+		Bet on {{ prop.team_a }}.
 	</label>
 	<label class="radio">
 		<input type="radio" name="position" id="optionsRadios2" value="">
-		Bet 1 credit on {{ prop.team_b }}.
+		Bet on {{ prop.team_b }}.
 	</label>
   <input type="hidden" name="proposition" value="{{prop.id}}">
-  <input type="hidden" name="credits" value="1">
   <input type="hidden" name="created_by" value="{{player.id}}">
 </form>

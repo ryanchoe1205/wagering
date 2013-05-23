@@ -22,7 +22,7 @@
       <div class="accordion-heading">
         <div>
           <a data-toggle="collapse" href="#leaderboard-toggle" class="btn btn-primary">View Leaderboard</a> 
-          You are curently in <b>{{ player.get_place | ordinal }} place</b> with {{ player.credits }} credit{{ player.credits | pluralize }}.
+          You are curently in <b>{{ player.get_place | ordinal }} place</b> with {{ player.credits }} point{{ player.credits | pluralize }}.
         </div>
       </div>
       <div id="leaderboard-toggle" style="height: 0px;" class="accordion-body collapse">

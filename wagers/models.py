@@ -35,11 +35,6 @@ class Player(models.Model):
         """
         return self.user == user
         
-    def can_afford_bet(self, credits):
-        """
-        Returns whether the user has enough credits to cover the bet.
-        """
-        return self.credits >= credits
 
     def get_place(self):
         """
@@ -98,10 +93,14 @@ class Tournament(models.Model):
     # iterating through tournament ids.
     uuid = UUIDField(auto=True)
     
-    starting_credits_help = "This is how many credits people start the tournament with."
+    # For legacy reasons specifying this here reduces the number of changes I
+    # need to make. Once it cost credits to bet instead of credits being how
+    # many points people had.
+    starting_credits_help = "This is how many points people start the tournament with."
     starting_credits = models.DecimalField(decimal_places=10,
                                            max_digits=100,
-                                           default=10.0,
+                                           default=0,
+                                           editable=False,
                                            help_text=starting_credits_help)
     
     def __str__(self):
@@ -261,10 +260,7 @@ class Proposition(models.Model):
     # the proposition has been paid out.
     outcome = models.BooleanField(default=False)
     is_paid = models.BooleanField(default=False, editable=False)
-    
-    # This field marks how much money was in the pot of this proposition.
-    pot = models.DecimalField(decimal_places=10, max_digits=100, default=0.0, editable=False)
-    
+
     def __str__(self):
         """
         Returns a string representation of the prop.
@@ -277,14 +273,12 @@ class Proposition(models.Model):
         
         Returns a lists of dictionaries of the form: {"bet" bet, "won": credits}.
         """
-        winners = self.bet_set.filter(position=self.outcome)
-        winner_pot_total = sum([winner.credits for winner in winners])
         winning_dicts = []
         for bet in self.bet_set.all():
-            amount_won = Decimal(0.0)
             if bet.position == self.outcome:
-                cut = winner.credits / winner_pot_total
-                amount_won = self.pot * cut
+                amount_won = 1
+            else:
+                amount_won = 0
             winning_dicts.append({"bet": bet, "won": amount_won})
         return winning_dicts
     
@@ -351,13 +345,8 @@ class Proposition(models.Model):
         player = bet.created_by
         if not self.can_player_bet(player):
             raise ValidationError("Not able to make a bet.")
-        if not player.can_afford_bet(bet.credits):
-            raise ValidationError("Not enough credits.")
         bet.save()
-        player.credits -= bet.credits
-        player.save()
-        self.pot += bet.credits
-        self.save()
+
         
     def get_outcome(self):
         """
@@ -388,7 +377,6 @@ class Bet(models.Model):
     eventual outcome.
     """
     created_by = models.ForeignKey("Player")
-    credits = models.DecimalField(decimal_places=10, max_digits=100)
     proposition = models.ForeignKey("Proposition")
     
     # The side of the proposition the user thought would win.

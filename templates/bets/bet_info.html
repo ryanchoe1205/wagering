@@ -25,14 +25,12 @@
           <tr>
             <th>Player</th>
             <th>Position</th>
-            <th>Amount Bet</th>
-            <th>Amount Won</th>
+            <th>Points Won</th>
           </tr>
           {% for info in bet.proposition.get_payout_information %}
             <tr class="alert {% if info.bet.is_won %}alert-success{% else %}alert-error{% endif %}">
               <td>{{ info.bet.created_by }}</td>
               <td>{{ info.bet.get_position }}</td>
-              <td>{{ info.bet.credits }}</td>
               <td>{{ info.won }}</td>
             </tr>
           {% endfor %}

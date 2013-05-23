@@ -41,17 +41,6 @@
         </div>
       </div>
       
-      <div class="control-group {% if form.starting_credits.errors %}error{% endif %}">
-        <div class="controls">
-          <label>Starting Wager Points</label>
-          <span class="help-block">This is how many points people will start the tournament with. They will use them to make their bets.</span>
-          <input name="starting_credits" type="number" {% if form.starting_credits.value %}value="{{form.starting_credits.value}}"{% endif %} />
-          {% for error in form.errors.starting_credits %}
-            <span class="help-block">{{ error }}</span>
-          {% endfor %}
-        </div>
-      </div>
-      
       <div class="control-group {% if form.is_public.errors %}error{% endif %}">
         <div class="controls">
           <label>Tournament Visibility</label>

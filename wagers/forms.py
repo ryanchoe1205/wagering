@@ -55,7 +55,6 @@ class BetForm(forms.ModelForm):
     class Meta:
         model = Bet
         widgets = {"proposition": forms.HiddenInput(), 
-                   "credits": forms.HiddenInput(),
                    "created_by": forms.HiddenInput()}
                    
     def clean(self):
@@ -67,10 +66,6 @@ class BetForm(forms.ModelForm):
         player = cleaned_data.get("created_by")
         if not proposition.can_player_bet(player):
             raise forms.ValidationError("You can't make a bet on this proposition.")
-        
-        credits = cleaned_data.get("credits")
-        if not player.can_afford_bet(credits):
-            raise forms.ValidationError("Not enough credits.")
             
         return cleaned_data
 
