@@ -14,6 +14,15 @@
           <h3>Outcome</h3>
           <b>{% if bet.is_won %}Won{% else %}Lost{% endif %}</b>
         </div>
+        <div>
+          <h3>Paid On</h3>
+          {% if bet.proposition.paid_on %}
+            <b>{{ bet.proposition.paid_on | date:"l, m-d-Y" }}</b>
+          {% else %}
+            <b>{{ bet.proposition.paid_on }}</b>
+          {% endif %}
+
+        </div>
         <div class="table-button">
           <a class="btn {% if bet.is_won %}btn-success{% else %}btn-danger{% endif %}" href="#details">Show Details</a>
         </div>
@@ -53,6 +62,10 @@
         <div>
           <h3>Outcome</h3>
           <b>Ongoing...</b>
+        </div>
+        <div>
+          <h3>Paid On</h3>
+          <b>N/A</b>
         </div>
         <div class="table-button">
           <a class="btn btn-warning disabled" href="#details">Show Details</a>

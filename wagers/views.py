@@ -124,7 +124,7 @@ class TournamentDetails(View):
         add_prop_form = PropositionForm(initial={"tournament":tourney.id})
         propositions = Proposition.objects.filter(tournament=tourney)
         bettable_props = propositions.exclude(bet__created_by=player).filter(is_open=True)
-        bets = Bet.objects.filter(proposition__tournament=tourney, created_by=player)
+        bets = Bet.objects.filter(proposition__tournament=tourney, created_by=player).order_by("-proposition__paid_on")
         return render(self.request,
                       self.template_name,
                       {"tourney": tourney,

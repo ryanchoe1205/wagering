@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from fields import UUIDField
 from decimal import Decimal
 from helpers import take_while
+import datetime
 
 class Player(models.Model):
     """
@@ -260,6 +261,8 @@ class Proposition(models.Model):
     # the proposition has been paid out.
     outcome = models.BooleanField(default=False)
     is_paid = models.BooleanField(default=False, editable=False)
+    paid_on = models.DateTimeField(blank=True, null=True, editable=False)
+
 
     def __str__(self):
         """
@@ -286,10 +289,11 @@ class Proposition(models.Model):
         """
         Pays out the proposition. Closes it if it is open.
         """
-        self.is_open = False
+        self.close()
         if self.is_paid:
             raise ValueError("Already paid out the wager.")
         self.is_paid = True
+        self.paid_on = datetime.datetime.now()
         payouts = self.get_payout_information()
         for info in payouts:
             bet, credits = info["bet"], info["won"]
