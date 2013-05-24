@@ -23,7 +23,6 @@ header {
 
 
 .brand {
-  font-family: "armalite-rifle";
   font-size: 40px !important;
 }
 
@@ -114,7 +113,6 @@ hr {
 }
 
 h1, h2 {
-  font-family: "armalite-rifle";
   color: #1F3F99;
 }
 
