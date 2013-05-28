@@ -19,22 +19,29 @@
 </div>
 <hr>
 <div id="teasers" class="container">
-	<div class="row-fluid">
-		<div class="span4 teaser">
-			<img src="/site_media/img/icons/Calendar-Week.png">
-			<h2>Save Time</h2>
-			<p>Bet on your own time. The coordination overheard is gone.</p>
-		</div>
-		<div class="span4 teaser">
-			<img src="/site_media/img/icons/Marker.png">
-			<h2>Keep Updated</h2>
-			<p>Find out how your bets are doing. As soon as they close, you'll know it.</p>
-		</div>
-		<div class="span4 teaser">
-			<img src="/site_media/img/icons/Scanner.png">
-			<h2>Gain Insight</h2>
-			<p>How well are you betting? We'll keep track of everything you bet on so you can find out.</p>
-		</div>
-	</div>
+  <section>
+  	<div class="row-fluid">
+  		<div class="span4 teaser">
+  			<img src="/site_media/img/icons/Calendar-Week.png">
+  			<h2>Save Time</h2>
+  			<p>Bet on your own time. The coordination overheard is gone.</p>
+  		</div>
+  		<div class="span4 teaser">
+  			<img src="/site_media/img/icons/Marker.png">
+  			<h2>Keep Updated</h2>
+  			<p>Find out how your bets are doing. As soon as they close, we can let you know how you did.<p>
+  		</div>
+  		<div class="span4 teaser">
+  			<img src="/site_media/img/icons/Scanner.png">
+  			<h2>Gain Insight</h2>
+  			<p>How well are you betting? We'll keep track of everything you bet on so you can find out. Hopefully the old saying, you improve what you measure holds water.</p>
+  		</div>
+  	</div>
+  </section>
 </div>
+<section class="container">
+  <div style="text-align: center;" class="alert alert-success lead">
+    Make props your friends can bet on or start betting yourself by <a href="{% url 'register' %}">signing up for free</a>.
+  </div>
+</section>
 {% endblock content %}
