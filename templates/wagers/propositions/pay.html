@@ -1,34 +1,36 @@
 {% extends "scaffolding.html" %}
 {% block content %}
 <div class="container">
-  <h1>Admin View <small>Only The Tournament Adminstrator Can See This Page</small></h1> 
-  {% if prop.is_paid %}
-  <table class="table">
-  	<caption>Results for "{{prop.team_a}} vs {{prop.team_b}}"</caption>
-  	<thead><tr><th>Player</th><th>Amount Bet</th><th>Amount Won</th></tr></thead>
-  	{% for info in bet_info %}
-  	<tr><td>{{info.bet.created_by}}</td><td>{{info.bet.credits}}</td><td>{{info.won}}</td></tr>
-  	{% endfor %}
-  </table>
-  {% else %}
-  <form method="POST" action="{% url 'payout-proposition' tourney.uuid prop.id %}">
-    {% csrf_token %}
-    <fieldset>
-    <legend>Declare Winners<small>This will also close the proposition and distribute the pot amongst the winners</small></legend>
-    {% for hidden in form.hidden_fields %}
-      {{ hidden }}
-    {% endfor %}
-    <label class="radio">
-  		<input type="radio" name="outcome" id="optionsRadios1" value="True">
-  		Declare {{ prop.team_a }} the winner.
-  	</label>
-  	<label class="radio">
-  		<input type="radio" name="outcome" id="optionsRadios2" value="">
-  		Declare {{ prop.team_b }} the winner.
-  	</label>
-    </fieldset>
-    <input type="submit" class="btn btn-primary" value="Payout Proposition">
-  </form>
-  {% endif %}
+  <section>
+    <h1>Admin View <small>Only The Tournament Adminstrator Can See This Page</small></h1> 
+    {% if prop.is_paid %}
+    <table class="table">
+    	<caption>Results for "{{prop.team_a}} vs {{prop.team_b}}"</caption>
+    	<thead><tr><th>Player</th><th>Amount Bet</th><th>Amount Won</th></tr></thead>
+    	{% for info in bet_info %}
+    	<tr><td>{{info.bet.created_by}}</td><td>{{info.bet.credits}}</td><td>{{info.won}}</td></tr>
+    	{% endfor %}
+    </table>
+    {% else %}
+    <form method="POST" action="{% url 'payout-proposition' tourney.uuid prop.id %}">
+      {% csrf_token %}
+      <fieldset>
+      <legend>Declare Winners<small>This will also close the proposition and distribute the pot amongst the winners</small></legend>
+      {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+      {% endfor %}
+      <label class="radio">
+    		<input type="radio" name="outcome" id="optionsRadios1" value="True">
+    		Declare {{ prop.team_a }} the winner.
+    	</label>
+    	<label class="radio">
+    		<input type="radio" name="outcome" id="optionsRadios2" value="">
+    		Declare {{ prop.team_b }} the winner.
+    	</label>
+      </fieldset>
+      <input type="submit" class="btn btn-primary" value="Payout Proposition">
+    </form>
+    {% endif %}
+  </section>
 </div>
 {% endblock %}

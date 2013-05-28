@@ -1,0 +1,5 @@
+<div>
+  <a href="{% if tourney.created_by == user %}{% url 'tournament-admin' tourney.uuid %}{% else %}{{ tourney.get_absolute_url }}{% endif %}"><b>{{ tourney }}</b></a>
+  <p>Buy In: {{ tourney.entrance_fee }} {{ tourney.description | truncatechars:100 }}</p>
+  <small>Created by {% if tourney.created_by == user %}you{% else %}{{tourney.created_by}}{% endif %} on {{ tourney.created_on|date:"d-M-Y"}}</small>
+</div>

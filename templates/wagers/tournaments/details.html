@@ -2,66 +2,67 @@
 {% load humanize %}
 {% block content %}
 <div class="container">
-
-  <h1>{{ tourney.name }}</h1>
-  <p><small>Created by: {{ tourney.created_by }} on {{ tourney.created_on }}</small></p>
-  <p>{{ tourney.description }}</p>
-  {% if user_is_admin %}
-    <div class="well">
-      <p>If you want to view the tournament as an admin instead of a player, just click the button below.</p>
-      <a href="{% url 'tournament-admin' tourney.uuid %}" class="btn btn-primary">Go To Admin View</a>
-    </div>
-  {% endif %}
-  <div id="accordion2">
-    <div class="accordion-group">
-      <div class="accordion-heading">
-        <div>
-          <a data-toggle="collapse" href="#leaderboard-toggle" class="btn btn-primary">View Leaderboard</a> 
-          You are curently in <b>{{ player.get_place | ordinal }} place</b> with {{ player.credits }} point{{ player.credits | pluralize }}.
-        </div>
+  <section>
+    <h1>{{ tourney.name }}</h1>
+    <p><small>Created by: {{ tourney.created_by }} on {{ tourney.created_on }}</small></p>
+    <p>{{ tourney.description }}</p>
+    {% if user_is_admin %}
+      <div class="well">
+        <p>If you want to view the tournament as an admin instead of a player, just click the button below.</p>
+        <a href="{% url 'tournament-admin' tourney.uuid %}" class="btn btn-primary">Go To Admin View</a>
       </div>
-      <div id="leaderboard-toggle" style="height: 0px;" class="accordion-body collapse">
-        <div class="accordion-inner">
-          <table class="table table-condensed">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Player</th>
-                <th>Credits</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for info in tourney.get_payout_information %}
+    {% endif %}
+    <div id="accordion2">
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <div>
+            <a data-toggle="collapse" href="#leaderboard-toggle" class="btn btn-primary">View Leaderboard</a> 
+            You are curently in <b>{{ player.get_place | ordinal }} place</b> with {{ player.credits }} point{{ player.credits | pluralize }}.
+          </div>
+        </div>
+        <div id="leaderboard-toggle" style="height: 0px;" class="accordion-body collapse">
+          <div class="accordion-inner">
+            <table class="table table-condensed">
+              <thead>
                 <tr>
-                  <td rowspan="{{ info.players | length }}">{{ info.place | ordinal }}</td>
-                  {% for player in info.players %}
-                    {% if not player == info.players.0 %}<tr>{% endif %}
-                      <td>{{ player }}</td>
-                      <td>{{ player.credits }}</td>
-                    </tr>
-                  {% endfor %}
-              {% endfor %}
-            </tbody>
-          </table>
+                  <th>#</th>
+                  <th>Player</th>
+                  <th>Credits</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for info in tourney.get_payout_information %}
+                  <tr>
+                    <td rowspan="{{ info.players | length }}">{{ info.place | ordinal }}</td>
+                    {% for player in info.players %}
+                      {% if not player == info.players.0 %}<tr>{% endif %}
+                        <td>{{ player }}</td>
+                        <td>{{ player.credits }}</td>
+                      </tr>
+                    {% endfor %}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <h2>Propositions <small>You Can Bet On</small></h2>
-  <ul class="unstyled">
-  {% for prop in bettable_props %}
-    <li>{% include "wagers/propositions/snippets/prop.html" %}</li>
-  {% empty %}
-    <li>There are no props open for betting.</li>
-  {% endfor %}
-  </ul>
-  <h2>Propositions <small>You've Already Bet On</small></h2>
-  <div id="accordion1">
-    {% for bet in bets %}
-      {% include 'bets/bet_info.html' %}
+    <h2>Propositions <small>You Can Bet On</small></h2>
+    <ul class="unstyled">
+    {% for prop in bettable_props %}
+      <li>{% include "wagers/propositions/snippets/prop.html" %}</li>
     {% empty %}
-      <li>You haven't made any bets yet.</li>
+      <li>There are no props open for betting.</li>
     {% endfor %}
-  </div>
+    </ul>
+    <h2>Propositions <small>You've Already Bet On</small></h2>
+    <div id="accordion1">
+      {% for bet in bets %}
+        {% include 'bets/bet_info.html' %}
+      {% empty %}
+        <li>You haven't made any bets yet.</li>
+      {% endfor %}
+    </div>
+  </section>
 </div>
 {% endblock %}

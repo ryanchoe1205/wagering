@@ -2,20 +2,23 @@
 {% block content %}
 {% if perms.EditableHTML.change_editablehtml %}
 <div class="container">
-  <div class="page-header">
-    <h1>Admin View<small>Only admins can see the form below</small></h1>
-  </div>
-  <form action="{% url 'about' %}" method="POST">
-    {% csrf_token %}
-    <textarea name="html">{{html.html}}</textarea>
-    <br>
-    <input type="submit" value="Change About Page HTML content">
-  </form>
+  <section>
+    <div class="page-header">
+      <h1>Admin View<small>Only admins can see the form below</small></h1>
+    </div>
+    <form action="{% url 'about' %}" method="POST">
+      {% csrf_token %}
+      <textarea name="html">{{html.html}}</textarea>
+      <br>
+      <input type="submit" value="Change About Page HTML content">
+    </form>
+  </section>
 </div>
-<hr>
 {% endif %}
 
 <div class="container">
-  {{html.html|safe}}
+  <section>
+    {{html.html|safe}}
+  </section>
 </div>
 {% endblock %}

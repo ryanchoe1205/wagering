@@ -1,15 +1,17 @@
 {% extends 'scaffolding.html' %}
 {% block content %}
 <div class="container">
-  {% for player in players %}
-    <h1><a href="{{ player.tournament.get_absolute_url }}">{{ player.tournament }}</a></h1>
-    <div id="accordion1">
-    {% for bet in player.bet_set.all %}
-      {% include 'bets/bet_info.html' %}
-    {% empty %}
-      <li>You haven't made any bets yet.</li>
+  <section>
+    {% for player in players %}
+      <h1><a href="{{ player.tournament.get_absolute_url }}">{{ player.tournament }}</a></h1>
+      <div id="accordion1">
+      {% for bet in player.bet_set.all %}
+        {% include 'bets/bet_info.html' %}
+      {% empty %}
+        <li>You haven't made any bets yet.</li>
+      {% endfor %}
+    </div>
     {% endfor %}
-  </div>
-  {% endfor %}
+  </section>
 </div>
 {% endblock %}

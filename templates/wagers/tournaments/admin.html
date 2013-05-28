@@ -1,36 +1,38 @@
 {% extends 'scaffolding.html' %}
 {% block content %}
 <div class="container">
-  <h1>{{ tourney.name }}</h1>
-  <p><small>Created by: {{ tourney.created_by }} on {{ tourney.created_on }}</small></p>
-  <p>{{ tourney.description }}</p>
-  <div class="row-fluid">
-    <div class="well span6">
-      {% if player %}
-        <p>It looks like your taking part in your own tournament. If you want to view the tournament as a player instead of an admin, just click the button below.</p>
-        <a href="{{ tourney.get_absolute_url }}" class="btn btn-primary">View Tournament</a>
-      {% else %}
-        <p>By default tournament administrators do not take part in their own tournaments. However, you may join the tournament by using the join tournament button below.</p>
-        {% include "wagers/tournaments/snippets/join_form.html" %}
-      {% endif %}
+  <section>
+    <h1>{{ tourney.name }}</h1>
+    <p><small>Created by: {{ tourney.created_by }} on {{ tourney.created_on }}</small></p>
+    <p>{{ tourney.description }}</p>
+    <div class="row-fluid">
+      <div class="well span6">
+        {% if player %}
+          <p>It looks like your taking part in your own tournament. If you want to view the tournament as a player instead of an admin, just click the button below.</p>
+          <a href="{{ tourney.get_absolute_url }}" class="btn btn-primary">View Tournament</a>
+        {% else %}
+          <p>By default tournament administrators do not take part in their own tournaments. However, you may join the tournament by using the join tournament button below.</p>
+          {% include "wagers/tournaments/snippets/join_form.html" %}
+        {% endif %}
+      </div>
+      <div class="well span6">
+        {% if not tourney.is_paid %}
+          <p>Once all the betting has finished and all the propositions have been closed, you can close out the tournament using the form below.</p>
+          {% include "wagers/tournaments/snippets/pay_form.html" %}
+        {% else %}
+          <p>This tournament has been paid out.</p>
+        {% endif %}
+      </div>
     </div>
-    <div class="well span6">
-      {% if not tourney.is_paid %}
-        <p>Once all the betting has finished and all the propositions have been closed, you can close out the tournament using the form below.</p>
-        {% include "wagers/tournaments/snippets/pay_form.html" %}
-      {% else %}
-        <p>This tournament has been paid out.</p>
-      {% endif %}
-    </div>
-  </div>
-  {% if not tourney.is_paid %}
-    {% include "wagers/propositions/snippets/add_form.html" %}
-  {% endif %}
-  <h2>Propositions <small>Administrator View</small></h2>
-  <ul class="unstyled">
-  {% for prop in propositions %}
-    <li>{% include "wagers/propositions/snippets/admin_prop.html" %}</li>
-  {% endfor %}
-  </ul>
+    {% if not tourney.is_paid %}
+      {% include "wagers/propositions/snippets/add_form.html" %}
+    {% endif %}
+    <h2>Propositions <small>Administrator View</small></h2>
+    <ul class="unstyled">
+    {% for prop in propositions %}
+      <li>{% include "wagers/propositions/snippets/admin_prop.html" %}</li>
+    {% endfor %}
+    </ul>
+  </section>
 </div>
 {% endblock content%}

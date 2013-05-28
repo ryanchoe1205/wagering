@@ -1,11 +1,12 @@
  {% extends 'scaffolding.html' %}
  {% block content %}
- <hr>
  <div class="container">
-  <h1>{{ tourney.name }}</h1>
-  <p><small>Created by: {{ tourney.created_by }} on {{ tourney.created_on }}</small></p>
-  <p>{{ tourney.description }}</p>
-  <p>Interested in playing? Then...</p>
-  {% include "wagers/tournaments/snippets/join_form.html" %}
+  <section>
+    <h1>{{ tourney.name }}</h1>
+    <p><small>Created by: {{ tourney.created_by }} on {{ tourney.created_on }}</small></p>
+    <p>{{ tourney.description }}</p>
+    <p>Interested in playing? Then...</p>
+    {% include "wagers/tournaments/snippets/join_form.html" %}
+  </section>
 </div>
 {% endblock %}

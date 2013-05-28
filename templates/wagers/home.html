@@ -1,37 +1,64 @@
 {% extends "scaffolding.html" %}
 {% block content %}
-<hr>
 <div class="container">
-  <div class="row-fluid">
-    <div class="teaser span6">
-      <img src="/site_media/img/icons/Clipboard.png">
-      <h1>Make A Tournament</h1>
-      <p>Betting on propositions takes place within tournaments. You control who gets to bet in the tournaments. If your looking to organize betting at your local office, bar, or anywhere else this is what your looking for. Just make the tournaments, tell us what you want people to bet on, and then send a link the tournament to your friends. Its simple.</p>
-      <a href="{% url 'add-tournament' %}">Create a tournament now!</a>
+  <section>
+    <div class="row-fluid">
+      <div class="teaser span6">
+        <img src="/site_media/img/icons/Clipboard.png">
+        <h1>Create A Tournament</h1>
+        <p>Betting on propositions takes place within tournaments. You control who gets to bet in the tournaments. If your looking to organize betting at your local office, bar, or anywhere else this is what your looking for. Just make the tournaments, tell us what you want people to bet on, and then send a link the tournament to your friends. Its simple.</p>
+        <div class="lead">
+          <a href="{% url 'add-tournament' %}">Create a tournament now!</a>
+        </div>
+      </div>
+      <div class="teaser span6">
+        <img src="/site_media/img/icons/Chats.png">
+        <h1>Join A Tournament</h1>
+        <p>Want to join tournamens that are open to the public? This might be what your looking for. However, if you were invited here by your friend you'll be able to go directly to the tournament that <i>they</i> created by clicking the link they should have given you.</p>
+        <div class="lead">
+          <a href="{% url 'open-tournament-list' %}">Check out tournaments open to the public.</a>
+        </div>
+      </div>
     </div>
-    <div class="teaser span6">
-      <img src="/site_media/img/icons/Chats.png">
-      <h1>Join A Tournament</h1>
-      <p>Want to join tournamens that are open to the public? This might be what your looking for. However, if you were invited here by your friend you'll be able to go directly to the tournament that <i>they</i> created by clicking the link they should have given you.</p>
-      <a href="{% url 'open-tournament-list' %}">Check out tournaments open to the public.</a>
-    </div>
-  </div>
-</div>
-{% if perms.EditableHTML.change_editablehtml %}
-<hr>
-<div class="container">
-  <div class="page-header">
-    <h1>Admin View<small>Only admins can see the form below</small></h1>
-  </div>
-  <form action="" method="POST">{% csrf_token %}
-    <textarea name="html">{{html.html}}</textarea>
-    <br>
-    <input type="submit" value="Change Homepage HTML content">
-  </form>
-</div>
-{% endif %}
-<hr>
-<div class="container">
-  {{html.html|safe}}
+
+    <section class="row-fluid">
+      <div class="span6">
+        <div class="info-header">
+          <h3>Tournaments I'm Running</h3>
+        </div>
+        <ol class="unstyled tourney-info">
+          {% for tourney in admin_tourneys %}     
+            <li>{% include 'wagers/tournaments/snippets/tournament-info.html' %}</li>
+          {% endfor %}
+        </ol>
+        <div class="info-header">
+          <h3>Tournaments I've Ran</h3>
+        </div>
+        <ol class="unstyled tourney-info">
+          {% for tourney in admin_tourneys %}     
+            <li>{% include 'wagers/tournaments/snippets/tournament-info.html' %}</li>
+          {% endfor %}
+        </ol>
+      </div>
+      <div class="span6">
+        <div class="info-header">
+          <h3>Tournaments I'm Playing In</h3>
+        </div>
+        <ol class="unstyled tourney-info">
+          {% for tourney in playing_tourneys %}     
+            <li>{% include 'wagers/tournaments/snippets/tournament-info.html' %}</li>
+          {% endfor %}
+        </ol>
+        <div class="info-header">
+          <h3>Tournaments I've Played In</h3>
+        </div>
+        <ol class="unstyled tourney-info">
+          {% for tourney in played_tourneys %}     
+            <li>{% include 'wagers/tournaments/snippets/tournament-info.html' %}</li>
+          {% endfor %}
+        </ol>
+      </div>
+    </section>
+  </section>
 </div>
 {% endblock %}
