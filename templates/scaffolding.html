@@ -2,6 +2,8 @@
 <html>
   <head>
     <title>Office Props</title>
+    <script type="text/javascript" src="//use.typekit.net/dwe0opo.js"></script>
+<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/site_media/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="/site_media/css/jquery.simple-dtpicker.css" rel="stylesheet" media="screen">
@@ -35,16 +37,23 @@
         </div>
       </header>
      {% if messages %}
-        <div class="container" id="alerts">
-          {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">{{ message }}<a class="close" data-dismiss="alert" href="#">&times;</a></div>
-          {% endfor %}
+        <div class="container">
+          <section id="alerts">
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+                <a class="close" data-dismiss="alert" href="#">&times;</a>
+              </div>
+            {% endfor %}
+          </section>
         </div>
       {% endif %}
-      {% block content %}{% endblock %}
-      <div id="footer_push"><!--Hack for sticky footer !--></div>
+      {% block content %}
+      {% endblock %}
+      <div id="footer_push">
+        <!--Hack for sticky footer !-->
+      </div>
     </div>
-
     <footer>
       <hr>
       <div class="footer container">
