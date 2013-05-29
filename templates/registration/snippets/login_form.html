@@ -26,7 +26,7 @@
           {% endif %}
         </div>
       </div>
-      <input name="next" type="hidden" value="{% if next%}{{ next }}{% else %}/{% endif %}" />
+      <input name="next" type="hidden" value="{% if next%}{{ next }}{% else %}{% url 'user-tournament-list' %}{% endif %}" />
 
       <button class="btn btn-large btn-primary btn-redg span12" type="submit">Sign In</button>
     </div>

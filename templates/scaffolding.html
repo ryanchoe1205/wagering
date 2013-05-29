@@ -30,8 +30,8 @@
             </ul>
           {% else %}
             <form class="navbar-form pull-right" action="/login" method="GET">
-              <input type="hidden" name="next" value="/">
-              <button class="btn" href="/login"><b>Sign In</b></button>
+              <input type="hidden" name="next" value="{% url 'user-tournament-list' %}">
+              <button class="btn"><b>Sign In</b></button>
             </form>
           {% endif %}
         </div>

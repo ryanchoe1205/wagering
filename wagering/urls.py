@@ -9,6 +9,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 import settings
 from wagers.models import EditableHTML
+from wagers.models import Tournament
 admin.autodiscover()
 
 class UserCreateForm(UserCreationForm):
@@ -31,7 +32,17 @@ class HomePageView(View):
     def get(self, request):
         if request.user.is_authenticated():
             html, created = EditableHTML.objects.get_or_create(id=1)
-            return render(request, self.template_name, {"html": html})
+            admin_tournaments = Tournament.objects.filter(created_by=request.user, is_open=True)[:5]
+            ran_tournaments = Tournament.objects.filter(created_by=request.user, is_open=False)[:5]
+            playing_tournaments = Tournament.objects.filter(player__user=request.user, is_open=True)[:5]
+            played_tournaments = Tournament.objects.filter(player__user=request.user, is_open=False)[:5]
+            return render(request,
+                self.template_name,
+                {"html": html,
+                 "admin_tourneys": admin_tournaments,
+                 "ran_tourneys": ran_tournaments,
+                 "played_tourneys": played_tournaments,
+                 "playing_tourneys": playing_tournaments})
         else:
             return render(request, self.landing_template, {})
         
