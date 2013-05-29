@@ -1,6 +1,6 @@
 from wagers.views import AddTournament
 from wagers.views import OpenTournamentList
-from wagers.views import ActiveTournamentList
+from wagers.views import UserTournamentList
 from wagers.views import TournamentDetails
 from wagers.views import TournamentAdmin
 from wagers.views import ShareTournament
@@ -22,7 +22,7 @@ urlpatterns = patterns('',
     url(r'^tournaments/([a-f0-9]{32})/admin/$', TournamentAdmin.as_view(), name="tournament-admin"),
     url(r'^tournaments/([a-f0-9]{32})/share/$', login_required(ShareTournament.as_view()), name="share-tournament"),
     url(r'^tournaments/public/', OpenTournamentList.as_view(), name="open-tournament-list"),
-    url(r'^tournaments/active/', ActiveTournamentList.as_view(), name="active-tournament-list"),
+    url(r'^tournaments/', UserTournamentList.as_view(), name="user-tournament-list"),
     url(r'^tournaments/join/', JoinTournament.as_view(), name="join-tournament"),
     url(r'^tournaments/add/$', login_required(AddTournament.as_view()), name="add-tournament"),
     url(r'^tournaments/([a-f0-9]{32})/pay/$', login_required(PayoutTournament.as_view()), name="payout-tournament"),

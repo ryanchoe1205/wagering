@@ -50,16 +50,23 @@ class OpenTournamentList(View):
         tournaments = Tournament.objects.filter(is_open=True, is_public=True).order_by("-created_on")
         return render(self.request, self.template_name, {"tournaments": tournaments})
 
-class ActiveTournamentList(View):
+class UserTournamentList(View):
     """
-    This presents users with a view of the tournaments they are currently active in.
+    This presents users with a view of all the tournaments they are related to.
     """
-    template_name = "wagers/tournaments/active-list.html"
+    template_name = "wagers/tournaments/user-tournament-list.html"
     def get(self, request):
-        players = Player.objects.filter(user=request.user, tournament__is_open=True)
-        tournaments = Tournament.objects.filter(created_by=request.user, is_open=True)
-        return render(self.request, self.template_name, {"players": players,
-                                                         "tournaments": tournaments})
+        all_played_tournaments = Tournament.objects.filter(player__user=request.user)
+        playing_tournaments = all_played_tournaments.filter(is_open=True)
+        played_tournaments = all_played_tournaments.filter(is_open=False)
+
+        all_ran_tournaments = Tournament.objects.filter(created_by=request.user)
+        running_tournaments = all_ran_tournaments.filter(is_open=True)
+        ran_tournaments = all_ran_tournaments.filter(is_open=False)
+        return render(self.request, self.template_name, {"playing": playing_tournaments,
+                                                         "played": played_tournaments,
+                                                         "running": running_tournaments,
+                                                         "ran": ran_tournaments})
 
 class TournamentAdmin(View):
     """

@@ -1,0 +1,53 @@
+{% extends "scaffolding.html" %}
+{% block content %}
+<div class="container">
+  <section>
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#playing" data-toggle="tab">Tournaments I'm Playing</a></li>
+    <li><a href="#running" data-toggle="tab">Tournaments I'm Running</a></li>
+    <li><a href="#played" data-toggle="tab">Tournaments I've Played</a></li>
+    <li><a href="#ran" data-toggle="tab">Tournaments I've Ran</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="playing">
+      <ol class="unstyled">
+        {% for tourney in playing %}
+          <li>
+            <a href="{{ tourney.get_absolute_url }}">{{ tourney }}</a> created by {{ tourney.created_by }} on {{ tourney.created_on }}
+          </li>
+        {% empty %}
+          <li>You have no active tournaments.</li>
+        {% endfor %}
+      </ol>
+    </div>
+    <div class="tab-pane" id="running">
+      <ol class="unstyled">
+        {% for tourney in running %}
+            <li><a href="{% url 'tournament-admin' tourney.uuid %}">{{ tourney }}</a> created by {{ tourney.created_by }} on {{ tourney.created_on }}</li>
+        {% empty %}
+          <li>You have no active tournaments.</li>
+        {% endfor %}
+      </ol>
+    </div>
+    <div class="tab-pane" id="played">
+      <ol class="unstyled">
+        {% for tourney in played %}
+            <li><a href="{{ tourney.get_absolute_url }}">{{ tourney }}</a> created by {{ tourney.created_by }} on {{ tourney.created_on }}</li>
+        {% empty %}
+          <li>You have no active tournaments.</li>
+        {% endfor %}
+      </ol>
+    </div>
+    <div class="tab-pane" id="running">
+      <ol class="unstyled">
+        {% for tourney in ran %}
+            <li><a href="{% url 'tournament-admin' tourney.uuid %}">{{ tourney }}</a> created by {{ tourney.created_by }} on {{ tourney.created_on }}</li>
+        {% empty %}
+          <li>You have no active tournaments.</li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+  </section>
+</div>
+{% endblock %}
