@@ -23,40 +23,64 @@
 
     <section class="row-fluid">
       <div class="span6">
-        <div class="info-header">
-          <h3>Tournaments I'm Running</h3>
+        <div class="small-info-box">
+          <div class="info-header">
+            <h3>Tournaments I'm Running</h3>
+          </div>
+          <ol class="unstyled tourney-info">
+            {% for tourney in admin_tourneys %}     
+              <li>
+                {% include 'wagers/tournaments/snippets/tournament-info.html' %}
+              </li>
+            {% empty %}
+              <div class="empty-advert teaser">
+                <p class='lead'>You don't seem to be running any tournaments. Want to make one?</p>
+                <p class="lead">
+                  Go to the <a href="% url 'add-tournament' %}"> tournament creation page.</a>
+                </p>
+             </div>
+            {% endfor %}
+          </ol>
         </div>
-        <ol class="unstyled tourney-info">
-          {% for tourney in admin_tourneys %}     
-            <li>{% include 'wagers/tournaments/snippets/tournament-info.html' %}</li>
-          {% endfor %}
-        </ol>
-        <div class="info-header">
-          <h3>Tournaments I've Ran</h3>
+        <div class="small-info-box">
+          <div class="info-header">
+            <h3>Tournaments I've Ran</h3>
+          </div>
+          <ol class="unstyled tourney-info">
+            {% for tourney in admin_tourneys %}     
+              <li>{% include 'wagers/tournaments/snippets/tournament-info.html' %}</li>
+            {% endfor %}
+          </ol>
         </div>
-        <ol class="unstyled tourney-info">
-          {% for tourney in admin_tourneys %}     
-            <li>{% include 'wagers/tournaments/snippets/tournament-info.html' %}</li>
-          {% endfor %}
-        </ol>
       </div>
       <div class="span6">
-        <div class="info-header">
-          <h3>Tournaments I'm Playing In</h3>
+        <div class="small-info-box">
+          <div class="info-header">
+            <h3>Tournaments I'm Playing In</h3>
+          </div>
+          <ol class="unstyled tourney-info">
+            {% for tourney in playing_tourneys %}     
+              <li>{% include 'wagers/tournaments/snippets/tournament-info.html' %}</li>
+            {% empty %}
+              <div class="empty-advert teaser">
+                <p class='lead'>You don't seem to be in any tournaments. Want to join one?</p>
+                <p class="lead">
+                  Go to the <a href="% url 'open-tournament-list' %}"> tournament listings page.</a>
+                </p>
+              </div>
+            {% endfor %}
+          </ol>
         </div>
-        <ol class="unstyled tourney-info">
-          {% for tourney in playing_tourneys %}     
-            <li>{% include 'wagers/tournaments/snippets/tournament-info.html' %}</li>
-          {% endfor %}
-        </ol>
-        <div class="info-header">
-          <h3>Tournaments I've Played In</h3>
+        <div class="small-info-box">
+          <div class="info-header">
+            <h3>Tournaments I've Played In</h3>
+          </div>
+          <ol class="unstyled tourney-info">
+            {% for tourney in played_tourneys %}     
+              <li>{% include 'wagers/tournaments/snippets/tournament-info.html' %}</li>
+            {% endfor %}
+          </ol>
         </div>
-        <ol class="unstyled tourney-info">
-          {% for tourney in played_tourneys %}     
-            <li>{% include 'wagers/tournaments/snippets/tournament-info.html' %}</li>
-          {% endfor %}
-        </ol>
       </div>
     </section>
   </section>
