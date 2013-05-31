@@ -57,11 +57,11 @@ class UserTournamentList(View):
     template_name = "wagers/tournaments/user-tournament-list.html"
     def get(self, request):
         all_played_tournaments = Tournament.objects.filter(player__user=request.user)
-        playing_tournaments = all_played_tournaments.filter(is_open=True)
-        played_tournaments = all_played_tournaments.filter(is_open=False)
+        playing_tournaments = all_played_tournaments.filter(is_open=True).order_by("-created_on")
+        played_tournaments = all_played_tournaments.filter(is_open=False).order_by("-created_on")
 
-        all_ran_tournaments = Tournament.objects.filter(created_by=request.user)
-        running_tournaments = all_ran_tournaments.filter(is_open=True)
+        all_ran_tournaments = Tournament.objects.filter(created_by=request.user).order_by("-created_on")
+        running_tournaments = all_ran_tournaments.filter(is_open=True).order_by("-created_on")
         ran_tournaments = all_ran_tournaments.filter(is_open=False)
         return render(self.request, self.template_name, {"playing": playing_tournaments,
                                                          "played": played_tournaments,
