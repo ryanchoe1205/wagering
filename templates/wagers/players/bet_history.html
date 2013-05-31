@@ -11,6 +11,26 @@
         <li>You haven't made any bets yet.</li>
       {% endfor %}
     </div>
+    {% empty %}
+    <p class="lead">It doesn't look like you have taken part in any tournaments yet... get started below.</p>
+    <div class="row-fluid">
+      <div class="well teaser span6">
+        <img src="/site_media/img/icons/Clipboard.png">
+        <h1>Create A Tournament</h1>
+          <p>Get people betting in three simple steps: Create a tournament, add propositions, and share the tournament with your friends.</p>
+          <div class="lead">
+            <a href="{% url 'add-tournament' %}">Create a tournament now!</a>
+          </div>
+        </div>
+        <div class="well teaser span6">
+          <img src="/site_media/img/icons/Chats.png">
+          <h1>Join A Tournament</h1>
+          <p>Start playing without any hassle. Publically listed tournaments can be found by following the link below.</p>
+          <div class="lead">
+            <a href="{% url 'open-tournament-list' %}">Check out tournaments open to the public.</a>
+          </div>
+        </div>
+      </div>
     {% endfor %}
   </section>
 </div>
