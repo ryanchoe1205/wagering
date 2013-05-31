@@ -356,7 +356,9 @@ class MakeBet(View):
         form = BetForm(initial={"credits": 1.0, "proposition": prop})
         return render(self.request,
                       self.template_name,
-                      {"form": form})
+                      {"form": form,
+                       "tourney": tourney,
+                       "prop": prop})
     
     def post(self, request, tourney_uuid, prop_id):
         """
@@ -379,7 +381,9 @@ class MakeBet(View):
             messages.add_message(self.request, messages.SUCCESS, "Bet made.")
             return redirect("tournament-details", tourney.uuid)
         else:
-            return render(self.request, self.template_name, {"form": bet_form})
+            return render(self.request, self.template_name, {"form": form,
+                                                            "tourney": tourney,
+                                                            "prop": prop})
             
 class PayoutProposition(View):
     template_name = "wagers/propositions/pay.html"
