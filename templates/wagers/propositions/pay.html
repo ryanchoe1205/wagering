@@ -2,7 +2,8 @@
 {% block content %}
 <div class="container">
   <section>
-    <h1>Admin View <small>Only The Tournament Adminstrator Can See This Page</small></h1> 
+    <h1>Admin View <small>Only The Tournament Adminstrator Can See This Page</small></h1>
+    <a href="{% url 'tournament-admin' tourney.uuid %}">Go back to tournament administration page.</a>
     {% if prop.is_paid %}
     <table class="table">
     	<caption>Results for "{{prop.team_a}} vs {{prop.team_b}}"</caption>
