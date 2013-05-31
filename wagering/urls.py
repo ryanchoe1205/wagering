@@ -69,7 +69,7 @@ class About(View):
 
 urlpatterns = patterns('',
     # Include Examples:
-    url(r'^$', HomePageView.as_view()),
+    url(r'^$', HomePageView.as_view(), name='home'),
     url(r'^login', 'django.contrib.auth.views.login', name='login'),
     url(r'^logout', 'django.contrib.auth.views.logout'),
     url(r'^register', RegisterView.as_view(), name='register'),

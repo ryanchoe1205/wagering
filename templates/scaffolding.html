@@ -17,7 +17,7 @@
           {% if user.is_authenticated %}
             <form class="navbar-form pull-right" action="/logout" method="POST">
               {% csrf_token %}
-              <input type="hidden" name="next" value="/">
+              <input type="hidden" name="next" value="{% url 'home' %}">
               <input type="submit" class="btn" value="Sign Out" />
             </form>
             <ul class="nav pull-right">
@@ -30,7 +30,7 @@
             </ul>
           {% else %}
             <form class="navbar-form pull-right" action="/login" method="GET">
-              <input type="hidden" name="next" value="{% url 'user-tournament-list' %}">
+              <input type="hidden" name="next" value="{% if tourney %}{{ tourney.get_absolute_url }}{% else %}{% url 'home' %}{% endif %}">
               <button class="btn"><b>Sign In</b></button>
             </form>
           {% endif %}
