@@ -22,11 +22,11 @@
             </form>
             <ul class="nav pull-right">
               <li>
-                <a href="{% url 'bet-history' %}">My Bet History</a>
+                <a href="{% url 'bet-history' %}"><strong>My Bet History</strong></a>
               <li>
-                <a href="{% url 'user-tournament-list' %}">My Tournaments</a>
+                <a href="{% url 'user-tournament-list' %}"><strong>My Tournaments</strong></a>
               </li>
-              <li><a href="">{{ user }}</a></li>
+              <li><a href=""><strong>{{ user }}</strong></a></li>
             </ul>
           {% else %}
             <form class="navbar-form pull-right" action="/login" method="GET">

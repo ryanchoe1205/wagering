@@ -2,48 +2,46 @@
 {% block content %}
 <div class="container">
   <section>
-  <ul class="nav nav-tabs">
+  <ul class="nav nav-tabs info-header-2">
     <li class="active"><a href="#playing" data-toggle="tab">Tournaments I'm Playing</a></li>
     <li><a href="#running" data-toggle="tab">Tournaments I'm Running</a></li>
     <li><a href="#played" data-toggle="tab">Tournaments I've Played</a></li>
     <li><a href="#ran" data-toggle="tab">Tournaments I've Ran</a></li>
   </ul>
-  <div class="tab-content">
+  <div class="tab-content info">
     <div class="tab-pane active" id="playing">
-      <ol class="unstyled">
+      <ol class="unstyled tourney-info">
         {% for tourney in playing %}
-          <li>
-            <a href="{{ tourney.get_absolute_url }}">{{ tourney }}</a> created by {{ tourney.created_by }} on {{ tourney.created_on }}
-          </li>
+          <li>{% include 'wagers/tournaments/snippets/tournament-info.html' %}</li>
         {% empty %}
-          <li>You have no active tournaments.</li>
+          <li><div>You have no active tournaments.<div></li>
         {% endfor %}
       </ol>
     </div>
     <div class="tab-pane" id="running">
-      <ol class="unstyled">
+      <ol class="unstyled tourney-info">
         {% for tourney in running %}
-            <li><a href="{% url 'tournament-admin' tourney.uuid %}">{{ tourney }}</a> created by {{ tourney.created_by }} on {{ tourney.created_on }}</li>
+          <li>{% include 'wagers/tournaments/snippets/tournament-info.html' %}</li>
         {% empty %}
-          <li>You have no active tournaments.</li>
+          <li><div>You have no active tournaments.<div></li>
         {% endfor %}
       </ol>
     </div>
     <div class="tab-pane" id="played">
-      <ol class="unstyled">
+      <ol class="unstyled tourney-info">
         {% for tourney in played %}
-            <li><a href="{{ tourney.get_absolute_url }}">{{ tourney }}</a> created by {{ tourney.created_by }} on {{ tourney.created_on }}</li>
+          <li>{% include 'wagers/tournaments/snippets/tournament-info.html' %}</li>
         {% empty %}
-          <li>You have no active tournaments.</li>
+          <li><div>You have no active tournaments.<div></li>
         {% endfor %}
       </ol>
     </div>
     <div class="tab-pane" id="running">
-      <ol class="unstyled">
+      <ol class="unstyled tourney-info">
         {% for tourney in ran %}
-            <li><a href="{% url 'tournament-admin' tourney.uuid %}">{{ tourney }}</a> created by {{ tourney.created_by }} on {{ tourney.created_on }}</li>
+          <li>{% include 'wagers/tournaments/snippets/tournament-info.html' %}</li>
         {% empty %}
-          <li>You have no active tournaments.</li>
+          <li><div>You have no active tournaments.<div></li>
         {% endfor %}
       </ol>
     </div>

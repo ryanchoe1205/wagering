@@ -4,7 +4,7 @@
   <section>
     <ol class="unstyled">
       {% for tourney in tournaments %}
-        <li><a href="{{ tourney.get_absolute_url }}">{{ tourney }}</a> created by {{ tourney.created_by }} on {{ tourney.created_on }}</li>
+        {% include 'wagers/tournaments/snippets/tournament-info.html' %}
       {% empty %}
         <li>There are no open tournaments.</li>
       {% endfor %}
