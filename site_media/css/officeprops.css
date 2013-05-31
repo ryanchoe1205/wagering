@@ -1,4 +1,4 @@
-/* Header CSS */
+  /* Header CSS */
 header {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -24,6 +24,7 @@ header {
 
 .brand {
   font-size: 40px !important;
+  font-family: "intruder-alert";
 }
 
 .brand1 {
@@ -38,43 +39,50 @@ header {
   margin-bottom: 0px;
 }
 
-/* Alert CSS */
-#alerts {
-  padding: 20px;
+
+/* Provides spacing between groups of unrelated sections of the site. */
+section {
+  margin-top: 2em;
+}
+section#alerts {
+  margin: 0;
+  padding: 0;
+  margin-top: 2em;
 }
 
+.alert { margin-bottom: 0; }
 
 /* Hero Unit CSS */
 .hero-unit {
-  padding-top: 30px;
-  padding-bottom: 15px;
+  padding-top: 65px;
+  padding-bottom: 70px;
   margin-bottom: 0px;
 }
 
 
 h1.heading {
-  font-size: 50px;
+  font-size: 4em;
   color: #1F3F99;
 
 }
 
 p.subheading {
-  margin-top: 10px;
+  margin-top: .5em;
 }
 
 .hero-unit input[type=text], .hero-unit  input[type=password] {
-    height: 35px;
+    height: 2em;
     border-radius: 5px;
     font-size: 20px;
     margin-bottom: 10px;
-    line-height: 25px;
+    line-height: 1.5em;
+    padding: 10px;
 }
 
 /* CSS for the three teasers at the bottom of the landing page. */
 
-.teaser img {
-  float: left;
-  margin-right: 10px;
+.teaser {
+  text-align: center;
 }
 
 
@@ -151,3 +159,40 @@ h1, h2 {
   margin: 0 auto 20px;
 }
 
+.form-reg button {
+  margin-top: .5em;
+}
+
+
+.info-header {
+  background-color: #f2f2f2;
+  padding: 5px;
+  padding-bottom: 0px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border: solid #B2B2B2 1px;
+}
+
+.info-header h3 {
+  margin: 0px;
+  padding: 0px;
+}
+
+.tourney-info li {
+  border: solid #B2B2B2 1px;
+  padding: 0px;
+  margin: 0px;
+  border-top: none;
+}
+
+.tourney-info li div { padding: 10px;}
+
+.tourney-info div.empty-advert { 
+  padding: 10px;
+  border: solid #B2B2B2 1px;
+  border-top: none;
+ }
+
+.tourney-info li:hover {
+  background-color: #f2f2f2;
+}
