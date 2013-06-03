@@ -210,6 +210,7 @@ class PayoutTournament(View):
 
 from game_database.views import Schedule
 from game_database.views import GetGameByID
+import datetime
 from django.utils import simplejson as json
 
 
@@ -294,10 +295,23 @@ class AddPropositionFromDatabase(View):
                     request.GET = {"id": id}
                     json_response = GetGameByID().get(request).content
                     game = json.loads(json_response)["game"][0]
-                    new_prop = Proposition(
-                        tournament=tourney,
-                        team_a=game.get("team_a"),
-                        team_b=game.get("team_b"))
+                    datetime_str = game["start_time"]
+                    if datetime_str:
+                        start_time = datetime.datetime.strptime(datetime_str, "%Y-%m-%dT%H:%M:%S+00:00")
+                        open_time = start_time - datetime.timedelta(days=1)
+                        close_time = start_time - datetime.timedelta(minutes=2)
+                        new_prop = Proposition(
+                            tournament=tourney,
+                            team_a=game.get("team_a"),
+                            team_b=game.get("team_b"),
+                            open_wager_at=open_time,
+                            close_wager_at=close_time,
+                            is_open=False)
+                    else:
+                        new_prop = Proposition(
+                            tournament=tourney,
+                            team_a=game.get("team_a"),
+                            team_b=game.get("team_b"))
                     new_prop.save()
         messages.add_message(self.request, messages.SUCCESS, "Propositions added.")
         return redirect("add-proposition", tourney.uuid)

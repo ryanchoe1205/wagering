@@ -2,11 +2,12 @@
 {% block content %}
 <div class="container">
   <section>
-    <ol class="unstyled">
+    <hr style="margin 0; padding:0;">
+    <ol class="unstyled tourney-info">
       {% for tourney in tournaments %}
-        {% include 'wagers/tournaments/snippets/tournament-info.html' %}
+        <li>{% include 'wagers/tournaments/snippets/tournament-info.html' %}</li>
       {% empty %}
-        <li>There are no open tournaments.</li>
+        <li><div>There are no open tournaments.</div></li>
       {% endfor %}
     </ol>
   </section>

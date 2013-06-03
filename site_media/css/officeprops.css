@@ -24,7 +24,6 @@ header {
 
 .brand {
   font-size: 40px !important;
-  font-family: "intruder-alert";
 }
 
 .brand1 {
@@ -163,6 +162,14 @@ h1, h2 {
   margin-top: .5em;
 }
 
+
+.info-header-2 {
+  background-color: #f2f2f2;
+  margin-bottom: 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border: solid #B2B2B2 1px;
+}
 
 .info-header {
   background-color: #f2f2f2;
