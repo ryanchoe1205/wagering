@@ -1,3 +1,4 @@
+{% load analytical %}
 <!DOCTYPE html>
 <html>
   <head>
@@ -8,7 +9,9 @@
     <link href="/site_media/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="/site_media/css/jquery.simple-dtpicker.css" rel="stylesheet" media="screen">
     <link href="/site_media/css/officeprops.css" rel="stylesheet" media="screen">
-	</head>
+	  {% analytical_head_top %}
+    {% analytical_head_bottom %}
+  </head>
 	<body>
     <div id="wrapper">
       <header>
@@ -77,5 +80,7 @@
       $("#schedule").toggle();
     });
 		</script>
+    {% analytical_body_top %}
+    {% analytical_body_bottom %}
   </body>
 </html>

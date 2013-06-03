@@ -137,9 +137,11 @@ INSTALLED_APPS = (
     'kombu.transport.django',
     'djcelery',
     'game_database',
+    'analytical',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+CLICKY_SITE_ID = 100613952
 # Patch the djcelery/snapshot cause it's broken
 BROKER_URL = "django://"
 import djcelery
