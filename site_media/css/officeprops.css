@@ -21,18 +21,21 @@ header {
           box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
 }
 
-
+header ul { margin: 10px !important; vertical-align: middle;}
 .brand {
   font-size: 40px !important;
 }
 
 .brand1 {
   color: #1F3F99;
+  vertical-align: middle;
 }
 
 .brand2 {
   color: #A6212E;
+  vertical-align: middle;
 }
+.navbar .nav li { vertical-align: middle;}
 
 .navbar {
   margin-bottom: 0px;
@@ -62,7 +65,6 @@ section#alerts {
 h1.heading {
   font-size: 4em;
   color: #1F3F99;
-
 }
 
 p.subheading {
@@ -79,16 +81,13 @@ p.subheading {
 }
 
 /* CSS for the three teasers at the bottom of the landing page. */
-
 .teaser {
   text-align: center;
 }
 
-
 .teaser h1, .teaser h2,  {
   margin-bottom: 15px;
 }
-
 
 html, body {
   height: 100%;
@@ -99,7 +98,6 @@ html, body {
   height: auto !important;
   min-height: 100%;
   margin-bottom: -85px;
-
 }
 
 #footer_push {
@@ -109,9 +107,6 @@ html, body {
 footer {
   position: relative;
 }
-
-
-
 
 hr {
   margin: 0;
