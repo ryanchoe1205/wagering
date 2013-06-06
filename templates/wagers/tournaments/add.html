@@ -10,7 +10,7 @@
         {% csrf_token %}
         <div class="control-group {% if form.name.errors %}error{% endif %}">
           <div class="controls">
-            <label for="name">Name</label>
+            <label for="name">Name Your Tournament</label>
             <input class="input-xxlarge" type="text" name="name" {% if form.name.value %}value="{{ form.name.value }}"{% endif %} />
             {% for error in form.errors.name %}
               <span class="help-block">{{ error }}</span>
@@ -20,7 +20,7 @@
         
         <div class="control-group {% if form.description.errors %}error{% endif %}">
           <div class="controls">
-            <label>Description</label>
+            <label>Describe Your Tournament</label>
             <span class="help-block">{{ form.description.help_text }}</span>
             <textarea rows="5" class="input-xxlarge" name="description">{% if form.description.value %}{{ form.description.value }}{% endif %}</textarea>
             {% for error in form.errors.description %}
@@ -28,22 +28,11 @@
             {% endfor %}
           </div>
         </div>
-        
-        <div class="control-group {% if form.entrance_fee.errors %}error{% endif %}">
-          <div class="controls">
-            <label>Buy In</label>
-            <span class="help-block">This is how many credits users will need to ante up to get into the tournament.</span>
-            <input name="entrance_fee" type="number" {% if form.entrance_fee.value %}value="{{ form.entrance_fee.value }}"{% endif %} />
-            {% for error in form.errors.entrance_fee %}
-              <span class="help-block">{{ error }}</span>
-            {% endfor %}
-          </div>
-        </div>
-        
+        <input name="entrance_fee" type="hidden" value="0">
         <div class="control-group {% if form.is_public.errors %}error{% endif %}">
           <div class="controls">
-            <label>Tournament Visibility</label>
-            <span class="help-block">If the tournament isn't public then only those given a link to the tournament will be able to find it.</span>
+            <label>Make it Public or Private?</label>
+            <span class="help-block">The default is private. You will need to share a link so people can join. Click the box below to make it public so that anyone on the net can find it.</span>
             <label class="checkbox">
               <input type="checkbox" name="is_public" {% if form.is_public.value %}checked="{{ form.is_public.value }}"{% endif %} /> Check this to make the tournament public.
             </label>
