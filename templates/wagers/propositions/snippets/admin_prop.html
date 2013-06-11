@@ -20,7 +20,7 @@
 
   <div class="row-fluid">
     <form>
-      <b>Opens at:</b> {% if prop.open_wager_at %}{{ prop.open_wager_at }}{% else %}None{% endif %} <button href="#modal-opendate-{{ prop.id }}" role="button" class="btn" data-toggle="modal"><i class="icon-calendar"></i>Edit</button>
+      <b>Opens at:</b> {% if prop.schedule.open_wager_at %}{{ prop.schedule.open_wager_at }}{% else %}None{% endif %} <button href="#modal-opendate-{{ prop.id }}" role="button" class="btn" data-toggle="modal"><i class="icon-calendar"></i>Edit</button>
       <div id="modal-opendate-{{ prop.id }}" class="modal hide fade">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" area-hidden="true">&times;</button>
