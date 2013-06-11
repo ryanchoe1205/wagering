@@ -6,6 +6,7 @@ from forms import PropositionAdminForm
 from forms import PropositionPayoutForm
 from forms import BetForm
 from forms import GameDatabaseForm
+from forms import GameScheduleForm
 from models import Tournament
 from models import Proposition
 from models import Player
@@ -90,12 +91,14 @@ class TournamentAdmin(View):
         join_form = TournamentForm(initial={"uuid":tourney.uuid})
         tournament_form = TournamentForm(initial={"uuid":tourney.uuid})
         add_prop_form = PropositionForm(initial={"tournament":tourney.id})
+        game_schedule_form = GameScheduleForm()
         propositions = Proposition.objects.filter(tournament=tourney)
         return render(self.request,
                       self.template_name,
                       {"tourney": tourney,
                        "tournament_form": tournament_form,
                        "propositions": propositions,
+                       "game_schedule_form": game_schedule_form,
                        "player": player,
                        "join_form": join_form, 
                        "user_is_admin": user_is_admin,
@@ -237,7 +240,7 @@ class AddProposition(View):
         else:
             games = None
         add_prop_form = PropositionForm(initial={"tournament":tourney.id})
-        user_is_admin = True
+        game_schedule_form = GameScheduleForm()
         GameDatabaseFormset = formset_factory(GameDatabaseForm, extra=0)
         if games: 
             formset = GameDatabaseFormset(initial=games["games"])
@@ -248,7 +251,8 @@ class AddProposition(View):
                       self.template_name,
                       {"tourney": tourney,
                        "add_prop_form": add_prop_form,
-                       "user_is_admin": user_is_admin,
+                       "user_is_admin": True,
+                       "game_schedule_form": game_schedule_form,
                        "games": games,
                        "formset": formset})
                        
@@ -263,21 +267,26 @@ class AddProposition(View):
         if not tourney.is_open:
             return HttpResponseForbidden("This tournament is closed.")
         form = PropositionForm(request.POST)
-        if form.is_valid():
+        game_schedule_form = GameScheduleForm(request.POST)
+
+        if form.is_valid() and game_schedule_form.is_valid():
             # Make sure the input wasn't a lie.
             tourney2 = form.get_tournament()
             if not tourney == tourney2:
                 return HttpResponseForbidden("Only the tournament administrator can do that.")
-            form.save(commit=True)
+            game = form.save(commit=False)
+            schedule = game_schedule_form.save(commit=True)
+            game.schedule = schedule
+            game.save()
             messages.add_message(self.request, messages.SUCCESS, "Proposition added.")
             return redirect("add-proposition", tourney.uuid)
         else:
-            user_is_admin = True
             return render(self.request, 
                           self.template_name, 
                          {"tourney": tourney,
                           "add_prop_form": form,
-                           "user_is_admin": user_is_admin})
+                           "schedule_form": game_schedule_form,
+                           "user_is_admin": True})
 
 class AddPropositionFromDatabase(View):
     def post(self, request, tourney_uuid):
@@ -326,7 +335,6 @@ class OpenProposition(View):
     openable if they have already been paid out.
     """ 
     def post(self, request, tourney_uuid, prop_id):
-        print request.POST
         admin_form = PropositionAdminForm(request.POST)
         if admin_form.is_valid(request.user):
             prop = admin_form.get_proposition()

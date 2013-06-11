@@ -7,6 +7,9 @@ from decimal import Decimal
 from helpers import take_while
 import datetime
 
+
+
+
 class Player(models.Model):
     """
     Each tournament is made up of site Users, but the money that a User has is
@@ -46,7 +49,7 @@ class Player(models.Model):
             for player in info["players"]:
                 if self == player:
                     return info["place"]
-    
+   
 class Tournament(models.Model):
     """
     Gambling is illegal, but having a competition to see who gambles best
@@ -235,6 +238,17 @@ class Tournament(models.Model):
         """
         return reverse('tournament-details', args=[self.uuid])
 
+class Schedule(models.Model):
+    """
+    Every Proposition can potentially have its schedule changed. This class
+    encapsulates the scheduling code in order to simplify automation related
+    to scheduling.
+    """
+    # If this value is null, then their is no game_database to use for scheduling
+    game_database_id = models.IntegerField(null=True, editable=False)
+    open_wager_at = models.DateTimeField(blank=True, null=True)
+    close_wager_at = models.DateTimeField(blank=True, null=True)
+
 class Proposition(models.Model):
     """
     Each tournament is a competition to see who has the best predictive capabilities.
@@ -252,6 +266,9 @@ class Proposition(models.Model):
     notes = models.CharField(max_length=100, help_text=notes_help_text, blank=True)
     
     is_open = models.BooleanField(default=True)
+
+    # Propositions are on a game and a game has a schedule.
+    schedule = models.ForeignKey(Schedule, null=True, blank=True)
     open_help_text = "It is possible to schedule the prop to appear at a specific time."
     open_wager_at = models.DateTimeField(blank=True, null=True, help_text=open_help_text)
     close_help_text = "The prop can be scheduled to be closed to further betting too."

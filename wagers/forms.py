@@ -1,5 +1,6 @@
 from django import forms
 from django.shortcuts import get_object_or_404
+from models import Schedule
 from models import Tournament
 from models import Proposition
 from models import Bet
@@ -19,6 +20,13 @@ class TournamentForm(forms.Form):
         """  
         uuid = self.cleaned_data["uuid"]
         return get_object_or_404(Tournament, uuid=uuid)
+
+class GameScheduleForm(forms.ModelForm):
+    """
+    This form is used to create proposition schedules.
+    """
+    class Meta:
+        model = Schedule
 
 class PropositionForm(forms.ModelForm):
     """

@@ -28,11 +28,13 @@
       {% include "wagers/propositions/snippets/add_form.html" %}
     {% endif %}
     <h2>Propositions <small>Administrator View</small></h2>
-    <ul class="unstyled">
-    {% for prop in propositions %}
-      <li>{% include "wagers/propositions/snippets/admin_prop.html" %}</li>
-    {% endfor %}
-    </ul>
+    <div class="row-fluid">
+      <ul class="unstyled">
+      {% for prop in propositions %}
+        <li>{% include "wagers/propositions/snippets/admin_prop.html" %}</li>
+      {% endfor %}
+      </ul>
+    </div>
   </section>
 </div>
 {% endblock content%}

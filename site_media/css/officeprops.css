@@ -198,3 +198,7 @@ h1, h2 {
 .tourney-info li:hover {
   background-color: #f2f2f2;
 }
+
+.admin-game {
+  padding: 20px;
+}
