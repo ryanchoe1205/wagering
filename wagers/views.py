@@ -12,6 +12,7 @@ from models import Proposition
 from models import Player
 from models import Bet
 from models import WagerSettingSingleton
+from models import Schedule
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -211,7 +212,7 @@ class PayoutTournament(View):
         # We should never get here.
         raise Http404
 
-from game_database.views import Schedule
+from game_database.views import Schedule as DatabaseSchedule
 from game_database.views import GetGameByID
 import datetime
 from django.utils import simplejson as json
@@ -235,7 +236,7 @@ class AddProposition(View):
             return HttpResponseForbidden("This tournament is closed.")
         schedule_form = ScheduleForm(request.GET)
         if schedule_form.is_valid():
-            json_response = Schedule().get(self.request).content
+            json_response = DatabaseSchedule().get(self.request).content
             games = json.loads(json_response)
         else:
             games = None
@@ -308,11 +309,18 @@ class AddPropositionFromDatabase(View):
                     if datetime_str:
                         start_time = datetime.datetime.strptime(datetime_str, "%Y-%m-%dT%H:%M:%S+00:00")
                         open_time = start_time - datetime.timedelta(days=1)
+
                         close_time = start_time - datetime.timedelta(minutes=2)
+                        schedule, created = Schedule.objects.get_or_create(game_database_id=game["id"])
+                        if created:
+                            schedule.open_wager_at = start_time
+                            schedule.close_wager_at = close_time
+                        schedule.save()
                         new_prop = Proposition(
                             tournament=tourney,
                             team_a=game.get("team_a"),
                             team_b=game.get("team_b"),
+                            schedule=schedule,
                             open_wager_at=open_time,
                             close_wager_at=close_time,
                             is_open=False)
