@@ -249,6 +249,9 @@ class Schedule(models.Model):
     open_wager_at = models.DateTimeField(blank=True, null=True)
     close_wager_at = models.DateTimeField(blank=True, null=True)
 
+    def __str__(self):
+        return "Schedule: {}".format(self.id)
+
 class Proposition(models.Model):
     """
     Each tournament is a competition to see who has the best predictive capabilities.
