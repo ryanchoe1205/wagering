@@ -8,8 +8,6 @@ from helpers import take_while
 import datetime
 
 
-
-
 class Player(models.Model):
     """
     Each tournament is made up of site Users, but the money that a User has is
@@ -252,6 +250,16 @@ class Schedule(models.Model):
     def __str__(self):
         return "Schedule: {}".format(self.id)
 
+def proposition_automation(sender, instance, created, **kwargs):
+    from wagers.tasks import open_props
+    from wagers.tasks import close_props
+    if instance.open_wager_at:
+        open_props.apply_async(args=[instance.id], eta=instance.open_wager_at)
+    if instance.close_wager_at:
+        close_props.apply_async(args=[instance.id], eta=instance.close_wager_at)
+
+post_save.connect(proposition_automation, sender=Schedule)
+
 class Proposition(models.Model):
     """
     Each tournament is a competition to see who has the best predictive capabilities.
@@ -383,16 +391,7 @@ class Proposition(models.Model):
 
 
       
-def proposition_automation(sender, instance, created, **kwargs):
-    from wagers.tasks import open_prop
-    from wagers.tasks import close_prop
-    if created:
-        if instance.open_wager_at:
-            open_prop.apply_async(args=[instance.id], eta=instance.open_wager_at)
-        if instance.close_wager_at:
-            close_prop.apply_async(args=[instance.id], eta=instance.close_wager_at)
- 
-post_save.connect(proposition_automation, sender=Proposition)
+
 
 class Bet(models.Model):
     """
