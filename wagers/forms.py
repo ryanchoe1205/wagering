@@ -102,7 +102,10 @@ class PropositionAdminForm(forms.Form):
         """
         id = self.cleaned_data.get("id")
         return get_object_or_404(Proposition, id=id)
-                  
+
+class ChangeScheduleForm(PropositionAdminForm):
+    open_wager_at = forms.DateTimeField()
+    close_wager_at = forms.DateTimeField()                
         
 
 class ScheduleForm(forms.Form):

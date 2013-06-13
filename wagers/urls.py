@@ -13,6 +13,7 @@ from wagers.views import CloseProposition
 from wagers.views import PayoutProposition
 from wagers.views import MakeBet
 from wagers.views import BetHistoryView
+from wagers.views import ChangeSchedule
 from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import permission_required, login_required
 
@@ -29,6 +30,7 @@ urlpatterns = patterns('',
     url(r'^tournaments/([a-f0-9]{32})/props/add/$', login_required(AddProposition.as_view()), name="add-proposition"),
     url(r'^tournaments/([a-f0-9]{32})/props/add-selected/$', login_required(AddPropositionFromDatabase.as_view()), name="add-selected"),
     url(r'^tournaments/([a-f0-9]{32})/props/(\d+)/bet/$', login_required(MakeBet.as_view()), name="make-bet"),
+    url(r'^tournaments/([a-f0-9]{32})/props/(\d+)/schedule/$', login_required(ChangeSchedule.as_view()), name="change-schedule"),
     url(r'^tournaments/([a-f0-9]{32})/props/(\d+)/pay/$', login_required(PayoutProposition.as_view()), name="payout-proposition"),
     url(r'^tournaments/([a-f0-9]{32})/props/(\d+)/open/$', login_required(OpenProposition.as_view()), name="open-proposition"),
     url(r'^tournaments/([a-f0-9]{32})/props/(\d+)/close/$', login_required(CloseProposition.as_view()), name="close-proposition"))

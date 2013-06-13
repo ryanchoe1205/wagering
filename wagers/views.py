@@ -7,6 +7,7 @@ from forms import PropositionPayoutForm
 from forms import BetForm
 from forms import GameDatabaseForm
 from forms import GameScheduleForm
+from forms import ChangeScheduleForm
 from models import Tournament
 from models import Proposition
 from models import Player
@@ -21,6 +22,14 @@ from django.shortcuts import render
 from django.views.generic.base import View
 from django.views.generic import CreateView
 from forms import ScheduleForm
+from game_database.views import Schedule as DatabaseSchedule
+from game_database.views import GetGameByID
+import datetime
+from django.utils import simplejson as json
+
+
+
+from django.forms.formsets import formset_factory
 
 
 class AddTournament(CreateView):
@@ -212,14 +221,33 @@ class PayoutTournament(View):
         # We should never get here.
         raise Http404
 
-from game_database.views import Schedule as DatabaseSchedule
-from game_database.views import GetGameByID
-import datetime
-from django.utils import simplejson as json
+class ChangeSchedule(View):
+    """
+    This view allows admins to change the schedule of their tourney's props.
+    """
+    def post(self, request, tourney_uuid, prop_id):
+        change_schedule_form = ChangeScheduleForm(request.POST)
+        if change_schedule_form.is_valid(request.user):
+            prop = change_schedule_form.get_proposition()
+            open_at = change_schedule_form.cleaned_data["open_wager_at"]
+            close_at = close_wager_at=change_schedule_form.cleaned_data["close_wager_at"]
+            if prop.schedule.game_database_id:
+                new_schedule = Schedule(open_wager_at=open_at, close_wager_at=close_at)
+                prop.schedule = new_schedule
+                prop.save()
+                new_schedule.save()
+            else:
+                prop.schedule.open_wager_at = open_at
+                prop.schedule.close_wager_at = close_at
+                prop.schedule.save()
+            messages.add_message(self.request, messages.SUCCESS, "Schedule changed.")
+            return redirect("tournament-admin", tourney_uuid)
+        else:
+            return HttpResponseForbidden("You can't do that.")
+            
 
 
 
-from django.forms.formsets import formset_factory
 
 class AddProposition(View):
     """

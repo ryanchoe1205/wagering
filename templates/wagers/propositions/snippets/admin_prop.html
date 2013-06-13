@@ -1,72 +1,79 @@
 <div class="admin-game">
   <div class="row-fluid">
-
-    <div class="span2">
+    <div class="span4">
       <form method="POST" action="{% url 'payout-proposition' tourney.uuid prop.id %}">
         {% csrf_token %}
         <input type="hidden" name="outcome" value="True">
-        <button class="btn btn-primary input-block-level">Declare {{ prop.team_a }} the winner.</button>
+        <button class="btn btn-primary input-block-level">
+          <div>Declare {{ prop.team_a }} the winner.</div>
+          <div><small>Some extra info</small></div>
+        </button>
       </form>
     </div>
-    <div class="span1" style="text-align: center;">vs</div>
-    <div class="span2">
+    <div class="span4">
       <form method="POST" action="{% url 'payout-proposition' tourney.uuid prop.id %}">
         {% csrf_token %}
         <input type="hidden" name="outcome" value="False">
-        <button class="btn btn-primary input-block-level">Declare {{ prop.team_b }} the winner.</button>
+        <button class="btn btn-primary input-block-level">
+          <div>Declare {{ prop.team_b }} the winner.</div>
+          <div><small>Some extra info</small></div>
+        </button>
       </form>
     </div>
-  </div>
-
-  <div class="row-fluid">
-    <form>
-      <b>Opens at:</b> {% if prop.schedule.open_wager_at %}{{ prop.schedule.open_wager_at }}{% else %}None{% endif %} <button href="#modal-opendate-{{ prop.id }}" role="button" class="btn" data-toggle="modal"><i class="icon-calendar"></i>Edit</button>
-      <div id="modal-opendate-{{ prop.id }}" class="modal hide fade">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" area-hidden="true">&times;</button>
-          <h3>Change Schedule of {{ prop }}</h3>
-        </div>
-        <div class="modal-body">
-          <input class="datetime-input" />
-        </div>
-        <div class="modal-footer">
-          <a href="#" data-dismiss="modal" class="btn">Close</a>
-          <a href="#" class="btn btn-primary">Save changes</a>
-        </div>
-      </div>
-    </form>
-    <form>
-      <b>Closes at:</b> {% if prop.schedule.close_wager_at %}{{ prop.schedule.close_wager_at }}{% else %}None{% endif %} <button href="#modal-closedate-{{ prop.id }}" role="button" class="btn" data-toggle="modal"><i class="icon-calendar"></i>Edit</button>
-      <div id="modal-closedate-{{ prop.id }}" class="modal hide fade">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" area-hidden="true">&times;</button>
-          <h3>Change Schedule of {{ prop }}</h3>
-        </div>
-        <div class="modal-body">
-          <input class="datetime-input" />
-        </div>
-        <div class="modal-footer">
-          <a href="#" data-dismiss="modal" class="btn">Close</a>
-          <a href="#" class="btn btn-primary">Save changes</a>
-        </div>
-      </div>
-    </form>
   </div>
 
   <div class="row-fluid">
     <div class="span5">
+      <form method="POST" action="{% url 'change-schedule' tourney.uuid prop.id %}">  
+        <label>Opens on</label> 
+        <div class="input-append">
+          <input type="text" value="{% if prop.schedule.open_wager_at %}{{ prop.schedule.open_wager_at }}{% else %}None{% endif %}" disabled/> 
+          <button href="#modal-schedule-{{ prop.id }}" role="button" class="btn" data-toggle="modal"><i class="icon-calendar"></i>Edit</button>
+        </div>
+        <label>Closes on</label>
+        <div class="input-append">
+           <input type="text" value="{% if prop.schedule.close_wager_at %}{{ prop.schedule.close_wager_at }}{% else %}None{% endif %}" disabled/>
+          <button href="#modal-closedate-{{ prop.id }}" role="button" class="btn" data-toggle="modal"><i class="icon-calendar"></i>Edit</button>
+        </div>
+
+
+      <div id="modal-schedule-{{ prop.id }}" class="modal hide fade">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" area-hidden="true">&times;</button>
+          <h3>Change Schedule of {{ prop }}</h3>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="id" value="{{ prop.id }}" />
+          <div class="row-fluid">
+            <div class="span6">
+              <label>Open on</label>
+              <input name="open_wager_at" class="datetime-input" />
+            </div>
+            <div class="span6">
+              <label>Close on</label>
+              <input name="close_wager_at" class="datetime-input" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a href="#" data-dismiss="modal" class="btn">Close</a>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+    <div class="span7">
       {% if not prop.is_paid %}
         {% if prop.is_open %}
-        <form method="POST" action="{% url 'close-proposition' tourney.uuid prop.id %}">
+        <form class="form form-inline" method="POST" action="{% url 'close-proposition' tourney.uuid prop.id %}">
           {% csrf_token %}
           <input type="hidden" name="id" value="{{ prop.id }}" />
-          <button class="btn btn-primary input-block-level">Manually Close Proposition</button>
+          <button class="btn">Manually Close Proposition</button>
         </form>
         {% else %}
-        <form method="POST" action="{% url 'open-proposition' tourney.uuid prop.id %}">
+        <form class="form-inline" method="POST" action="{% url 'open-proposition' tourney.uuid prop.id %}">
           {% csrf_token %}
           <input type="hidden" name="id" value="{{ prop.id }}" />
-          <button class="btn btn-primary input-block-level">Manually Open Proposition</button>
+          <button class="btn">Manually Open Proposition</button>
         </form>
         {% endif %}
       {% endif %}
