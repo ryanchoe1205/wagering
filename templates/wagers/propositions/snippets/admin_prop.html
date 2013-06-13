@@ -26,63 +26,57 @@
     <div class="span8">
       <form method="POST" action="{% url 'change-schedule' tourney.uuid prop.id %}">
         {% csrf_token %}
-      <div>
         <label>Opens on</label> 
         <div class="input-append">
           <input type="text" value="{% if prop.schedule.open_wager_at %}{{ prop.schedule.open_wager_at }}{% else %}None{% endif %}" disabled/> 
           <button href="#modal-schedule-{{ prop.id }}" role="button" class="btn" data-toggle="modal"><i class="icon-calendar"></i>Edit</button>
         </div>
-        <div style="float: right; position: relative; height: 80px; top:50%;">
-          {% if not prop.is_paid %}
-            <b>or</b>
-            {% if prop.is_open %}
-            <form class="form form-inline" method="POST" action="{% url 'close-proposition' tourney.uuid prop.id %}">
-              {% csrf_token %}
-              <input type="hidden" name="id" value="{{ prop.id }}" />
-              <button class="btn">Manually Close Proposition</button>
-            </form>
-            {% else %}
-            <form class="form-inline" method="POST" action="{% url 'open-proposition' tourney.uuid prop.id %}">
-              {% csrf_token %}
-              <input type="hidden" name="id" value="{{ prop.id }}" />
-              <button class="btn">Manually Open Proposition</button>
-            </form>
-            {% endif %}
-          {% endif %}
-        </div>
+        
         <label>Closes on</label>
         <div class="input-append">
            <input type="text" value="{% if prop.schedule.close_wager_at %}{{ prop.schedule.close_wager_at }}{% else %}None{% endif %}" disabled/>
           <button href="#modal-closedate-{{ prop.id }}" role="button" class="btn" data-toggle="modal"><i class="icon-calendar"></i>Edit</button>
         </div>
-
-      </div>
-
-
-      <div id="modal-schedule-{{ prop.id }}" class="modal hide fade">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" area-hidden="true">&times;</button>
-          <h3>Change Schedule of {{ prop }}</h3>
-        </div>
-        <div class="modal-body">
-          <input type="hidden" name="id" value="{{ prop.id }}" />
-          <div class="row-fluid">
-            <div class="span6">
-              <label>Open on</label>
-              <input name="open_wager_at" class="datetime-input" />
-            </div>
-            <div class="span6">
-              <label>Close on</label>
-              <input name="close_wager_at" class="datetime-input" />
+        <div id="modal-schedule-{{ prop.id }}" class="modal hide fade">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" area-hidden="true">&times;</button>
+            <h3>Change Schedule of {{ prop }}</h3>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" name="id" value="{{ prop.id }}" />
+            <div class="row-fluid">
+              <div class="span6">
+                <label>Open on</label>
+                <input name="open_wager_at" class="datetime-input" />
+              </div>
+              <div class="span6">
+                <label>Close on</label>
+                <input name="close_wager_at" class="datetime-input" />
+              </div>
             </div>
           </div>
+          <div class="modal-footer">
+            <a href="#" data-dismiss="modal" class="btn">Close</a>
+            <input type="submit" class="btn btn-primary" value="Save changes" />
+          </div>
         </div>
-        <div class="modal-footer">
-          <a href="#" data-dismiss="modal" class="btn">Close</a>
-          <input type="submit" class="btn btn-primary" value="Save changes" />
-        </div>
-      </div>
-    </div>
+      </form>
+    <div style="float: right; position: relative; height: 80px; top:50%; margin-top:-80px;">
+    {% if not prop.is_paid %}
+      {% if prop.is_open %}
+      <form class="form form-inline" method="POST" action="{% url 'close-proposition' tourney.uuid prop.id %}">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{ prop.id }}" />
+        <button class="btn">Or Close Proposition Now</button>
+      </form>
+      {% else %}
+      <form class="form-inline" method="POST" action="{% url 'open-proposition' tourney.uuid prop.id %}">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{ prop.id }}" />
+        <button class="btn">Or Open Proposition Now</button>
+      </form>
+      {% endif %}
+    {% endif %}
   </div>
 </div>
 
