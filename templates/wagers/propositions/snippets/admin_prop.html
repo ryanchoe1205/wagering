@@ -25,6 +25,7 @@
   <div class="row-fluid">
     <div class="span8">
       <form method="POST" action="{% url 'change-schedule' tourney.uuid prop.id %}">
+        {% csrf_token %}
       <div>
         <label>Opens on</label> 
         <div class="input-append">
@@ -78,7 +79,7 @@
         </div>
         <div class="modal-footer">
           <a href="#" data-dismiss="modal" class="btn">Close</a>
-          <button type="submit" class="btn btn-primary">Save changes</button>
+          <input type="submit" class="btn btn-primary" value="Save changes" />
         </div>
       </div>
     </div>
