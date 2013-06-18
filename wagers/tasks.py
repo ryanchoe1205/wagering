@@ -41,7 +41,7 @@ def open_props(schedule_id):
 def close_props(schedule_id):
 	schedule = Schedule.objects.get(id=schedule_id)
 	if schedule.close_wager_at and is_close_to_now(schedule.close_wager_at):
-		props = Proposition.objects.filter(schedule=schedule_id)
+		props = Proposition.objects.filter(schedule=schedule)
 		for prop in props:
 			prop.close()
 			prop.save()
