@@ -1,22 +1,7 @@
 {% extends "scaffolding.html" %}
 {% block content %}
-<div class="container">
-  <section>
-    {% if user_is_admin %}
-      <ul class="nav nav-tabs">
-        <li {% if not add_prop_form.errors %}class="active"{% endif %}><a href="#auto" data-toggle="tab">Use Our Game Database To Generate Propositions</a></li>
-        <li {% if add_prop_form.errors %}class="active"{% endif %}><a href="#manual" data-toggle="tab">Make Up Your Own Propositions Manually</a></li>
-      </ul>
-      <div class="tab-content">
-        <div class="tab-pane {% if not add_prop_form.errors %}active{% endif %}" id="auto">
-          {% include 'wagers/propositions/snippets/schedule_form.html' %}
-        </div>
-        <div class="tab-pane {% if add_prop_form.errors %}active{% endif %}" id="manual">
-          {% include "wagers/propositions/snippets/add_form.html" %}
-        </div>
-      </div>
-      Done adding propositions? <a href="{% url 'share-tournament' tourney.uuid %}">Share the tournament with your friends!</a>
-    {% endif %}
+  <section class="container">
+    Done adding propositions? <a class="btn btn-primary" href="{% url 'share-tournament' tourney.uuid %}">Share The Tournament With Your Friends</a> 
   </section>
-</div>
+  {% include "wagers/propositions/snippets/add.html" %}
 {% endblock %}
