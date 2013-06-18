@@ -145,7 +145,22 @@ CLICKY_SITE_ID = 100613952
 # Patch the djcelery/snapshot cause it's broken
 BROKER_URL = "django://"
 import djcelery
+from celery.schedules import crontab
+
 djcelery.setup_loader()
+CELERYBEAT_SCHEDULE = {
+    # Executes once per day.
+    'pay-out-props': {
+        'task': 'wagers.tasks.pay_props',
+        'schedule': crontab(hour=1),
+        'args': (),
+    },
+    'scrape-mlb': {
+        'task': 'game_database.tasks.scrape_mlb',
+        'schedule': crontab(hour=0),
+        'args': (),
+    },
+}
 
 
 

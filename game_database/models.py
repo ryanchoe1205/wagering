@@ -13,7 +13,7 @@ class Game(models.Model):
 	team_b_score = models.IntegerField(null=True)
 
 	is_finished = models.BooleanField()
-	# Won if team a wins, Loss if team b wins, Draw if a draw, N/A if not finished
+	# Won if team a wins, Lost if team b wins, Drawn if a draw, N/A if not finished
 	outcome = models.CharField(max_length=5, blank=True)
 
 	def __str__(self):
