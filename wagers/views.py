@@ -357,6 +357,7 @@ class AddPropositionFromDatabase(View):
                             team_a=game.get("team_a"),
                             team_b=game.get("team_b"))
                     new_prop.save()
+                    schedule.save()
         messages.add_message(self.request, messages.SUCCESS, "Propositions added.")
         return redirect("add-proposition", tourney.uuid)
 
