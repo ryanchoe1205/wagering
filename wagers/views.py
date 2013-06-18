@@ -340,7 +340,7 @@ class AddPropositionFromDatabase(View):
                         close_time = start_time - datetime.timedelta(minutes=2)
                         schedule, created = Schedule.objects.get_or_create(game_database_id=game["id"])
                         if created:
-                            schedule.open_wager_at = start_time
+                            schedule.open_wager_at = open_time
                             schedule.close_wager_at = close_time
                         schedule.save()
                         new_prop = Proposition(
