@@ -232,14 +232,13 @@ class ChangeSchedule(View):
             open_at = change_schedule_form.cleaned_data["open_wager_at"]
             close_at = close_wager_at=change_schedule_form.cleaned_data["close_wager_at"]
             if prop.schedule.game_database_id:
-                new_schedule = Schedule(open_wager_at=open_at, close_wager_at=close_at)
+                new_schedule = Schedule()
                 new_schedule.save()
                 prop.schedule = new_schedule
                 prop.save()
-            else:
-                prop.schedule.open_wager_at = open_at
-                prop.schedule.close_wager_at = close_at
-                prop.schedule.save()
+            prop.schedule.open_wager_at = open_at
+            prop.schedule.close_wager_at = close_at
+            prop.schedule.save()
             messages.add_message(self.request, messages.SUCCESS, "Schedule changed.")
             return redirect("tournament-admin", tourney_uuid)
         else:
