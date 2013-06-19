@@ -243,10 +243,6 @@ class ChangeSchedule(View):
             return redirect("tournament-admin", tourney_uuid)
         else:
             return HttpResponseForbidden("You can't do that.")
-            
-
-
-
 
 class AddProposition(View):
     """
