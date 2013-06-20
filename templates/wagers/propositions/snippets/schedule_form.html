@@ -1,5 +1,5 @@
 <div class="row-fluid">
-  <div class="span6">
+  <div class="span7">
     <form method="GET" action="{% url 'add-proposition' tourney.uuid %}">
       <fieldset>
         <legend>Check the leagues your interested in betting on.</legend>
@@ -31,24 +31,34 @@
       <fieldset>
         <legend>Limit the list of games by their schedule</legend>
         <div class="row-fluid">
-          <div class="span6">
+          <div class="span6"> 
             <label for="start_time">From</label>
-            <input name="start_time" class="datetime-input">
+            <div class="datepicker input-append">
+              <input name="start_time" data-format="yyyy-MM-dd 00:00:00" type="text"></input>
+              <span class="add-on">
+                <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+              </span>
+            </div>
           </div>
           <div class="span6">
             <label for="end_time">To</label>
-            <input name="end_time" class="datetime-input">
+            <div class="datepicker input-append">
+              <input name="end_time" data-format="yyyy-MM-dd 23:00:00" type="text"></input>
+              <span class="add-on">
+                <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+              </span>
+            </div>
           </div>
         </div>
       </fieldset>
       <input type="submit" class="btn btn-primary" value="Generate Propositions">
     </form>
   </div>
-  <div class="span6">
+  <div class="span5">
     <form action="{% url 'add-selected' tourney.uuid %}" method="POST">
       {{ formset.management_form }}
       {% csrf_token %}
-      <legend>Select Propositions You Want To Add</legend>
+      <legend>Select Props You Want To Add</legend>
       {% for form in formset %}
         {% for hidden in form.hidden_fields %}
           {{ hidden }}

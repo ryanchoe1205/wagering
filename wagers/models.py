@@ -7,7 +7,7 @@ from decimal import Decimal
 from helpers import take_while
 import datetime
 
-
+# changed
 class Player(models.Model):
     """
     Each tournament is made up of site Users, but the money that a User has is
@@ -272,7 +272,11 @@ class Proposition(models.Model):
     
     team_help_text = "A team that people will be betting for or against."
     team_a = models.CharField(max_length=50, help_text=team_help_text)
+
+    aux_info_a = models.CharField(max_length=50, editable=False, default="")
     team_b = models.CharField(max_length=50, help_text=team_help_text)
+    aux_info_b = models.CharField(max_length=50, editable=False, default="")
+
     notes_help_text = "Notes will be visible to users."
     notes = models.CharField(max_length=100, help_text=notes_help_text, blank=True)
     

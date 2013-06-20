@@ -6,7 +6,7 @@
     <script type="text/javascript" src="//use.typekit.net/dwe0opo.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/site_media/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="/site_media/css/jquery.simple-dtpicker.css" rel="stylesheet" media="screen">
+    <link href="/site_media/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
     <link rel="shortcut icon" href="/site_media/img/favicon.ico" />
     <link href="/site_media/css/officeprops.css" rel="stylesheet" media="screen">
 	  {% analytical_head_top %}
@@ -78,12 +78,20 @@
     </footer>
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="/site_media/js/bootstrap.min.js"></script>
-    <script src="/site_media/js/jquery.simple-dtpicker.js"></script>
+    <script src="/site_media/js/bootstrap-datetimepicker.min.js"></script>
 		<script type="text/javascript">
 		$(".alert").alert();
 		$('.dropdown-toggle').dropdown()
-		$('.datetime-input').each(function(index) {
-      $(this).appendDtpicker({"inline": true});
+		$('.datetimepicker').each(function(index) {
+      $(this).datetimepicker({
+        language: "en"
+      });
+    });
+    $('.datepicker').each(function(index) {
+      $(this).datetimepicker({
+        language: "en",
+        pickTime: false
+      });
     });
     $("#schedule").toggle(Boolean($("[name=schedule_toggle]:checked").val()));
     $("[name=schedule_toggle]").change(function() {

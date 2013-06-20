@@ -2,18 +2,29 @@
   <a href="{% url 'payout-proposition' tourney.uuid prop.id %}">{{ prop }}</a> 
   <small>{{ prop.notes }}</small>
 </h3>
-<hr style="padding-bottom: 10px;">
-<form class="form-horizontal" action="{% url 'make-bet' tourney.uuid prop.id %}" method="POST">
-  {% csrf_token %}
-  <input class="pull-right btn btn-success" type="submit" value="Make Bet" />
-	<label class="radio">
-		<input type="radio" name="position" id="optionsRadios1" value="True">
-		Bet on {{ prop.team_a }}.
-	</label>
-	<label class="radio">
-		<input type="radio" name="position" id="optionsRadios2" value="">
-		Bet on {{ prop.team_b }}.
-	</label>
-  <input type="hidden" name="proposition" value="{{prop.id}}">
-  <input type="hidden" name="created_by" value="{{player.id}}">
-</form>
+<div class="row-fluid">
+  <div class="span3">
+    <form class="form-horizontal" action="{% url 'make-bet' tourney.uuid prop.id %}" method="POST">
+      {% csrf_token %}
+    	<input type="hidden" name="position" id="optionsRadios1" value="True">
+      <input type="hidden" name="proposition" value="{{ prop.id }}" />
+      <input type="hidden" name="created_by" value="{{ player.id }}" />
+    	<button class="btn btn-primary">
+        <div>Bet on {{ prop.team_a }}</div>
+        <div>{{ prop.aux_info_a }}</div>
+      </button>
+    </form>
+  </div>
+  <div class="span3">
+    <form class="form-horizontal" action="{% url 'make-bet' tourney.uuid prop.id %}" method="POST">
+    {% csrf_token %}
+      <input type="hidden" name="position" id="optionsRadios1" value="False">
+      <input type="hidden" name="proposition" value="{{ prop.id }}" />
+      <input type="hidden" name="created_by" value="{{ player.id }}" />
+      <button class="btn btn-primary">
+        <div>Bet on {{ prop.team_b }}</div>
+        <div>{{ prop.aux_info_b }}</div>
+      </button>
+    </form>
+  </div>
+</div>

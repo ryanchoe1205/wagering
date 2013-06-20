@@ -47,13 +47,24 @@
     <div id="schedule">
       <span class="help-block">Make sure to set both times. Not setting a closing time will instantly close the prop.</span>
       <div class="row-fluid">
-        <div class="span4">
-          <label>Open Wager At</label>
-          <input class="datetime-input" name="open_wager_at">
-        </div>
+        <div class="row-fluid">
+          <div class="span4">
+            <label>Open Wager At</label>
+            <div class="datetimepicker input-append">
+              <input name="open_wager_at" data-format="yyyy-MM-dd hh:mm:ss" type="text"></input>
+              <span class="add-on">
+                <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+              </span>
+            </div>
+          </div>
         <div class="span8">
           <label>Close Wager At</label>
-          <input class="datetime-input" name="close_wager_at">
+            <div class="datetimepicker input-append">
+            <input name="close_wager_at" data-format="yyyy-MM-dd hh:mm:ss" type="text"></input>
+            <span class="add-on">
+              <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+            </span>
+          </div>
         </div>
       </div>
     </div>

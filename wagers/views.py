@@ -342,7 +342,9 @@ class AddPropositionFromDatabase(View):
                         new_prop = Proposition(
                             tournament=tourney,
                             team_a=game.get("team_a"),
+                            aux_info_a=game.get("team_a_aux_info_1", ""),
                             team_b=game.get("team_b"),
+                            aux_info_b=game.get("team_b_aux_info_2", ""),
                             schedule=schedule,
                             open_wager_at=open_time,
                             close_wager_at=close_time,
