@@ -26,6 +26,7 @@ from game_database.views import Schedule as DatabaseSchedule
 from game_database.views import GetGameByID
 import datetime
 from django.utils import simplejson as json
+from helpers import partition_by
 
 
 
@@ -114,6 +115,16 @@ class TournamentAdmin(View):
                        "user_is_admin": user_is_admin,
                        "add_prop_form": add_prop_form,})
 
+def same_date(d1, d2):
+    d1 = d1.proposition.paid_on
+    d2 = d2.proposition.paid_on
+    if d1 is None and d2 is None:
+        return True
+    if d1 and d2:
+        return d1.date() == d2.date()
+    else:
+        return False
+
 class TournamentDetails(View):
     """
     Presents users with a view of the tournament.
@@ -144,7 +155,7 @@ class TournamentDetails(View):
         add_prop_form = PropositionForm(initial={"tournament":tourney.id})
         propositions = Proposition.objects.filter(tournament=tourney)
         bettable_props = propositions.exclude(bet__created_by=player).filter(is_open=True)
-        bets = Bet.objects.filter(proposition__tournament=tourney, created_by=player).order_by("-proposition__paid_on")
+        bets = partition_by(Bet.objects.filter(proposition__tournament=tourney, created_by=player).order_by("-proposition__paid_on"), same_date)
         return render(self.request,
                       self.template_name,
                       {"tourney": tourney,

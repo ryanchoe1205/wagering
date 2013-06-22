@@ -3,8 +3,9 @@
     <div class="span4">
       <form method="POST" action="{% url 'payout-proposition' tourney.uuid prop.id %}">
         {% csrf_token %}
+        <input type="hidden" name="tournament" value="{{ tourney.id }}" />
         <input type="hidden" name="outcome" value="True">
-        <button class="btn btn-primary input-block-level">
+        <button type="submit" class="btn btn-primary input-block-level">
           <div>Declare {{ prop.team_a }} the winner.</div>
           <div><small>Some extra info</small></div>
         </button>
@@ -13,6 +14,7 @@
     <div class="span4">
       <form method="POST" action="{% url 'payout-proposition' tourney.uuid prop.id %}">
         {% csrf_token %}
+        <input type="hidden" name="tournament" value="{{ tourney.id }}" />
         <input type="hidden" name="outcome" value="False">
         <button class="btn btn-primary input-block-level">
           <div>Declare {{ prop.team_b }} the winner.</div>

@@ -56,11 +56,17 @@
     {% endfor %}
     </ul>
     <h2>Propositions <small>You've Already Bet On</small></h2>
+
     <div id="accordion1">
-      {% for bet in bets %}
-        {% include 'bets/bet_info.html' %}
-      {% empty %}
-        <li>You haven't made any bets yet.</li>
+      {% for bet_set in bets %}
+        {% if bet_set.0.proposition.paid_on %}
+          <h3>{{ bet_set.0.proposition.paid_on | date:"l" }}'s games</h3>
+        {% else %}
+          <h3>Ongoing games</h3>
+        {% endif %}
+          {% for bet in bet_set %}
+            {% include "bets/bet_info.html" %}
+          {% endfor %}
       {% endfor %}
     </div>
   </section>
