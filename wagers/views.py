@@ -352,7 +352,7 @@ class AddPropositionFromDatabase(View):
                         schedule.save()
                         new_prop = Proposition(
                             tournament=tourney,
-                            is_open=schedule.open_wager_at < datetime.datetime.now() < schedule.close_wager_at
+                            is_open=schedule.open_wager_at < datetime.datetime.now() < schedule.close_wager_at,
                             team_a=game.get("team_a"),
                             aux_info_a=game.get("team_a_aux_info_1", ""),
                             team_b=game.get("team_b"),
