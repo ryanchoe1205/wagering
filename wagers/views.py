@@ -351,9 +351,13 @@ class AddPropositionFromDatabase(View):
                             schedule.open_wager_at = open_time
                             schedule.close_wager_at = close_time
                         schedule.save()
+                        try:
+                            is_open = schedule.open_wager_at < timezone.now() < schedule.close_wager_at
+                        except:
+                            is_open = schedule.open_wager_at < datetime.datetime.now() < schedule.close_wager_at
                         new_prop = Proposition(
                             tournament=tourney,
-                            is_open=schedule.open_wager_at < timezone.now() < schedule.close_wager_at,
+                            is_open=is_open,
                             team_a=game.get("team_a"),
                             aux_info_a=game.get("team_a_aux_info_1", ""),
                             team_b=game.get("team_b"),
