@@ -27,6 +27,8 @@ from game_database.views import GetGameByID
 import datetime
 from django.utils import simplejson as json
 from helpers import partition_by
+from django.utils import timezone
+
 
 
 
@@ -343,7 +345,6 @@ class AddPropositionFromDatabase(View):
                     if datetime_str:
                         start_time = datetime.datetime.strptime(datetime_str, "%Y-%m-%dT%H:%M:%S+00:00")
                         open_time = start_time - datetime.timedelta(days=1)
-
                         close_time = start_time - datetime.timedelta(minutes=2)
                         schedule, created = Schedule.objects.get_or_create(game_database_id=game["id"])
                         if created:
@@ -352,7 +353,7 @@ class AddPropositionFromDatabase(View):
                         schedule.save()
                         new_prop = Proposition(
                             tournament=tourney,
-                            is_open=schedule.open_wager_at < datetime.datetime.now() < schedule.close_wager_at,
+                            is_open=schedule.open_wager_at < timezone.now() < schedule.close_wager_at,
                             team_a=game.get("team_a"),
                             aux_info_a=game.get("team_a_aux_info_1", ""),
                             team_b=game.get("team_b"),
