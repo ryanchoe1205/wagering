@@ -5,7 +5,7 @@ import datetime
 from django.utils import timezone
 
 def update_db_from(game):
-	db_game = Game.get(start_time=game["start_time"], team_a=game["team_a"], team_b=game["team_b"])
+	db_game = Game.objects.get(start_time=game["start_time"], team_a=game["team_a"], team_b=game["team_b"])
 	if db_game:
 		db_game.update(game)
 		db_game.save()
