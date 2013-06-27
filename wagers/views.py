@@ -350,7 +350,7 @@ class AddPropositionFromDatabase(View):
                         if created:
                             schedule.open_wager_at = open_time
                             schedule.close_wager_at = close_time
-                        schedule.save()
+                            schedule.save()
                         try:
                             is_open = schedule.open_wager_at < timezone.now() < schedule.close_wager_at
                         except:
