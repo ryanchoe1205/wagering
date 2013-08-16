@@ -4,6 +4,7 @@ import datetime
 import json
 from pytz import timezone
 from dateutil import parser
+import httplib
 
 # MLB Scraper
 
@@ -13,7 +14,11 @@ def build_url(date):
     return base_url.format(date.strftime("%Y%m%d")) 
 
 def get_page(url):
-    return urllib2.urlopen(url).read()
+	try:
+		page = urllib2.urlopen(url).read()
+	except httplib.IncompleteRead, e:
+		page = e.partial
+	return page
 
 def process_game(game):
 	game_dict = {}
