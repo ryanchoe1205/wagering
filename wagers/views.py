@@ -14,6 +14,7 @@ from models import Player
 from models import Bet
 from models import WagerSettingSingleton
 from models import Schedule
+from models import GameSeason
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -283,12 +284,14 @@ class AddProposition(View):
             formset = GameDatabaseFormset(initial=games["games"])
         else:
             formset = None
-
+        game_seasons = GameSeason.objects.all()
         return render(self.request,
                       self.template_name,
                       {"tourney": tourney,
+                       "now": datetime.datetime.now(), 
                        "add_prop_form": add_prop_form,
                        "user_is_admin": True,
+                       "game_seasons": game_seasons,
                        "game_schedule_form": game_schedule_form,
                        "games": games,
                        "formset": formset})

@@ -7,7 +7,19 @@ from decimal import Decimal
 from helpers import take_while
 import datetime
 
-# changed
+
+class GameSeason(models.Model):
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+    game_type = models.CharField(max_length=5)
+
+    def is_inactive(self):
+        """
+        Returns true if hte season is currently active.
+        """
+        now = datetime.datetime.now()
+        return not (self.start_date < now < self.end_date)
+
 class Player(models.Model):
     """
     Each tournament is made up of site Users, but the money that a User has is

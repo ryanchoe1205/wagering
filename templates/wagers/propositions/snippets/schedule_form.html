@@ -4,28 +4,15 @@
       <fieldset>
         <legend>Check the leagues your interested in betting on.</legend>
         <div class="row-fluid">
-          <div class="span6">
+          {% for season in game_seasons %}
             <label for="MLB" class="checkbox">
-              <input type="checkbox" name="MLB"{% if schedule_form.MLB.value %}checked="{{ schedule_form.MLB.value }}"{% endif %}> MLB
+              <input {% if season.is_inactive %}disabled{% endif %} type="checkbox" name="{{ season.game_type }}">
+                <span {% if season.is_inactive %}class="disabled"{% endif %}>
+                  {{ season.game_type }}
+                </span>
+              </input>
             </label>
-            <label for="NBA" class="checkbox">
-              <input type="checkbox" name="NBA" {% if schedule_form.NBA.value %}checked="{{ schedule_form.NBA.value }}"{% endif %}> NBA
-            </label>
-            <label for="NFL">
-              <input type="checkbox" name="NFL" {% if schedule_form.NFL.value %}checked="{{ schedule_form.NFL.value }}"{% endif %}> NFL
-            </label>
-          </div>
-          <div class="span6">
-            <label for="NHL" class="checkbox">
-              <input type="checkbox" name="NHL" {% if schedule_form.NHL.value %}checked="{{ schedule_form.NHL.value }}"{% endif %}> NHL
-            </label>
-            <label for="UFC" class="checkbox">
-              <input type="checkbox" name="UFC" {% if schedule_form.UFC.value %}checked="{{ schedule_form.UFC.value }}"{% endif %}> UFC
-            </label>
-            <label for="MLS" class="checkbox">
-              <input type="checkbox" name="MLS" {% if schedule_form.MLS.value %}checked="{{ schedule_form.MLS.value }}"{% endif %}> MLS
-            </label>
-          </div>
+          {% endfor %}
         </div>
       </fieldset>
       <fieldset>
@@ -51,6 +38,7 @@
           </div>
         </div>
       </fieldset>
+      <br>
       <input type="submit" class="btn btn-primary" value="Generate Propositions">
     </form>
   </div>

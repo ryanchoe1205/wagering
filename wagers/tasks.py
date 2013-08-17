@@ -20,7 +20,7 @@ def close_prop(prop_id):
 
 def is_close_to_now(dt):
 	"""
-	Returns True if the datetime is within four minutes from the current time.
+	Returns True if the datetime is within two minutes from the current time.
 	Otherwise returns False.
 	"""
 	now = timezone.now()

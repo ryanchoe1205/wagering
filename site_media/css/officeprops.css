@@ -202,3 +202,7 @@ h1, h2 {
 .admin-game {
   padding: 20px;
 }
+
+.disabled {
+  color: gray;
+}
