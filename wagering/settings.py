@@ -225,8 +225,8 @@ LOGGING = {
 
 AUTH_PROFILE_MODULE = 'wagers.UserProfile'
 
-LOGIN_URL          = '/login-form/'
-LOGIN_REDIRECT_URL = '/logged-in/'
+LOGIN_URL          = '/login/'
+LOGIN_REDIRECT_URL = '/'
 LOGIN_ERROR_URL    = '/login-error/'
 
 GOOGLE_OAUTH2_CLIENT_SECRET = "0_X9Jfe67ct_M_FhJ2RX2svR"
