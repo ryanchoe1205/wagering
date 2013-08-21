@@ -138,8 +138,33 @@ INSTALLED_APPS = (
     'djcelery',
     'game_database',
     'analytical',
+    'social_auth',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+)
+
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.twitter.TwitterBackend',
+    'social_auth.backends.facebook.FacebookBackend',
+    'social_auth.backends.google.GoogleOAuthBackend',
+    'social_auth.backends.google.GoogleOAuth2Backend',
+    'social_auth.backends.google.GoogleBackend',
+    'social_auth.backends.yahoo.YahooBackend',
+    'social_auth.backends.browserid.BrowserIDBackend',
+    'social_auth.backends.contrib.linkedin.LinkedinBackend',
+    'social_auth.backends.contrib.disqus.DisqusBackend',
+    'social_auth.backends.contrib.livejournal.LiveJournalBackend',
+    'social_auth.backends.contrib.orkut.OrkutBackend',
+    'social_auth.backends.contrib.foursquare.FoursquareBackend',
+    'social_auth.backends.contrib.github.GithubBackend',
+    'social_auth.backends.contrib.vk.VKOAuth2Backend',
+    'social_auth.backends.contrib.live.LiveBackend',
+    'social_auth.backends.contrib.skyrock.SkyrockBackend',
+    'social_auth.backends.contrib.yahoo.YahooOAuthBackend',
+    'social_auth.backends.contrib.readability.ReadabilityBackend',
+    'social_auth.backends.contrib.fedora.FedoraBackend',
+    'social_auth.backends.OpenIDBackend',
+    'django.contrib.auth.backends.ModelBackend',
 )
 CLICKY_SITE_ID = 100613952
 # Patch the djcelery/snapshot cause it's broken
@@ -157,6 +182,11 @@ CELERYBEAT_SCHEDULE = {
     },
     'scrape-mlb': {
         'task': 'game_database.tasks.scrape_mlb',
+        'schedule': crontab(hour=0),
+        'args': (),
+    },
+    'scrape-nfl': {
+        'task': 'game_database.tasks.scrape_nfl',
         'schedule': crontab(hour=0),
         'args': (),
     },
@@ -194,3 +224,10 @@ LOGGING = {
 }
 
 AUTH_PROFILE_MODULE = 'wagers.UserProfile'
+
+LOGIN_URL          = '/login-form/'
+LOGIN_REDIRECT_URL = '/logged-in/'
+LOGIN_ERROR_URL    = '/login-error/'
+
+GOOGLE_OAUTH2_CLIENT_SECRET = "0_X9Jfe67ct_M_FhJ2RX2svR"
+GOOGLE_OAUTH2_CLIENT_ID = "1213449121.apps.googleusercontent.com"

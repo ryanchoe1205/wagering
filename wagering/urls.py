@@ -70,12 +70,14 @@ class About(View):
 urlpatterns = patterns('',
     # Include Examples:
     url(r'^$', HomePageView.as_view(), name='home'),
-    url(r'^login', 'django.contrib.auth.views.login', name='login'),
     url(r'^logout', 'django.contrib.auth.views.logout'),
     url(r'^register', RegisterView.as_view(), name='register'),
     url(r'^wagers/', include('wagers.urls')),
     url(r'^gdapi/', include('game_database.urls')),
     url(r'^about$', About.as_view(), name='about'),
+    url(r'', include('social_auth.urls')),
+    url(r'^login', 'django.contrib.auth.views.login', name='login'),
+
     # url(r'^wagering/', include('wagering.foo.urls')),
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

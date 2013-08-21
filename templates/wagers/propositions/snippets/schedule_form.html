@@ -47,15 +47,20 @@
       {{ formset.management_form }}
       {% csrf_token %}
       <legend>Select Props You Want To Add</legend>
-      {% for form in formset %}
-        {% for hidden in form.hidden_fields %}
-          {{ hidden }}
+
+      <fieldset>
+        <label class="checkbox"><input type="checkbox" class="checkall"> Check All</label>
+        {% for form in formset %}
+          {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+          {% endfor %}
+          {{ form.id }}
+
+          <label class="checkbox">
+            {{ form.selected }} {{ form.team_a.value }} vs {{ form.team_b.value }}
+          </label>
         {% endfor %}
-        {{ form.id }}
-        <label class="checkbox">
-          {{ form.selected }} {{ form.team_a.value }} vs {{ form.team_b.value }}
-        </label>
-      {% endfor %}
+      </fieldset>
       <input class="btn btn-primary" type="submit" value="Add Selected Propositions" />
     </form>
   </div>

@@ -97,6 +97,11 @@
     $("[name=schedule_toggle]").change(function() {
       $("#schedule").toggle();
     });
+    $(function () {
+    $('.checkall').on('click', function () {
+        $(this).closest('fieldset').find(':checkbox').prop('checked', this.checked);
+    });
+});
 		</script>
     {% analytical_body_top %}
     {% analytical_body_bottom %}
