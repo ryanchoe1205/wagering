@@ -4,6 +4,7 @@
 	{% with legend="Sign In"%}
 	{% include 'registration/snippets/login_form.html' %}
 	{% endwith %}
-  <a href="{% url "socialauth_begin" "google-oauth2" %}">Login with Google</a>
+  <a href="{% url "socialauth_begin" "google-oauth2" %}">Login with Google</a> 
+  <a href="{% url "socialauth_begin" "facebook" %}">Login with Facebook</a>
 </div>
 {% endblock %}
