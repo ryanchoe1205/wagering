@@ -6,6 +6,7 @@
     <script type="text/javascript" src="//use.typekit.net/dwe0opo.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/site_media/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/site_media/css/toggles.css" rel="stylesheet" media="screen">
     <link href="/site_media/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
     <link rel="shortcut icon" href="/site_media/img/favicon.ico" />
     <link href="/site_media/css/officeprops.css" rel="stylesheet" media="screen">
@@ -79,6 +80,7 @@
     <script src="http://code.jquery.com/jquery.js"></script>
     <script src="/site_media/js/bootstrap.min.js"></script>
     <script src="/site_media/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/site_media/js/toggles.js"></script>
 		<script type="text/javascript">
 		$(".alert").alert();
 		$('.dropdown-toggle').dropdown()
@@ -93,6 +95,21 @@
         pickTime: false
       });
     });
+    $('.toggle').each(function() {   	  
+	  $(this).toggles({
+	    click: !$(this).hasClass('noclick'),
+	    drag: !$(this).hasClass('nodrag'),
+	    clicker: ($(this).attr('rel')) ? $('.'+$(this).attr('rel')) : null,
+	    on: $(this).hasClass('on'),
+	    checkbox: ($(this).data('checkbox')) ? $('.'+$(this).data('checkbox')) : null,
+	    text: {
+	      on: $(this).data('ontext') || 'ON',
+	      off: $(this).data('offtext') || 'OFF'
+	    },
+	    transition: 'ease-out',
+	    type: 'select'
+	  });
+	});
     $("#schedule").toggle(Boolean($("[name=schedule_toggle]:checked").val()));
     $("[name=schedule_toggle]").change(function() {
       $("#schedule").toggle();

@@ -33,8 +33,11 @@
           <div class="controls">
             <label>Make it Public or Private?</label>
             <span class="help-block">The default is private. You will need to share a link so people can join. Click the box below to make it public so that anyone on the net can find it.</span>
-            <label class="checkbox">
-              <input type="checkbox" name="is_public" {% if form.is_public.value %}checked="{{ form.is_public.value }}"{% endif %} /> Check this to make the tournament public.
+            <div class="toggle-light">
+            <div class="toggle {% if form.is_public.value %}on{% endif %}" data-checkbox="is_public" data-ontext="Create Private Tournament" data-offtext="Create Public Tournament"></div>
+            </div>             
+            <label class="checkbox" style="display:none;">              
+              <input type="checkbox" class="is_public" name="is_public" {% if form.is_public.value %}checked="{{ form.is_public.value }}"{% endif %} /> Check this to make the tournament public.
             </label>
             {% for error in form.errors.is_public %}
               <span class="help-block">{{ error }}</span>

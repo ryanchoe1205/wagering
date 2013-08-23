@@ -53,7 +53,7 @@ class AddTournament(CreateView):
         tourney = form.save(commit=False)
         tourney.created_by = self.request.user
         tourney.save()
-        messages.add_message(self.request, messages.SUCCESS, "Tournament created!")  
+        #messages.add_message(self.request, messages.SUCCESS, "Tournament created!")  
         return redirect("add-proposition", tourney.uuid)
 
 class OpenTournamentList(View):
