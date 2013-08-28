@@ -2,7 +2,17 @@
 {% block content %}
 <div class="container">
   <section>
-    <form class="form" method="POST" action="{% url 'add-tournament' %}">
+  	<script >
+	  	function newPrvtTour(){
+	  		document.getElementById('is_public').checked = false;
+	  		document.addTour.submit();
+	  	};
+	  	function newPublicTour(){
+	  		document.getElementById('is_public').checked = true;
+	  		document.addTour.submit();
+	  	};
+	  </script>
+    <form class="form" id="addTour" method="POST" action="{% url 'add-tournament' %}">
       {% for hidden in form.hidden_fields %}
         {{ hidden }}
       {% endfor %}
@@ -33,11 +43,8 @@
           <div class="controls">
             <label>Make it Public or Private?</label>
             <span class="help-block">The default is private. You will need to share a link so people can join. Click the box below to make it public so that anyone on the net can find it.</span>
-            <div class="toggle-light">
-            <div class="toggle {% if form.is_public.value %}on{% endif %}" data-checkbox="is_public" data-ontext="Create Private Tournament" data-offtext="Create Public Tournament"></div>
-            </div>             
             <label class="checkbox" style="display:none;">              
-              <input type="checkbox" class="is_public" name="is_public" {% if form.is_public.value %}checked="{{ form.is_public.value }}"{% endif %} /> Check this to make the tournament public.
+              <input type="checkbox" id="is_public" name="is_public" {% if form.is_public.value %}checked="{{ form.is_public.value }}"{% endif %} /> Check this to make the tournament public.
             </label>
             {% for error in form.errors.is_public %}
               <span class="help-block">{{ error }}</span>
@@ -45,7 +52,12 @@
           </div>
         </div> 
       </fieldset>
-      <input class="btn btn-primary" type="submit" value="Add Tournament">
+      <div class="btn-group">
+		  <button class="btn btn-warning" onclick="newPrvtTour();">Create Private Tournament</button>		  
+		  <button class="btn btn-success" onclick="newPublicTour();">Create Public Tournament</button>
+	  </div>
+	  
+	  
     </form>
   </section>
 </div>

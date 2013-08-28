@@ -1,7 +1,14 @@
 {% extends "scaffolding.html" %}
 {% block content %}
-  <section class="container">
-    Done adding propositions? <a class="btn btn-primary" href="{% url 'share-tournament' tourney.uuid %}">Share The Tournament With Your Friends</a> 
-  </section>
+	{% if messages %}
+		{% for message in messages %}			
+			{% if message.tags == "success" %}				
+				<section class="container">
+					Done adding propositions? <a class="btn btn-primary" href="{% url 'share-tournament' tourney.uuid %}">Share The Tournament With Your Friends</a> 
+				</section>			
+			{% endif %}			
+		{% endfor %}
+	{% endif %}
+  
   {% include "wagers/propositions/snippets/add.html" %}
 {% endblock %}

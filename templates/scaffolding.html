@@ -94,22 +94,7 @@
         language: "en",
         pickTime: false
       });
-    });
-    $('.toggle').each(function() {   	  
-	  $(this).toggles({
-	    click: !$(this).hasClass('noclick'),
-	    drag: !$(this).hasClass('nodrag'),
-	    clicker: ($(this).attr('rel')) ? $('.'+$(this).attr('rel')) : null,
-	    on: $(this).hasClass('on'),
-	    checkbox: ($(this).data('checkbox')) ? $('.'+$(this).data('checkbox')) : null,
-	    text: {
-	      on: $(this).data('ontext') || 'ON',
-	      off: $(this).data('offtext') || 'OFF'
-	    },
-	    transition: 'ease-out',
-	    type: 'select'
-	  });
-	});
+    });   
     $("#schedule").toggle(Boolean($("[name=schedule_toggle]:checked").val()));
     $("[name=schedule_toggle]").change(function() {
       $("#schedule").toggle();
